@@ -1,5 +1,5 @@
-# CS317-BBooks
-==============
+CS317-BBooks
+============
 ##
 ###Synopsis###
 BBooks is a mobile web app that facilitates the sharing of books between lenders
