@@ -6,6 +6,9 @@ function Controller() {
         console.log("Controller Created");
         model.init();
         view.init();   
+        view.setButtonClick(function () {
+            console.log("buttonid: " + this.id);
+        });
     };
     
 }
