@@ -14,3 +14,11 @@
  nav{
  	 overflow: visible;
  }
+
+ .slider{
+ 	margin-bottom: 5px;
+ }
+
+ .caption{
+ 	color: red;
+ }

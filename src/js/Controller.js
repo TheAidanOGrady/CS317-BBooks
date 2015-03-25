@@ -3,7 +3,9 @@ function Controller() {
         model = new Model();
     
     this.init = function () {
-        console.log("Controller Created");   
+        console.log("Controller Created");
+        model.init();
+        view.init();   
     };
     
 }
