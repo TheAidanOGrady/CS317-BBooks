@@ -1,0 +1,16 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+ #nav{
+ 	margin-left: 0;
+ 	margin-right: 0;
+ 	width: 100%;
+ } 
+
+ nav{
+ 	 overflow: visible;
+ }
