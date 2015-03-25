@@ -4,6 +4,9 @@ function Controller() {
     
     this.init = function () {
         console.log("Controller Created");   
+        view.setButtonClick(function () {
+            console.log("buttonid: " + this.id);
+        });
     };
     
 }
