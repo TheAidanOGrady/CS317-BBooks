@@ -9,7 +9,15 @@ function Controller() {
     this.init = function () {
         console.log("Controller Created");
         model.init();
-        view.init();   
+        view.init();
+
+        view.loginCallback(function () {
+            view.toggleLogin();
+        });
+
+        view.signupCallback(function () {
+            view.toggleSignup();
+        });
     };
 }
 
