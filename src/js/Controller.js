@@ -6,6 +6,9 @@ function Controller() {
     var view = new View(),
         model = new Model();
 
+    /*
+     * Initializes the controller.
+     */
     this.init = function () {
         console.log("Controller Created");
         model.init();
@@ -17,6 +20,10 @@ function Controller() {
 
         view.signupCallback(function () {
             view.toggleSignup();
+        });
+
+        view.loginConfirmCallback(function () {
+            model.login(view.getLogin());
         });
     };
 }
