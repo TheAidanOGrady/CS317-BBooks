@@ -23,11 +23,23 @@ function View() {
      */
     this.getLogin = function () {
         var details = {};
-        details.username = $("#loginForm :input[name=username]").val();
+        details.username = $("#loginForm :input[name=email]").val();
         details.password = $("#loginForm :input[name=password]").val();
         return details;
     };
 
+    /*
+     * Gets the user details from the signup form.
+     */
+    this.getSignup = function () {
+        var details = {};
+        details.firstName = $("#signupForm :input[name=firstName]").val();
+        details.lastName = $("#signupForm :input[name=lastName]").val();
+        details.email = $("#signupForm :input[name=email]").val();
+        details.password = $("#signupForm :input[name=password]").val();
+        details.password2 = $("#signupForm :input[name=passwordConfirm]").val();
+        return details;
+    };
 
     /***************************************************************************
      *
@@ -51,7 +63,6 @@ function View() {
         $("#home").toggleClass("hide");
     };
 
-    
 
     /***************************************************************************
      *
@@ -71,5 +82,9 @@ function View() {
 
     this.loginConfirmCallback = function (callback) {
         $("#loginConfirm").click(callback);
+    };
+
+    this.signupConfirmCallback = function (callback) {
+        $("#signupConfirm").click(callback);
     };
 }

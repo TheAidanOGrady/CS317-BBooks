@@ -25,6 +25,10 @@ function Controller() {
         view.loginConfirmCallback(function () {
             model.login(view.getLogin());
         });
+
+        view.signupConfirmCallback(function () {
+            model.signup(view.getSignup());
+        });
     };
 }
 

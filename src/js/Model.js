@@ -20,4 +20,12 @@ function Model() {
 
         // TODO: Server side stuff
     };
+
+    this.signup = function (details) {
+        console.log("Attempting signup");
+        console.log(details);
+
+        // TODO: Server side stuff
+
+    };
 }
