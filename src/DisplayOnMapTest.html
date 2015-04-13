@@ -14,11 +14,35 @@
     <script>
         
     function initialize() {
+      var book1 = {
+        title: 'book1',
+        author: 'A. Man',
+        price: '£1',
+        blurb: 'Blurb for Book 1',
+        lat: 55.861686,
+        lng: -4.243853
+      };
         
-      var books = [
-          ['Book 1', 55.861686, -4.243853],
-          ['Book 2', 55.863661, -4.262585],
-          ['Book 3', 55.839186, -4.259393]]
+      var book2 = {
+        title: 'book 2',
+        author: 'A. Woman ',
+        price: '£2',
+        blurb: 'Blurb for Book 2',
+        lat: 55.869000,
+        lng: -4.249400
+      };
+        
+      var book3 = {
+        title: 'book 3',
+        author: 'A. Author',
+        price: '£3',
+        blurb: 'Blurb for Book 3',
+        lat: 55.860000,
+        lng: -4.301933
+      };
+        
+      var books = [book1, book2, book3];
+        
       // example books, real one will have additional info
       // possibly a JSON object with blurb, etc to use in description
       var myLatlng = new google.maps.LatLng(55.8580,-4.2590) // middle of Glasgow
@@ -29,32 +53,27 @@
 
       var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-      var contentString = '<div id="content"><h1>Book Title</h1><p>Book blurb?</b></div>';
-
-      var infowindow = new google.maps.InfoWindow({
-          content: contentString
-      });
-
-      var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: 'Book Title'
-      });
-        
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map,marker);
-      });
       setBooks(map, books);
     }
 
     function setBooks(map, books) {
         for (var i = 0; i < books.length; i++) {
         var book = books[i];
-        var myLatLng = new google.maps.LatLng(book[1], book[2]);
+        var myLatLng = new google.maps.LatLng(book.lat, book.lng);
+        var contentString = '<div id="content">' +
+                            '<h1>' + book.title + ' by ' + book.author + '</h1>' +
+                            '<h3>' + book.price + '<h3>' + 
+                            '<p>' + book.blurb + '</b></div>';
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
         var marker = new google.maps.Marker({
             position: myLatLng,
             map: map,
-            title: book[0],
+            title: book.title,
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map,marker);
         });
       }
     }
