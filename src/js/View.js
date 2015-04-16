@@ -9,6 +9,7 @@ function View() {
      */
     this.init = function () {
         console.log("View Created");
+        $(".button-collapse").sideNav();
     };
 
 
@@ -48,19 +49,24 @@ function View() {
      **************************************************************************/
 
     /*
-     * Switches between the login and home page.
+     * Switches between the login and welcome page.
      */
     this.toggleLogin = function () {
         $("#login").toggleClass("hide");
-        $("#home").toggleClass("hide");
+        $("#welcome").toggleClass("hide");
     };
 
     /*
-     * Switches between the signup and home page.
+     * Switches between the signup and welcome page.
      */
     this.toggleSignup = function () {
         $("#signup").toggleClass("hide");
-        $("#home").toggleClass("hide");
+        $("#welcome").toggleClass("hide");
+    };
+
+    this.switchTo = function (div) {
+        $("#mainView > .container").addClass("hide");
+        $("#" + div).removeClass("hide");
     };
 
 
@@ -72,12 +78,10 @@ function View() {
 
     this.loginCallback = function (callback) {
         $("#loginButton").click(callback);
-        $("#loginCancel").click(callback);
     };
 
     this.signupCallback = function (callback) {
         $("#signupButton").click(callback);
-        $("#signupCancel").click(callback);
     };
 
     this.loginConfirmCallback = function (callback) {
@@ -86,5 +90,37 @@ function View() {
 
     this.signupConfirmCallback = function (callback) {
         $("#signupConfirm").click(callback);
+    };
+
+    this.cancelCallback = function (callback) {
+        $("#loginCancel").click(callback);
+        $("#signupCancel").click(callback);
+    };
+
+
+    /***************************************************************************
+     *
+     * NAV CALLBACKS
+     *
+     **************************************************************************/
+
+    this.homeCallback = function (callback) {
+        $(".homeMenu").click(callback);
+    };
+
+    this.searchCallback = function (callback) {
+        $(".searchMenu").click(callback);
+    };
+
+    this.booksCallback = function (callback) {
+        $(".booksMenu").click(callback);
+    };
+
+    this.settingsCallback = function (callback) {
+        $(".settingsMenu").click(callback);
+    };
+
+    this.aboutCallback = function (callback) {
+        $(".homeMenu").click(callback);
     };
 }

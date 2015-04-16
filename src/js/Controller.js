@@ -15,11 +15,15 @@ function Controller() {
         view.init();
 
         view.loginCallback(function () {
-            view.toggleLogin();
+            view.switchTo("login");
         });
 
         view.signupCallback(function () {
-            view.toggleSignup();
+            view.switchTo("signup");
+        });
+
+        view.cancelCallback(function () {
+            view.switchTo("welcome");
         });
 
         view.loginConfirmCallback(function () {

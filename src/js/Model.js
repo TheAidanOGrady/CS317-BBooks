@@ -4,11 +4,17 @@
 
 function Model() {
 
+    var loggedIn = false;
+
     /*
      * Initialization of the model
      */
     this.init = function () {
         console.log("Model Created");
+
+        if (this.getLoginCookie() !== false) {
+            loggedIn = true;
+        }
     };
 
     /*
@@ -21,29 +27,37 @@ function Model() {
         // TODO: Server side stuff
         // if (login is accepted) 
         this.setLoginCookie(details);
+        loggedIn = true;
         // all log in works for now, for testing
         // else tell user log in is wrong
+    };
+
+    this.isLoggedIn = function () {
+        return loggedIn;
     };
 
     this.signup = function (details) {
         console.log("Attempting signup");
         console.log(details);
-
         // TODO: Server side stuff
 
+        // If signup is successful, login
+        this.login(details);
+
     };
-    
+
     this.setLoginCookie = function (details) {
         console.log("Attempting to set log in cookie");
         this.setCookie("login", details.username);
         this.getLoginCookie(); // remove this
     };
-    
+
     this.getLoginCookie = function () {
         var username = this.getCookie('login');
         console.log('Login cookie says: ' + username);
+        return username;
     };
-    
+
     this.getCookie = function (name) {
         var cname = name + '=', ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {

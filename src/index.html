@@ -3,7 +3,7 @@
 	<title>Bbook</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <link rel="icon" type="image/png"  href="icon.png" >
+	<link rel="icon" type="image/png"  href="icon.png" >
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<link rel="icon" sizes="192x192" href="img/icon.png" />
@@ -15,15 +15,37 @@
 	<div class="navbar-fixed">
 		<nav class="red" role="navigation">
 			<div class="nav-wrapper container" id="nav">
-				<a id="logo-container" href="" class="brand-logo">Bbook</a>
+				<a id="logo-container" class="brand-logo">Bbook</a>
+				<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+
+				<ul class="right hide-on-med-and-down">
+					<li class="homeMenu"><a href="#">Home</a></li>
+					<li class="searchMenu"><a href="#">Search</a></li>
+					<li class="booksMenu"><a href="#">Books</a></li>
+					<li class="settingsMenu"><a href="#">Settings</a></li>
+					<li class="aboutMenu"><a href="#">About</a></li>
+      			</ul>
+
+				<ul id="nav-mobile" class="side-nav">
+					<li class="homeMenu"><a href="#">Home</a></li>
+					<li class="searchMenu"><a href="#">Search</a></li>
+					<li class="booksMenu"><a href="#">Books</a></li>
+					<li class="settingsMenu"><a href="#">Settings</a></li>
+					<div class="divider"></div>
+					<li class="aboutMenu"><a href="#">About</a></li>
+					<div class="divider"></div>
+				</ul>
 			</div>
 		</nav>
+
+
 	</div>
 
-	<div class="section no-pad-bot" id="index-banner">
-
-		<div class="container" id="home">
-			<div class="row center">
+	<div class="section no-pad-bot" id="mainView">
+		
+		<!-- These divs should only be accessed if the user is not logged in -->
+		<div class="container" id="welcome">
+			<div class="row center" id="notLoggedIn">
 				<a class="waves-effect waves-light btn red" id="loginButton">Log In</a>
 				<a class="waves-effect waves-light btn red" id="signupButton">Sign Up</a>
 			</div>				
@@ -85,6 +107,28 @@
 				<a class="waves-effect waves-light btn red" id="signupConfirm">Sign Up</a>
 				<a class="waves-effect waves-light btn red" id="signupCancel">Cancel</a>
 			</div>				
+		</div>
+
+		<!-- These divs should only be accessible when the user is logged in -->
+		<div class="container hide" id="home">
+			Hello user, you should be logged in now. Here will be an overview of
+			things you need to deal with.
+		</div>
+
+		<div class="container hide" id="search">
+			Hello user, you should be logged in now. Here you will be able to find books.
+		</div>
+
+		<div class="container hide" id="books">
+			Hello user, you should be logged in now. Here you can see: Books you are currently advertsing, books you currently have lent, and books you are lending.
+		</div>
+
+		<div class="container hide" id="settings">
+			Hello user, you should be logged in now. Change your settings here.
+		</div>
+
+		<div class="container hide" id="settings">
+			Hello user, you should be logged in now. View about here.
 		</div>
 
 	</div>
