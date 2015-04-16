@@ -33,6 +33,27 @@ function Controller() {
         view.signupConfirmCallback(function () {
             model.signup(view.getSignup());
         });
+
+        view.homeCallback(function () {
+            view.switchTo("home");
+        });
+
+        view.searchCallback(function () {
+            view.switchTo("search");
+        });
+
+        view.booksCallback(function () {
+            view.switchTo("books");
+        });
+
+        view.settingsCallback(function () {
+            view.switchTo("settings");
+        });
+
+        view.aboutCallback(function () {
+            view.switchTo("about");
+        });
+
     };
 }
 

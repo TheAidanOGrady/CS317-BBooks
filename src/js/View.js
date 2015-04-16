@@ -121,6 +121,6 @@ function View() {
     };
 
     this.aboutCallback = function (callback) {
-        $(".homeMenu").click(callback);
+        $(".aboutMenu").click(callback);
     };
 }
