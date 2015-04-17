@@ -5,7 +5,7 @@
 function Model() {
 
     var loggedIn = false;
-    var map;
+    var map, lastInfoWindow;
 
     /*
      * Initialization of the model
@@ -103,41 +103,60 @@ function Model() {
         
         // map book test,
         // remove below
-        var book1 = this.createBookJSON("1", "The Great Gatsby", "F. Scott Fitzgerald", 
+        var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald", 
                                         "£10", "£8", "http://i.imgur.com/8JYDBGR.jpg", 
                                         "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!", 
-                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.8300, -4.290);
-        var book2 = this.createBookJSON("2", "Book Two", "A. Man 2", 
-                                        "£12", "£9", "http://i.imgur.com/8JYDBGR.jpg", "Blurb for Book Two, by A.Man", 
-                                        "A. Nother Man", ["Sci-Fi"], 55.8350, -4.280);
-        var books = [book2, book1];
+                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197);
+        var book2 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick", 
+                                        "£7", "£3.50", "http://i.imgur.com/uHZp2cY.jpg", 
+                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.", 
+                                        "A. Nother Owner", ["Sci-Fi, Dystopia"], 55.8200, -4.300);
+        var book3 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick", 
+                                        "£6", "£3.00", "http://i.imgur.com/uHZp2cY.jpg", 
+                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.", 
+                                        "A. Smith", ["Sci-Fi", "Dystopia"], 55.826159, -4.226965);
+        var book4 = this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger", 
+                                        "£4.50", "£2.50", "http://i.imgur.com/sETNmjW.jpg", 
+                                        "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.", 
+                                        "J. Smith", ["Fiction"], 55.860085, -4.234175);
+        var books = [book1, book2, book3, book4];
         this.addBooksToMap(books);
-        
     };
     
     this.addBooksToMap = function(books) {
+        // TODO make "books" a filtered array using options on page
         for (var i = 0; i < books.length; i++) {
             var book = books[i];
             var myLatLng = new google.maps.LatLng(book.location.lat, book.location.lng);
             var contentString = '<div id="content">' +
-                                '<p>' + book.title + ' by ' + 
+                                '<h6>' + book.title + '</h6>' + 
                                 '' + book.author + '<br>' +
                                 '<img src=' + book.cover + '><br>' +
                                 'Retail: ' + book.retail + '<br>' + 
                                 'Guarantee: ' + book.price + '<br>' +
                                 '' + book.blurb + '<br>' + 
-                                ' Genres: ' + book.genre + '<br></p>' +
-                                '<button>More Infomation (TODO)</button></div>';
-            var infowindow = new google.maps.InfoWindow({
+                                'Genres: ' + book.genre + '<br></p>' +
+                                '<button id = "moreInfo">More Infomation (TODO)</button></div>';
+            
+            // create infowindow with book info
+            var iw = new google.maps.InfoWindow({
                 content: contentString
             });
+            // create marker using book info
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
                 title: book.title,
+                infowindow: iw 
             });
+            // add click listener to marker
             google.maps.event.addListener(marker, 'click', function() {
-                infowindow.open(map,marker);
+                // close last window open
+                if (lastInfoWindow) lastInfoWindow.close();
+                // set current window to the last one opened
+                lastInfoWindow = this.infowindow;
+                // open it
+                this.infowindow.open(map, this);
             });
         }
     };
