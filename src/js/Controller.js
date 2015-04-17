@@ -47,6 +47,7 @@ function Controller() {
 
         view.searchCallback(function () {
             view.switchTo("search");
+            model.createMap();
         });
 
         view.booksCallback(function () {

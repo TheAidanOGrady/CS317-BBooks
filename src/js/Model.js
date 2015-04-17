@@ -5,13 +5,13 @@
 function Model() {
 
     var loggedIn = false;
+    var map;
 
     /*
      * Initialization of the model
      */
     this.init = function () {
         console.log("Model: Created");
-
         if (this.getLoginCookie() !== null) {
             loggedIn = true;
         }
@@ -90,6 +90,55 @@ function Model() {
     this.setCookie = function (name, info) {
         document.cookie = name + '=' + info;
         console.log("Model: Set cookie: " + name + " = " + info);
+    };
+    
+    this.createMap = function() {
+        var myLatlng = new google.maps.LatLng(55.8580,-4.2590) // middle of Glasgow
+        var mapOptions = {
+            zoom: 12,
+            center: myLatlng
+        };
+
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        
+        // map book test,
+        // remove below
+        var book1 = this.createBookJSON("1", "Book One", "A. Man", 
+                                        "£10", "£8", "Blurb for Book One, by A.Man", 
+                                        "A. Nother Man", 55.8300, -4.290);
+        var book2 = this.createBookJSON("2", "Book Two", "A. Man 2", 
+                                        "£12", "£9", "Blurb for Book Two, by A.Man", 
+                                        "A. Nother Man", 55.8350, -4.280);
+        var books = [book1, book2];
+        this.addBooksToMap(books);
+        
+    };
+    
+    this.addBooksToMap = function(books) {
+        for (var i = 0; i < books.length; i++) {
+            var book = books[i];
+            var myLatLng = new google.maps.LatLng(book.location.lat, book.location.lng);
+            var contentString = '<div id="content">' +
+                                '<h5>' + book.title + ' by ' + book.author + '</h5>' +
+                                '<h6>' + book.retail + '<h6>' + 
+                                '<h6>' + book.price + '<h6>' + 
+                                '<p>' + book.blurb + '</p></div>';
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: book.title,
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map,marker);
+            });
+        }
+    };
+    
+    this.getMap = function () {
+        return map;   
     };
     
     this.createBookJSON = function (ISBN, title, author, retail, price, blurb, owner, lat, lng) {

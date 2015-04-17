@@ -12,13 +12,6 @@ function View() {
         $(".button-collapse").sideNav({
             closeOnClick: true
         });
-        var myLatlng = new google.maps.LatLng(55.8580,-4.2590) // middle of Glasgow
-        var mapOptions = {
-            zoom: 12,
-            center: myLatlng
-        };
-
-        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     };
 
 
