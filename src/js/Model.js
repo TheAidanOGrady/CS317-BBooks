@@ -103,13 +103,14 @@ function Model() {
         
         // map book test,
         // remove below
-        var book1 = this.createBookJSON("1", "Book One", "A. Man", 
-                                        "£10", "£8", "Blurb for Book One, by A.Man", 
-                                        "A. Nother Man", 55.8300, -4.290);
+        var book1 = this.createBookJSON("1", "The Great Gatsby", "F. Scott Fitzgerald", 
+                                        "£10", "£8", "http://i.imgur.com/8JYDBGR.jpg", 
+                                        "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!", 
+                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.8300, -4.290);
         var book2 = this.createBookJSON("2", "Book Two", "A. Man 2", 
-                                        "£12", "£9", "Blurb for Book Two, by A.Man", 
-                                        "A. Nother Man", 55.8350, -4.280);
-        var books = [book1, book2];
+                                        "£12", "£9", "http://i.imgur.com/8JYDBGR.jpg", "Blurb for Book Two, by A.Man", 
+                                        "A. Nother Man", ["Sci-Fi"], 55.8350, -4.280);
+        var books = [book2, book1];
         this.addBooksToMap(books);
         
     };
@@ -119,10 +120,14 @@ function Model() {
             var book = books[i];
             var myLatLng = new google.maps.LatLng(book.location.lat, book.location.lng);
             var contentString = '<div id="content">' +
-                                '<h5>' + book.title + ' by ' + book.author + '</h5>' +
-                                '<h6>' + book.retail + '<h6>' + 
-                                '<h6>' + book.price + '<h6>' + 
-                                '<p>' + book.blurb + '</p></div>';
+                                '<p>' + book.title + ' by ' + 
+                                '' + book.author + '<br>' +
+                                '<img src=' + book.cover + '><br>' +
+                                'Retail: ' + book.retail + '<br>' + 
+                                'Guarantee: ' + book.price + '<br>' +
+                                '' + book.blurb + '<br>' + 
+                                ' Genres: ' + book.genre + '<br></p>' +
+                                '<button>More Infomation (TODO)</button></div>';
             var infowindow = new google.maps.InfoWindow({
                 content: contentString
             });
@@ -141,14 +146,16 @@ function Model() {
         return map;   
     };
     
-    this.createBookJSON = function (ISBN, title, author, retail, price, blurb, owner, lat, lng) {
+    this.createBookJSON = function (ISBN, title, author, retail, price, cover, blurb, owner, genres, lat, lng) {
            var bookJSON = { 
                         "ISBN":ISBN, 
                         "title" : title, 
                         "author" : author, 
                         "retail" : retail, 
                         "price" : price, 
+                        "cover" : cover,
                         "blurb" : blurb,
+                        "genre" : genres.toString(),
                         "owner" : owner,
                         "location": 
                             {
