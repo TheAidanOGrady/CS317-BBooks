@@ -123,4 +123,8 @@ function View() {
     this.aboutCallback = function (callback) {
         $(".aboutMenu").click(callback);
     };
+    
+    this.logoutCallback = function (callback) {
+        $(".logoutMenu").click(callback);
+    };
 }

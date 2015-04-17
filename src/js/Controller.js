@@ -53,6 +53,10 @@ function Controller() {
         view.aboutCallback(function () {
             view.switchTo("about");
         });
+        
+        view.logoutCallback(function () {
+            model.logout();
+        });
 
     };
 }
