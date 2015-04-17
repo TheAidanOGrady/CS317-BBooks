@@ -9,7 +9,9 @@ function View() {
      */
     this.init = function () {
         console.log("View Created");
-        $(".button-collapse").sideNav();
+        $(".button-collapse").sideNav({
+            closeOnClick: true
+        });
     };
 
 
@@ -79,11 +81,6 @@ function View() {
         $("#nav-desktop").toggleClass("hide");
         $("#nav-mobile").toggleClass("hide");
         $("#nav-menu").toggleClass("hide");
-
-        // Need a wee minor thing to ensure the overlay hides when logging out.
-        if ($('#sidenav-overlay').css('opacity') !== 0) {
-            $('#sidenav-overlay').trigger('click');
-        }
     };
 
 
