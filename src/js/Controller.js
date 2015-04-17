@@ -28,6 +28,8 @@ function Controller() {
 
         view.loginConfirmCallback(function () {
             model.login(view.getLogin());
+            view.switchTo("home");
+            view.toggleNav();
         });
 
         view.signupConfirmCallback(function () {
@@ -53,9 +55,11 @@ function Controller() {
         view.aboutCallback(function () {
             view.switchTo("about");
         });
-        
+
         view.logoutCallback(function () {
             model.logout();
+            view.switchTo("welcome");
+            view.toggleNav();
         });
 
     };

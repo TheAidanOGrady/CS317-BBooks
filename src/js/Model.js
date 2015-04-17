@@ -12,10 +12,10 @@ function Model() {
     this.init = function () {
         console.log("Model: Created");
 
-        if (this.getLoginCookie() != null) {
+        if (this.getLoginCookie() !== null) {
             loggedIn = true;
         }
-        
+
         console.log("Model: Logged in: " + loggedIn);
     };
 
@@ -64,7 +64,7 @@ function Model() {
         console.log("Model: Attempting to Log out");
         this.deleteCookie('login');
         loggedIn = false;
-        
+
         // remove below
         this.getLoginCookie();
         console.log("Model: Logged in: " + loggedIn);

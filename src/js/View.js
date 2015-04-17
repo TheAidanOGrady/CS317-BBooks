@@ -64,9 +64,26 @@ function View() {
         $("#welcome").toggleClass("hide");
     };
 
+    /*
+     * Switches to a div with the given ID.
+     */
     this.switchTo = function (div) {
         $("#mainView > .container").addClass("hide");
         $("#" + div).removeClass("hide");
+    };
+
+    /*
+     * Toggles the display of the nav menus.
+     */
+    this.toggleNav = function () {
+        $("#nav-desktop").toggleClass("hide");
+        $("#nav-mobile").toggleClass("hide");
+        $("#nav-menu").toggleClass("hide");
+
+        // Need a wee minor thing to ensure the overlay hides when logging out.
+        if ($('#sidenav-overlay').css('opacity') !== 0) {
+            $('#sidenav-overlay').trigger('click');
+        }
     };
 
 
@@ -123,7 +140,7 @@ function View() {
     this.aboutCallback = function (callback) {
         $(".aboutMenu").click(callback);
     };
-    
+
     this.logoutCallback = function (callback) {
         $(".logoutMenu").click(callback);
     };
