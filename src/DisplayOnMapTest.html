@@ -14,34 +14,8 @@
     <script>
         
     function initialize() {
-      var book1 = {
-        title: 'book1',
-        author: 'A. Man',
-        price: '£1',
-        blurb: 'Blurb for Book 1',
-        lat: 55.861686,
-        lng: -4.243853
-      };
-        
-      var book2 = {
-        title: 'book 2',
-        author: 'A. Woman ',
-        price: '£2',
-        blurb: 'Blurb for Book 2',
-        lat: 55.869000,
-        lng: -4.249400
-      };
-        
-      var book3 = {
-        title: 'book 3',
-        author: 'A. Author',
-        price: '£3',
-        blurb: 'Blurb for Book 3',
-        lat: 55.860000,
-        lng: -4.301933
-      };
-        
-      var books = [book1, book2, book3];
+      var book1 = createBookJSON("1", "Book One", "Author", "retailprice", "price", "blurb", "owner", 55.8300, -4.290);
+      var books = [book1];
         
       // example books, real one will have additional info
       // possibly a JSON object with blurb, etc to use in description
@@ -55,13 +29,32 @@
 
       setBooks(map, books);
     }
+        
+    function createBookJSON(ISBN, title, author, retail, price, blurb, owner, lat, lng) {
+           var bookJSON = { 
+                        "ISBN":ISBN, 
+                        "title" : title, 
+                        "author" : author, 
+                        "retail" : retail, 
+                        "price" : price, 
+                        "blurb" : blurb,
+                        "owner" : owner,
+                        "location": 
+                            {
+                                "lat":lat,
+                                "lng":lng
+                            }
+                        };
+            return bookJSON;
+    }
 
     function setBooks(map, books) {
         for (var i = 0; i < books.length; i++) {
         var book = books[i];
-        var myLatLng = new google.maps.LatLng(book.lat, book.lng);
+        var myLatLng = new google.maps.LatLng(book.location.lat, book.location.lng);
         var contentString = '<div id="content">' +
                             '<h1>' + book.title + ' by ' + book.author + '</h1>' +
+                            '<h3>' + book.retail + '<h3>' + 
                             '<h3>' + book.price + '<h3>' + 
                             '<p>' + book.blurb + '</b></div>';
         var infowindow = new google.maps.InfoWindow({

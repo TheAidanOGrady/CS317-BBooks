@@ -17,6 +17,10 @@ function Model() {
         }
 
         console.log("Model: Logged in: " + loggedIn);
+        
+        //remove below
+        console.log("Model: Testing Create Book JSON:");
+        this.createBookJSON("1", "Book One", "A. Man", "£10", "£8", "Blurb for Book One, by A.Man", "A. Nother Man", 55.8300, -4.290);
     };
 
     /*
@@ -87,4 +91,23 @@ function Model() {
         document.cookie = name + '=' + info;
         console.log("Model: Set cookie: " + name + " = " + info);
     };
+    
+    this.createBookJSON = function (ISBN, title, author, retail, price, blurb, owner, lat, lng) {
+           var bookJSON = { 
+                        "ISBN":ISBN, 
+                        "title" : title, 
+                        "author" : author, 
+                        "retail" : retail, 
+                        "price" : price, 
+                        "blurb" : blurb,
+                        "owner" : owner,
+                        "location": 
+                            {
+                                "lat":lat,
+                                "lng":lng
+                            }
+                        };
+            console.log("Model: Created bookJSON: \n" + JSON.stringify(bookJSON));
+            return bookJSON;
+    }
 }
