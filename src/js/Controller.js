@@ -5,7 +5,7 @@
 function Controller() {
     var view = new View(),
         model = new Model();
-
+            
     /*
      * Initializes the controller.
      */
@@ -13,7 +13,12 @@ function Controller() {
         console.log("Controller Created");
         model.init();
         view.init();
-
+        
+        if (model.getLoginCookie != null) {
+            view.switchTo("home");
+            view.toggleNav();
+        }
+        
         view.loginCallback(function () {
             view.switchTo("login");
         });
