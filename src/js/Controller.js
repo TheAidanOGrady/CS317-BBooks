@@ -48,8 +48,9 @@ function Controller() {
         };
         
         // if user is logged in
-        if (model.getLoginCookie != null) {
+        if (model.getLoggedIn()) {
             // go to their last screen
+            view.toggleNav();
             switch (model.getLastScreen()) {
                     case "search": 
                         searchFunc();
@@ -63,14 +64,9 @@ function Controller() {
                     case "settings":
                         settingsFunc();
                     break;
-                    case "login":
-                    case "signup":
-                    case "welcome":
-                        welcomeFunc();
-                    break;
-
             }
-            view.toggleNav();
+        } else {
+            welcomeFunc(); 
         }
 
         view.loginCallback(loginFunc);

@@ -78,6 +78,7 @@ function View() {
      * Toggles the display of the nav menus.
      */
     this.toggleNav = function () {
+        console.log("View: Toggling Nav Bar");
         $("#nav-desktop").toggleClass("hide");
         $("#nav-mobile").toggleClass("hide");
         $("#nav-menu").toggleClass("hide");

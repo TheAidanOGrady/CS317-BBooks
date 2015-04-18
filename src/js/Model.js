@@ -72,6 +72,9 @@ function Model() {
         console.log("Model: Logged in: " + loggedIn);
     };
     
+    this.getLoggedIn = function () {
+        return loggedIn;   
+    }
     this.getCookie = function (name) {
         var cname = name + '=', ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {
