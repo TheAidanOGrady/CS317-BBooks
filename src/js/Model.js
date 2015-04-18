@@ -14,7 +14,7 @@ function Model() {
      */
     this.init = function () {
         console.log("Model: Created");
-        if (this.getLoginCookie() != null) {
+        if (this.getLoginCookie() !== null) {
             loggedIn = true;
         }
 
@@ -71,11 +71,11 @@ function Model() {
         this.getLoginCookie();
         console.log("Model: Logged in: " + loggedIn);
     };
-    
+
     this.getLoggedIn = function () {
-        return loggedIn;   
+        return loggedIn;
     };
-    
+
     this.getCookie = function (name) {
         var cname = name + '=', ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {

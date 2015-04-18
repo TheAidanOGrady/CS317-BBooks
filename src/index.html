@@ -13,46 +13,48 @@
 </head>
 
 <body>
-	<div class="navbar-fixed">
-		<nav class="red" role="navigation">
-			<div class="nav-wrapper container" id="nav">
-				<a id="logo-container" class="brand-logo">Bbook</a>
-				<a id="nav-menu" href="#" data-activates="nav-mobile" class="button-collapse hide"><i class="mdi-navigation-menu"></i></a>
+	<header>
+		<div class="navbar-fixed">
+			<nav class="red" role="navigation">
+				<div class="nav-wrapper container" id="nav">
+					<a id="logo-container" class="brand-logo">Bbook</a>
+					<a id="nav-menu" href="#" data-activates="nav-mobile" class="button-collapse hide"><i class="mdi-navigation-menu"></i></a>
 
-				<ul id="nav-desktop" class="right hide-on-med-and-down hide">
-					<li class="homeMenu"><a href="#">Home</a></li>
-					<li class="searchMenu"><a href="#">Search</a></li>
-					<li class="booksMenu"><a href="#">Books</a></li>
-					<li class="settingsMenu"><a href="#">Settings</a></li>
-					<li class="aboutMenu"><a href="#">About</a></li>
-					<li class="logoutMenu"><a href="#">Log out</a></li>
-      			</ul>
+					<ul id="nav-desktop" class="right hide-on-med-and-down hide">
+						<li class="homeMenu"><a href="#">Home</a></li>
+						<li class="searchMenu"><a href="#">Search</a></li>
+						<li class="booksMenu"><a href="#">Books</a></li>
+						<li class="settingsMenu"><a href="#">Settings</a></li>
+						<li class="aboutMenu"><a href="#">About</a></li>
+						<li class="logoutMenu"><a href="#">Log out</a></li>
+	      			</ul>
 
-				<ul id="nav-mobile" class="side-nav hide">
-					<li class="homeMenu"><a href="#">Home</a></li>
-					<li class="searchMenu"><a href="#">Search</a></li>
-					<li class="booksMenu"><a href="#">Books</a></li>
-					<div class="divider"></div>
-					<li class="settingsMenu"><a href="#">Settings</a></li>
-					<li class="aboutMenu"><a href="#">About</a></li>
-					<div class="divider"></div>
-					<li class="logoutMenu"><a href="#">Log out</a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
+					<ul id="nav-mobile" class="side-nav hide">
+						<li class="homeMenu"><a href="#">Home</a></li>
+						<li class="searchMenu"><a href="#">Search</a></li>
+						<li class="booksMenu"><a href="#">Books</a></li>
+						<div class="divider"></div>
+						<li class="settingsMenu"><a href="#">Settings</a></li>
+						<li class="aboutMenu"><a href="#">About</a></li>
+						<div class="divider"></div>
+						<li class="logoutMenu"><a href="#">Log out</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
 
-	<div class="section no-pad-bot" id="mainView">
+	<main id="mainView">
 		
 		<!-- These divs should only be accessed if the user is not logged in -->
-		<div class="container" id="welcome">
+		<div class="BBookSection row" id="welcome">
 			<div class="row center" id="notLoggedIn">
 				<a class="waves-effect waves-light btn red" id="loginButton">Log In</a>
 				<a class="waves-effect waves-light btn red" id="signupButton">Sign Up</a>
 			</div>				
 		</div>
 
-		<div class="container hide" id="login">
+		<div class="BBookSection row hide" id="login">
 			<div class="row center">
 				<form class="col s12" id="loginForm">
 					<div class="row">
@@ -73,7 +75,7 @@
 			</div>				
 		</div>
 
-		<div class="container hide" id="signup">
+		<div class="BBookSection row hide" id="signup">
 			<div class="row center">
 				<form class="col s12" id="signupForm">
 					<div class="row">
@@ -111,40 +113,40 @@
 		</div>
 
 		<!-- These divs should only be accessible when the user is logged in -->
-		<div class="container hide" id="home">
-			Hello user, you should be logged in now. Here will be an overview of
-			things you need to deal with.
+		<div class="BBookSection row hide" id="home">
+			<div class="col s12">
+				<p>Hello user, you should be logged in now. Here will be an overview of
+				things you need to deal with.</p>
+			</div>
 		</div>
 
-		<div class="container hide" id="search">
+		<div class="BBookSection row hide" id="search">
             <div id = "searchText" style="position: absolute: bottom: 80%;">Hello user, you should be logged in now. Here you will be able to find books.<br>
             Options to filter should be here.
             </div>
             <div id="map-canvas" style="position: absolute; right: 0px; left: 0px; bottom: 0px; top: 20%"></div>
 		</div>
 
-		<div class="container hide" id="books">
+		<div class="BBookSection hide" id="books">
 			<div class="row">
-				<div class="col s12">
-					<ul class="tabs">
-						<li class="tab col s3"><a class="active" href="#borrowingTab">Borrowing</a></li>
-						<li class="tab col s3"><a href="#lendingTab">Lending</a></li>
-					</ul>
-				</div>
+				<ul class="tabs">
+					<li class="tab col s3"><a class="active" href="#borrowingTab">Borrowing</a></li>
+					<li class="tab col s3"><a href="#lendingTab">Lending</a></li>
+				</ul>
 				<div id="borrowingTab" class="col s12">Here will be all books you are borrowing.</div>
 				<div id="lendingTab" class="col s12">Here will be all books you are lending.</div>
 			</div>
   		</div>
 
-		<div class="container hide" id="settings">
-			Hello user, you should be logged in now. Change your settings here.
+		<div class="BBookSection row hide" id="settings">
+			<p>Hello user, you should be logged in now. Change your settings here.</p>
 		</div>
 
-		<div class="container hide" id="about">
-			Hello user, you should be logged in now. View about here.
+		<div class="BBookSection row hide" id="about">
+			<p>Hello user, you should be logged in now. View about here.</p>
 		</div>
 
-	</div>
+	</main>
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>

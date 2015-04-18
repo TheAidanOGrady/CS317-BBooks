@@ -70,7 +70,7 @@ function View() {
      * Switches to a div with the given ID.
      */
     this.switchTo = function (div) {
-        $("#mainView > .container").addClass("hide");
+        $("#mainView > .BBookSection").addClass("hide");
         $("#" + div).removeClass("hide");
     };
 
