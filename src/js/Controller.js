@@ -92,6 +92,7 @@ function Controller() {
         view.loginConfirmCallback(function () {
             model.login(view.getLogin());
             homeFunc();
+            view.toggleNav();
         });
 
         view.signupConfirmCallback(function () {
@@ -101,6 +102,7 @@ function Controller() {
         view.logoutCallback(function () {
             model.logout();
             welcomeFunc();
+            view.toggleNav();
         });
 
     };
