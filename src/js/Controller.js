@@ -10,62 +10,97 @@ function Controller() {
      * Initializes the controller.
      */
     this.init = function () {
-        console.log("Controller Created");
+        console.log("Controller: Created");
         model.init();
         view.init();
-        
-        if (model.getLoginCookie != null) {
+        var searchFunc = function () {
+            view.switchTo("search");
+            model.setLastScreen("search");
+            model.createMap();
+        },
+            signupFunc = function () {
+            view.switchTo("signup");
+            model.setLastScreen("signup");
+        },
+            loginFunc = function () {
+            view.switchTo("login");
+            model.setLastScreen("login");
+        },
+            homeFunc = function () {
             view.switchTo("home");
+            model.setLastScreen("home");
+        },
+            bookFunc = function () {
+            view.switchTo("books");
+            model.setLastScreen("books");
+        },
+            settingsFunc = function () {
+            view.switchTo("settings");
+            model.setLastScreen("settings");
+        },
+            aboutFunc = function () {
+            view.switchTo("about");
+            model.setLastScreen("about");
+        },
+            welcomeFunc = function () {
+            view.switchTo("welcome");
+            model.setLastScreen("welcome");
+        };
+        
+        // if user is logged in
+        if (model.getLoginCookie != null) {
+            // go to their last screen
+            switch (model.getLastScreen()) {
+                    case "search": 
+                        searchFunc();
+                    break;
+                    case "home":
+                        homeFunc();
+                    break;
+                    case "books":
+                        booksFunc();
+                    break;
+                    case "settings":
+                        settingsFunc();
+                    break;
+                    case "login":
+                    case "signup":
+                    case "welcome":
+                        welcomeFunc();
+                    break;
+
+            }
             view.toggleNav();
         }
+
+        view.loginCallback(loginFunc);
+
+        view.signupCallback(signupFunc);
+
+        view.homeCallback(homeFunc);
+
+        view.searchCallback(searchFunc);
+
+        view.booksCallback(bookFunc);
+
+        view.settingsCallback(settingsFunc);
         
-        view.loginCallback(function () {
-            view.switchTo("login");
-        });
+        view.aboutCallback(aboutFunc);
 
-        view.signupCallback(function () {
-            view.switchTo("signup");
-        });
-
-        view.cancelCallback(function () {
-            view.switchTo("welcome");
-        });
+        view.cancelCallback(welcomeFunc);
 
         view.loginConfirmCallback(function () {
             model.login(view.getLogin());
-            view.switchTo("home");
-            view.toggleNav();
+            homeFunc();
         });
 
         view.signupConfirmCallback(function () {
             model.signup(view.getSignup());
         });
 
-        view.homeCallback(function () {
-            view.switchTo("home");
-        });
-
-        view.searchCallback(function () {
-            view.switchTo("search");
-            model.createMap();
-        });
-
-        view.booksCallback(function () {
-            view.switchTo("books");
-        });
-
-        view.settingsCallback(function () {
-            view.switchTo("settings");
-        });
-
-        view.aboutCallback(function () {
-            view.switchTo("about");
-        });
-
         view.logoutCallback(function () {
             model.logout();
-            view.switchTo("welcome");
-            view.toggleNav();
+            welcomeFunc();
         });
 
     };

@@ -4,8 +4,10 @@
 
 function Model() {
 
-    var loggedIn = false;
-    var map, lastInfoWindow;
+    var map, 
+        lastInfoWindow,
+        lastScreen,
+        loggedIn = false;
 
     /*
      * Initialization of the model
@@ -17,10 +19,6 @@ function Model() {
         }
 
         console.log("Model: Logged in: " + loggedIn);
-        
-        //remove below
-        console.log("Model: Testing Create Book JSON:");
-        this.createBookJSON("1", "Book One", "A. Man", "£10", "£8", "Blurb for Book One, by A.Man", "A. Nother Man", 55.8300, -4.290);
     };
 
     /*
@@ -163,6 +161,22 @@ function Model() {
     
     this.getMap = function () {
         return map;   
+    };
+    
+    this.getLastScreen = function() {
+        if (lastScreen == null) {
+            lastScreen = localStorage.lastScreen;   
+        }
+        console.log("Model: Get Last screen: " + lastScreen);
+        return lastScreen;
+    };
+    
+    this.setLastScreen = function(screen) {
+        lastScreen = screen;
+        if (localStorage) {
+            localStorage.lastScreen = lastScreen;
+        }
+        console.log("Model: Set Last screen: " + lastScreen);
     };
     
     this.createBookJSON = function (ISBN, title, author, retail, price, cover, blurb, owner, genres, lat, lng) {
