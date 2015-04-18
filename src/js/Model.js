@@ -14,10 +14,10 @@ function Model() {
      */
     this.init = function () {
         console.log("Model: Created");
-        if (this.getLoginCookie() !== null) {
+        // ignore JSLints suggestion to change != to !==
+        if (this.getLoginCookie() != null) {
             loggedIn = true;
         }
-
         console.log("Model: Logged in: " + loggedIn);
     };
 
