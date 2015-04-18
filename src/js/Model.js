@@ -102,19 +102,19 @@ function Model() {
         // map book test,
         // remove below
         var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald", 
-                                        "£10", "£8", "http://i.imgur.com/8JYDBGR.jpg", 
+                                        "£10", "£8", "testbookimg/185326041X.jpg", 
                                         "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!", 
                                         "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197);
         var book2 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick", 
-                                        "£7", "£3.50", "http://i.imgur.com/uHZp2cY.jpg", 
+                                        "£7", "£3.50", "testbookimg/0575094184.jpg", 
                                         "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.", 
                                         "A. Nother Owner", ["Sci-Fi, Dystopia"], 55.8200, -4.300);
         var book3 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick", 
-                                        "£6", "£3.00", "http://i.imgur.com/uHZp2cY.jpg", 
+                                        "£6", "£3.00", "testbookimg/0575094184.jpg", 
                                         "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.", 
                                         "A. Smith", ["Sci-Fi", "Dystopia"], 55.826159, -4.226965);
         var book4 = this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger", 
-                                        "£4.50", "£2.50", "http://i.imgur.com/sETNmjW.jpg", 
+                                        "£4.50", "£2.50", "testbookimg/0241950430.jpg", 
                                         "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.", 
                                         "J. Smith", ["Fiction"], 55.860085, -4.234175);
         var books = [book1, book2, book3, book4];
