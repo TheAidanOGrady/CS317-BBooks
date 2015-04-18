@@ -14,7 +14,7 @@ function Model() {
      */
     this.init = function () {
         console.log("Model: Created");
-        if (this.getLoginCookie() !== null) {
+        if (this.getLoginCookie() != null) {
             loggedIn = true;
         }
 
