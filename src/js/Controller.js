@@ -52,7 +52,7 @@ function Controller() {
             // go to their last screen
             view.toggleNav();
             switch (model.getLastScreen()) {
-            case "search": 
+            case "search":
                 searchFunc();
                 break;
             case "home":
