@@ -14,59 +14,59 @@ function Controller() {
         model.init();
         view.init();
         var searchFunc = function () {
-            view.switchTo("search");
-            model.setLastScreen("search");
-            model.createMap();
-        },
+                view.switchTo("search");
+                model.setLastScreen("search");
+                model.createMap();
+            },
             signupFunc = function () {
-            view.switchTo("signup");
-            model.setLastScreen("signup");
-        },
+                view.switchTo("signup");
+                model.setLastScreen("signup");
+            },
             loginFunc = function () {
-            view.switchTo("login");
-            model.setLastScreen("login");
-        },
+                view.switchTo("login");
+                model.setLastScreen("login");
+            },
             homeFunc = function () {
-            view.switchTo("home");
-            model.setLastScreen("home");
-        },
+                view.switchTo("home");
+                model.setLastScreen("home");
+            },
             bookFunc = function () {
-            view.switchTo("books");
-            model.setLastScreen("books");
-        },
+                view.switchTo("books");
+                model.setLastScreen("books");
+            },
             settingsFunc = function () {
-            view.switchTo("settings");
-            model.setLastScreen("settings");
-        },
+                view.switchTo("settings");
+                model.setLastScreen("settings");
+            },
             aboutFunc = function () {
-            view.switchTo("about");
-            model.setLastScreen("about");
-        },
+                view.switchTo("about");
+                model.setLastScreen("about");
+            },
             welcomeFunc = function () {
-            view.switchTo("welcome");
-            model.setLastScreen("welcome");
-        };
-        
+                view.switchTo("welcome");
+                model.setLastScreen("welcome");
+            };
+
         // if user is logged in
         if (model.getLoggedIn()) {
             // go to their last screen
             view.toggleNav();
             switch (model.getLastScreen()) {
-                    case "search": 
-                        searchFunc();
-                    break;
-                    case "home":
-                        homeFunc();
-                    break;
-                    case "books":
-                        booksFunc();
-                    break;
-                    case "settings":
-                        settingsFunc();
-                    break;
+            case "search": 
+                searchFunc();
+                break;
+            case "home":
+                homeFunc();
+                break;
+            case "books":
+                bookFunc();
+                break;
+            case "settings":
+                settingsFunc();
+                break;
             }
         } else {
-            welcomeFunc(); 
+            welcomeFunc();
         }
 
         view.loginCallback(loginFunc);
@@ -80,7 +80,7 @@ function Controller() {
         view.booksCallback(bookFunc);
 
         view.settingsCallback(settingsFunc);
-        
+
         view.aboutCallback(aboutFunc);
 
         view.cancelCallback(welcomeFunc);

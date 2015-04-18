@@ -40,8 +40,6 @@
 				</ul>
 			</div>
 		</nav>
-
-
 	</div>
 
 	<div class="section no-pad-bot" id="mainView">
@@ -126,8 +124,17 @@
 		</div>
 
 		<div class="container hide" id="books">
-			Hello user, you should be logged in now. Here you can see: Books you are currently advertsing, books you currently have lent, and books you are lending.
-		</div>
+			<div class="row">
+				<div class="col s12">
+					<ul class="tabs">
+						<li class="tab col s3"><a class="active" href="#borrowingTab">Borrowing</a></li>
+						<li class="tab col s3"><a href="#lendingTab">Lending</a></li>
+					</ul>
+				</div>
+				<div id="borrowingTab" class="col s12">Here will be all books you are borrowing.</div>
+				<div id="lendingTab" class="col s12">Here will be all books you are lending.</div>
+			</div>
+  		</div>
 
 		<div class="container hide" id="settings">
 			Hello user, you should be logged in now. Change your settings here.
