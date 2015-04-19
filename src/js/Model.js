@@ -127,7 +127,7 @@ function Model() {
     this.createMap = function() {
         var myLatlng = new google.maps.LatLng(55.8580,-4.2590) // middle of Glasgow
         var mapOptions = {
-            zoom: 12,
+            zoom: 11,
             center: myLatlng
         };
 
@@ -149,34 +149,26 @@ function Model() {
             var book = books[i];
             var myLatLng = new google.maps.LatLng(book.location.lat, book.location.lng);
             var contentString = '<div id="content">' +
-                                '<h6>' + book.title + '</h6>' + 
-                                '' + book.author + '<br>' +
+                                '<h6>' + book.title + ' by ' + book.author + '</h6>' +
                                 '<img src=' + book.cover + '><br>' +
                                 'Retail: ' + book.retail + '<br>' + 
                                 'Guarantee: ' + book.price + '<br>' +
                                 '' + book.blurb + '<br>' + 
                                 'Genres: ' + book.genre + '<br></p>' +
-                                '<button id = "moreInfo">More Infomation (TODO)</button></div>';
-            // create infowindow with book info
-            var iw = new google.maps.InfoWindow({
-                content: contentString
-            });
+                                '<a class="waves-effect waves-light btn red" id="rentButton">Rent</a><br>';
+                                // TODO change this to show a hidden button, not create a new one
             // create marker using book info
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
                 title: book.title,
-                infowindow: iw 
+                contentString: contentString
             });
             markers[i] = marker;
             // add click listener to marker
             google.maps.event.addListener(marker, 'click', function() {
-                // close last window open
-                if (lastInfoWindow) lastInfoWindow.close();
-                // set current window to the last one opened
-                lastInfoWindow = this.infowindow;
-                // open it
-                this.infowindow.open(map, this);
+                // TODO MVC this
+                document.getElementById("bookText").innerHTML = this.contentString;
             });
         }
     };
