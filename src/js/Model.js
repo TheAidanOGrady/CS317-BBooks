@@ -148,27 +148,19 @@ function Model() {
         for (var i = 0; i < books.length; i++) {
             var book = books[i];
             var myLatLng = new google.maps.LatLng(book.location.lat, book.location.lng);
-            var contentString = '<div id="content">' +
-                                '<h6>' + book.title + ' by ' + book.author + '</h6>' +
-                                '<img src=' + book.cover + '><br>' +
-                                'Retail: ' + book.retail + '<br>' + 
-                                'Guarantee: ' + book.price + '<br>' +
-                                '' + book.blurb + '<br>' + 
-                                'Genres: ' + book.genre + '<br></p>' +
-                                '<a class="waves-effect waves-light btn red" id="rentButton">Rent</a><br>';
-                                // TODO change this to show a hidden button, not create a new one
             // create marker using book info
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
-                title: book.title,
-                contentString: contentString
+                book: book
             });
             markers[i] = marker;
             // add click listener to marker
             google.maps.event.addListener(marker, 'click', function() {
-                // TODO MVC this
-                document.getElementById("bookText").innerHTML = this.contentString;
+                var book = this.book;
+                $('#searchModal .modal-content .bookTitle').text(book.title);
+                $('#searchModal .modal-content .bookAuthor').text(book.author);
+                $('#searchModal').openModal();
             });
         }
     };

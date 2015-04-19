@@ -4,7 +4,7 @@
 
 function Controller() {
     var view = new View(),
-        model = new Model();
+        model = new Model(view);
             
     /*
      * Initializes the controller.

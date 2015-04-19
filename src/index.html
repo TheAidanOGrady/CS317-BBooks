@@ -121,7 +121,7 @@
 		</div>
 
 		<div class="BBookSection row hide" id="search">
-            <div id = "searchText" style="position: absolute: bottom: 80%;">
+<!--             <div id = "searchText" style="position: absolute: bottom: 80%;">
                 Hello user, you should be logged in now. Here you will be able to find books.<br>
                 Options to filter should be here.<br>
                 <a class="waves-effect waves-light btn red" id="filterButton">Filter</a>
@@ -129,7 +129,18 @@
                     <h5>Selected Book:</h5>
                 <div id = "bookText">none</div>
             </div>
-            <div id="map-canvas" style="position: absolute; right: 0px; left: 0px; bottom: 0px; top: 60%"></div>
+ -->            
+			 <!-- Modal Structure -->
+			 <div id="searchModal" class="modal">
+			 	<div class="modal-content">
+			 		<h4 class="bookTitle">Title</h4>
+			 		<h5 class="bookAuthor">Author</h5>
+			 	</div>
+			 	<div class="modal-footer">
+			 		<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Rent</a>
+			 	</div>
+			 </div>
+            <div id="map-canvas" style="position: absolute; right: 0px; left: 0px; bottom: 0px; top: 0px"></div> 			
 		</div>
 
 		<div class="BBookSection hide" id="books">
