@@ -165,6 +165,9 @@ function Model() {
                 var book = this.book;
                 $('#searchModal .modal-content .bookTitle').text(book.title);
                 $('#searchModal .modal-content .bookAuthor').text(book.author);
+                $('#searchModal .modal-content .bookRetail').text(book.retail);
+                $('#searchModal .modal-content .bookGuarantee').text(book.price);
+                $('#searchModal .modal-content .bookGenres').text(book.genre);
                 $('#searchModal').openModal();
                 // TODO MVC this
                 // TODO change it to hidesearch text, change "booktext"
