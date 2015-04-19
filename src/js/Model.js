@@ -203,4 +203,12 @@ function Model() {
             console.log("Model: Created bookJSON: \n" + JSON.stringify(bookJSON));
             return bookJSON;
     }
+    
+    this.filterBooks = function(filter, books) {
+        // filter will be a book object which all of
+        // books will be compared to. those that match
+        // will be entered into "filteredBooks"
+        filteredBooks = books;
+        return filteredBooks;
+    }
 }
