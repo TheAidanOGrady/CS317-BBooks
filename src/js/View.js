@@ -113,7 +113,11 @@ function View() {
     };
     
     this.filterCallback = function (callback) {
-        $("#filter").click(callback);
+        $("#filterButton").click(callback);
+    };
+    
+    this.clearFilterCallback = function (callback) {
+        $("#clearFilterButton").click(callback);
     };
 
 

@@ -223,13 +223,13 @@ function Model() {
     };
     
     this.copyBooksToFBooks = function(books, fBooks) {
-        console.log("Model: Copying books array to fBooks array: ");
+        console.log("Model: Setting fBooks back to original Array");
         for (var i = 0; i < books.length; i++) {
             fBooks[i] = books[i];
         }
     };
     
-    this.getFileredBooks = function() {
+    this.getFilteredBooks = function() {
         return fBooks;    
     };
     
@@ -239,6 +239,14 @@ function Model() {
     
     this.setFilterBook = function(fBook) {
         filterBook = fBook;  
+    };
+    
+    this.clearFilter = function () {
+        // needed?
+    };
+    
+    this.getBooks = function () {
+        return books;  
     };
     
     this.filterBooks = function(filter) {
