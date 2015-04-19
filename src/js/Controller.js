@@ -17,6 +17,7 @@ function Controller() {
                 view.switchTo("search");
                 model.setLastScreen("search");
                 model.createMap();
+                model.addBooksToMap(model.getFileredBooks());
             },
             signupFunc = function () {
                 view.switchTo("signup");
@@ -45,6 +46,11 @@ function Controller() {
             welcomeFunc = function () {
                 view.switchTo("welcome");
                 model.setLastScreen("welcome");
+            },
+            filterFunc = function () {
+                //model.setFilterBook(view.getFilterBook());
+                model.filterBooks(model.getFilterBook());
+                model.addBooksToMap(model.getFileredBooks());
             };
 
         // if user is logged in
@@ -84,6 +90,8 @@ function Controller() {
         view.aboutCallback(aboutFunc);
 
         view.cancelCallback(welcomeFunc);
+        
+        view.filterCallback(filterFunc);
 
         view.loginConfirmCallback(function () {
             model.login(view.getLogin());

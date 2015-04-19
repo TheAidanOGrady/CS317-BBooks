@@ -7,8 +7,16 @@ function Model() {
     var map,
         lastInfoWindow,
         lastScreen,
+        books = [],
+        fBooks = [],
+        markers = [],
+        filterBook,
         loggedIn = false;
 
+    
+    //remove below
+    var book1, book2, book3, book4;
+    
     /*
      * Initialization of the model
      */
@@ -19,6 +27,29 @@ function Model() {
             loggedIn = true;
         }
         console.log("Model: Logged in: " + loggedIn);
+        
+        //remove below
+        var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
+                                        "£10", "£8", "testbookimg/185326041X.jpg",
+                                        "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
+                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197),
+            book2 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
+                                        "£7", "£3.50", "testbookimg/0575094184.jpg",
+                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
+                                        "A. Nother Owner", ["Sci-Fi, Dystopia"], 55.8200, -4.300),
+            book3 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
+                                        "£6", "£3.00", "testbookimg/0575094184.jpg",
+                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
+                                        "A. Smith", ["Sci-Fi", "Dystopia"], 55.826159, -4.226965),
+            book4 = this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
+                                        "£4.50", "£2.50", "testbookimg/0241950430.jpg",
+                                        "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
+                                        "J. Smith", ["Fiction"], 55.860085, -4.234175);
+        books = [book1, book2, book3, book4];
+        
+        this.copyBooksToFBooks(books, fBooks);
+        this.setFilterBook(book3);
+        this.addBooksToMap(fBooks);
     };
 
     /*
@@ -47,7 +78,6 @@ function Model() {
 
         // If signup is successful, login
         this.login(details);
-
     };
 
     this.setLoginCookie = function (details) {
@@ -102,31 +132,19 @@ function Model() {
         };
 
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        
-        // map book test,
-        // remove below
-        var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald", 
-                                        "£10", "£8", "testbookimg/185326041X.jpg", 
-                                        "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!", 
-                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197);
-        var book2 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick", 
-                                        "£7", "£3.50", "testbookimg/0575094184.jpg", 
-                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.", 
-                                        "A. Nother Owner", ["Sci-Fi, Dystopia"], 55.8200, -4.300);
-        var book3 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick", 
-                                        "£6", "£3.00", "testbookimg/0575094184.jpg", 
-                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.", 
-                                        "A. Smith", ["Sci-Fi", "Dystopia"], 55.826159, -4.226965);
-        var book4 = this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger", 
-                                        "£4.50", "£2.50", "testbookimg/0241950430.jpg", 
-                                        "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.", 
-                                        "J. Smith", ["Fiction"], 55.860085, -4.234175);
-        var books = [book1, book2, book3, book4];
-        this.addBooksToMap(books);
+    };
+    
+    this.clearBooksFromMap = function() {
+        console.log("Model: Clearing Map");
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        markers = [];
     };
     
     this.addBooksToMap = function(books) {
-        // TODO make "books" a filtered array using options on page
+        this.clearBooksFromMap();
+        console.log("Model: Adding Books to Map");
         for (var i = 0; i < books.length; i++) {
             var book = books[i];
             var myLatLng = new google.maps.LatLng(book.location.lat, book.location.lng);
@@ -139,7 +157,6 @@ function Model() {
                                 '' + book.blurb + '<br>' + 
                                 'Genres: ' + book.genre + '<br></p>' +
                                 '<button id = "moreInfo">More Infomation (TODO)</button></div>';
-            
             // create infowindow with book info
             var iw = new google.maps.InfoWindow({
                 content: contentString
@@ -151,6 +168,7 @@ function Model() {
                 title: book.title,
                 infowindow: iw 
             });
+            markers[i] = marker;
             // add click listener to marker
             google.maps.event.addListener(marker, 'click', function() {
                 // close last window open
@@ -202,13 +220,43 @@ function Model() {
                         };
             console.log("Model: Created bookJSON: \n" + JSON.stringify(bookJSON));
             return bookJSON;
-    }
+    };
     
-    this.filterBooks = function(filter, books) {
-        // filter will be a book object which all of
-        // books will be compared to. those that match
-        // will be entered into "filteredBooks"
-        filteredBooks = books;
-        return filteredBooks;
+    this.copyBooksToFBooks = function(books, fBooks) {
+        console.log("Model: Copying books array to fBooks array: ");
+        for (var i = 0; i < books.length; i++) {
+            fBooks[i] = books[i];
+        }
+    };
+    
+    this.getFileredBooks = function() {
+        return fBooks;    
+    };
+    
+    this.getFilterBook = function() {
+        return filterBook;
+    };
+    
+    this.setFilterBook = function(fBook) {
+        filterBook = fBook;  
+    };
+    
+    this.filterBooks = function(filter) {
+        if (filter != null) {
+            console.log("Model: Filtering Books With Filter: " + JSON.stringify(filter));
+            // keep track of number of books remaining
+            fBooks = [];
+            var booksFiltered = 0;
+            for (var i = 0; i < books.length; i++) {
+                // TODO add additional filters
+                if (books[i].title == filter.title) {
+                    console.log("Model: Title Match");
+                    fBooks[booksFiltered] = books[i];   
+                    booksFiltered++;
+                    console.log(books[i].title + ":" + filter.title);
+                }
+            }
+            console.log("Model: Books Found: " + booksFiltered);
+        }
     }
 }

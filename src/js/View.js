@@ -111,6 +111,10 @@ function View() {
         $("#loginCancel").click(callback);
         $("#signupCancel").click(callback);
     };
+    
+    this.filterCallback = function (callback) {
+        $("#filter").click(callback);
+    };
 
 
     /***************************************************************************
