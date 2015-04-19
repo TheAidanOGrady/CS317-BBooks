@@ -148,14 +148,11 @@ function Model() {
         for (var i = 0; i < books.length; i++) {
             var book = books[i];
             var myLatLng = new google.maps.LatLng(book.location.lat, book.location.lng);
-            var contentString = '<div id="content">' +
-                                '<h6>' + book.title + ' by ' + book.author + '</h6>' +
+            var contentString = '<h6>' + book.title + ' by ' + book.author + '</h6>' + 
                                 '<img src=' + book.cover + '><br>' +
-                                'Retail: ' + book.retail + '<br>' + 
-                                'Guarantee: ' + book.price + '<br>' +
-                                '' + book.blurb + '<br>' + 
-                                'Genres: ' + book.genre + '<br></p>' +
-                                '<a class="waves-effect waves-light btn red" id="rentButton">Rent</a><br>';
+                                'Retail: ' + book.retail + ', Guarantee: ' + book.price + '<br>' +
+                                'Genres: ' + book.genre + '<br></p>' + 
+                                '<a class="waves-effect waves-light btn red" id="infomationButton">More Information</a><br>';
                                 // TODO change this to show a hidden button, not create a new one
             // create marker using book info
             var marker = new google.maps.Marker({
@@ -168,7 +165,9 @@ function Model() {
             // add click listener to marker
             google.maps.event.addListener(marker, 'click', function() {
                 // TODO MVC this
-                document.getElementById("bookText").innerHTML = this.contentString;
+                // TODO change it to hidesearch text, change "booktext"
+                // have it have a button "back" that hides "booktext" and shows "searchtext"
+                document.getElementById("searchText").innerHTML = this.contentString;
             });
         }
     };
