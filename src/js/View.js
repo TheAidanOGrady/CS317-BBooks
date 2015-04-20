@@ -136,9 +136,15 @@ function View() {
         $("#clearFilterButton").click(callback);
     };
 
-	this.addBookCallback = function (callback) {
+    this.addBookCallback = function (callback) {
         $("#addBookButton").click(callback);
     };
+    
+    this.getLocationCallback = function (callback) {
+        $("#getLocationButton").click(callback);
+    };
+    
+    
 	
     /***************************************************************************
      *

@@ -59,9 +59,11 @@ function Model() {
         this.copyBooksToFBooks(books, fBooks);
         this.setFilterBook(book3);
         this.addBooksToMap(fBooks);
-        
-        this.getUserInfo();
-        
+        var user = this.getUserInfo();
+        var latlng = this.getLocation();
+        user.location.lat = latlng[0];
+        user.location.lng = latlng[2];
+        console.log(JSON.stringify(user));
         this.getDistance([55.869332, -4.292197], [55.869332, -4.292100]);
     };
 
@@ -231,7 +233,7 @@ function Model() {
                                 "lng":lng
                             }
                         };
-            console.log("Model: Created bookJSON: \n" + JSON.stringify(bookJSON));
+            //console.log("Model: Created bookJSON: \n" + JSON.stringify(bookJSON));
             return bookJSON;
     };
     
@@ -264,7 +266,7 @@ function Model() {
     
     this.createUserJSON = function (firstname, surname, email, 
                                     postcode, payment, maxDistance, 
-                                    books, filter, city, likes, dislikes) {
+                                    books, filter, city, likes, dislikes, lat, lng) {
         var userJSON = { 
                         "firstname": firstname,
                         "surname": surname,
@@ -276,9 +278,14 @@ function Model() {
                         "filter": filter,
                         "city": city,
                         "like": likes,
-                        "dislikes": dislikes
+                        "dislikes": dislikes,
+                        "location": 
+                            {
+                                "lat":lat,
+                                "lng":lng
+                            }
                         };
-        console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
+        //console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
         return userJSON;
     };
     
@@ -288,7 +295,10 @@ function Model() {
         var user = this.createUserJSON("Adam", "Manner", 
                                        "amanner@gmail.com", "G56", 
                                        "paypal", "20", books, "filter", 
-                                       "Glasgow", "10", "6");
+                                       "Glasgow", "10", "6", 0, 0);
+        
+        //TODO MVC 
+        document.getElementById("userInfo").innerHTML = JSON.stringify(user);
         return user;
     };
     
@@ -307,7 +317,7 @@ function Model() {
                     console.log(books[i].title + ":" + filter.title);
                 }
             }
-            console.log("Model: Books Found: " + booksFiltered);
+            //console.log("Model: Books Found: " + booksFiltered);
         }
     }
 
@@ -317,7 +327,7 @@ function Model() {
 	
 	this.addBookToBooks = function(book, books) {
 		books[books.length] = book;
-		console.log("Model: Adding book to Books: " + JSON.stringify(book));
+		//console.log("Model: Adding book to Books: " + JSON.stringify(book));
 	};
 	
 	this.getCurrentBook = function() {
@@ -325,7 +335,7 @@ function Model() {
 						"£10", "£8", "testbookimg/185326041X.jpg",
 						"Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
 						"A. N. Owner", ["Novel", "Fiction", "Drama"], 55.861000, -4.290000, "Awaiting Postage");
-		console.log("Model: Returning current book: " + JSON.stringify(currentBook));
+		//console.log("Model: Returning current book: " + JSON.stringify(currentBook));
 		return currentBook;
 	};
     
@@ -349,5 +359,16 @@ function Model() {
         var distance = R * c;
         console.log("Model: Distance between two points: " + Math.round(distance) + "m");
         return Math.round(distance);
+    };
+    
+    this.getLocation = function (user) {
+        navigator.geolocation.getCurrentPosition(foundLocation);
+        function foundLocation(position) {
+            var lat = position.coords.latitude;
+            var long = position.coords.longitude;
+            console.log("Model: get location: " + lat + ' ' + long);
+            return [lat, long];
+        }
+        return [0, 0];
     };
 }
