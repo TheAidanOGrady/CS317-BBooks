@@ -10,6 +10,7 @@ function Model() {
         books = [],
         fBooks = [],
         markers = [],
+        useFilter = false,
         filterBook,
         loggedIn = true,
         user,
@@ -59,9 +60,7 @@ function Model() {
         this.copyBooksToFBooks(books, fBooks);
         this.setFilterBook(book3);
         var users = this.getLimitedUsers();
-        console.log(users);
-        this.addBooksToMap(users);
-        this.getDistance([55.869332, -4.292197], [55.869332, -4.292100]);
+        this.addBooksToMap(users, filterBook);
     };
 
     /*
@@ -69,8 +68,6 @@ function Model() {
      */
     this.login = function (details) {
         console.log("Model: Attempting login");
-        console.log(details);
-
         $.ajax({
 			url: "php/login.php",
 			data: details
@@ -98,7 +95,6 @@ function Model() {
 
     this.signup = function (details) {
         console.log("Model: Attempting signup");
-        console.log(details);
         $.ajax({
 			url: "php/register.php",
 			data: details
@@ -185,20 +181,14 @@ function Model() {
         markers = [];
     };
     
-    this.addBooksToMap = function(users) {
+    this.addBooksToMap = function(users, filterBook) {
         this.clearBooksFromMap();
         console.log("Model: Adding Books to Map");
         for (var j = 0; j < users.length; j++) {
             var cuser = users[j];
             for (var i = 0; i < cuser.books.length; i++) {
-                var book = cuser.books[i];
+                var books = cuser.books[i];
                 var myLatLng = new google.maps.LatLng(cuser.location.lat, cuser.location.lng);
-                // var contentString = '<h6>' + book.title + ' by ' + book.author + '</h6>' + 
-                //                     '<img src=' + book.cover + '><br>' +
-                //                     'Retail: ' + book.retail + ', Guarantee: ' + book.price + '<br>' +
-                //                     'Genres: ' + book.genre + '<br></p>' + 
-                //                     '<a class="waves-effect waves-light btn red" id="infomationButton">More Information</a><br>';
-                // create marker using book info
                 var marker = new google.maps.Marker({
                     position: myLatLng,
                     map: map,
@@ -210,18 +200,32 @@ function Model() {
                 google.maps.event.addListener(marker, 'click', function() {
                     var user = this.user;
                     $('#searchModal .modal-content .collection').empty();
-                    $('#searchModal .modal-content #modalUser').text(user.firstname);
+                    $('#searchModal .modal-content #modalUser').text(user.firstname + " - " + (user.dislikes / user.likes) * 100 + "% (" + (user.dislikes + user.likes) + ")" );
                     for (var e = 0; e < user.books.length; e++) {
-                        var book = user.books[e],
-                        bookSource   = $("#cBookTemplate").html(),
-                        bookTemplate = Handlebars.compile(bookSource),
-                        context = { 
-                            user: book.owner,
-                            title: book.title,
-                            author: book.author,
-                            guarantee: book.price},
-                        html = bookTemplate(context);
-                        $('#searchModal .modal-content .collection').append(html);  
+                        if (useFilter) {
+                            if (user.books[e].title == filterBook.title) {
+                                var book = user.books[e],
+                                bookSource   = $("#cBookTemplate").html(),
+                                bookTemplate = Handlebars.compile(bookSource),
+                                context = { 
+                                    title: book.title,
+                                    author: book.author,
+                                    guarantee: book.price},
+                                html = bookTemplate(context);
+                                $('#searchModal .modal-content .collection').append(html);  
+                            } 
+                        } else {
+                            var book = user.books[e],
+                            bookSource   = $("#cBookTemplate").html(),
+                            bookTemplate = Handlebars.compile(bookSource),
+                            context = { 
+                                user: book.owner,
+                                title: book.title,
+                                author: book.author,
+                                guarantee: book.price},
+                            html = bookTemplate(context);
+                            $('#searchModal .modal-content .collection').append(html);  
+                        }
                     }
                     $('#searchModal').openModal();
                 });
@@ -268,8 +272,8 @@ function Model() {
         filterBook = fBook;  
     };
     
-    this.clearFilter = function () {
-        // needed?
+    this.setUseFilter = function(boolean) {
+        useFilter = boolean;  
     };
     
     this.getBooks = function () {
@@ -378,8 +382,7 @@ function Model() {
         // return all users with limited info
         // location, name, email, books
         var users;
-        var fakeBooks1 = [                                                   
-                            this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
+        var fakeBooks1 = [  this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
                                                 "£7", "£3.50", "testbookimg/0575094184.jpg",
                                                 "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
                                                 "Paul", ["Sci-Fi, Dystopia"], "Available")];
@@ -391,14 +394,15 @@ function Model() {
                             this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
                                                 "£4.50", "£2.50", "testbookimg/0241950430.jpg",
                                                 "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
-                                                "John", ["Fiction"], "Available"),
-                            this.createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
+                                                "John", ["Fiction"], "Available")];
+        var fakeBooks3 = [  this.createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
                                                 "£10", "£8", "testbookimg/185326041X.jpg",
                                                 "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
                                                 "John", ["Novel", "Fiction", "Drama"], "On Loan")];
         var fakeuser1 = this.createLimitedUserJSON("Paul", "paul@paul.com", "G55", fakeBooks1, "Glasgow", 10, 5, 55.858736, -4.256491);
         var fakeuser2 = this.createLimitedUserJSON("John", "john@john.com", "G52", fakeBooks2, "Glasgow", 16, 8, 55.865431, -4.264645);
-        users = [fakeuser1, fakeuser2];
+        var fakeuser3 = this.createLimitedUserJSON("Jim", "jim@jim.com", "G44", fakeBooks3, "Glasgow", 16, 3, 55.805612, -4.239677);
+        users = [fakeuser1, fakeuser2, fakeuser3];
         return users;
     };
     
@@ -465,7 +469,7 @@ function Model() {
                         "postcode": postcode,
                         "books": books,
                         "city": city,
-                        "like": likes,
+                        "likes": likes,
                         "dislikes": dislikes,
                         "location": 
                             {
