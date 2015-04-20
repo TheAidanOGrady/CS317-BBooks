@@ -4,6 +4,9 @@
 
 function View() {
 
+    var bookSource   = $("#bookTemplate").html(),
+        bookTemplate = Handlebars.compile(bookSource);
+
     /*
      * Initialization of the view
      */
@@ -91,10 +94,9 @@ function View() {
         } else {
             books = $('#lendingTab');
         }
-
-        books.append("<div class='col s12'><div class='card grey lighten-5'>" +
-            "<div class='card-content'><span class='card-title red-text'>" + 
-            book.title + "</span><p>" + book.author + "</p></div></div></div>");         
+        var context = {title: book.title, author: book.author};
+        var html = bookTemplate(context);
+        books.append(html);         
     };
 
 

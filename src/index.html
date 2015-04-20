@@ -236,6 +236,19 @@
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
+
+	<script id="bookTemplate" type="text/x-handlebars-template">
+		<div class='col s12'>
+			<div class='card grey lighten-5'>
+				<div class='card-content'>
+					<span class='card-title red-text'>{{title}}</span>
+					<p>{{author}}</p>
+				</div>
+			</div>
+		</div>
+	</script>
+
 	<script type="text/javascript" src="js/Model.js"></script>
 	<script type="text/javascript" src="js/View.js"></script>
 	<script type="text/javascript" src="js/Controller.js"></script>
