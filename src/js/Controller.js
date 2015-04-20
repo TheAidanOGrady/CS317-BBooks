@@ -74,6 +74,9 @@ function Controller() {
             case "settings":
                 settingsFunc();
                 break;
+            case "about":
+                aboutFunc();
+                break;
             }
         } else {
             welcomeFunc();
