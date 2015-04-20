@@ -291,6 +291,9 @@ function Model() {
                                        "amanner@gmail.com", "G56", 
                                        "paypal", "20", books, "filter", 
                                        "Glasgow", "10", "6");
+        
+        //TODO MVC 
+        document.getElementById("userInfo").innerHTML = JSON.stringify(user);
         return user;
     };
     
