@@ -11,7 +11,8 @@ function Model() {
         fBooks = [],
         markers = [],
         filterBook,
-        loggedIn = false;
+        loggedIn = false,
+        user;
 
     
     //remove below
@@ -50,6 +51,8 @@ function Model() {
         this.copyBooksToFBooks(books, fBooks);
         this.setFilterBook(book3);
         this.addBooksToMap(fBooks);
+        
+        this.getUserInfo();
     };
 
     /*
@@ -241,6 +244,36 @@ function Model() {
     
     this.getBooks = function () {
         return books;  
+    };
+    
+    this.createUserJSON = function (firstname, surname, email, 
+                                    postcode, payment, maxDistance, 
+                                    books, filter, city, likes, dislikes) {
+        var userJSON = { 
+                        "firstname": firstname,
+                        "surname": surname,
+                        "email": email,
+                        "postcode": postcode,
+                        "payment": payment,
+                        "maxDistance": maxDistance,
+                        "books": books,
+                        "filter": filter,
+                        "city": city,
+                        "like": likes,
+                        "dislikes": dislikes
+                        };
+        console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
+        return userJSON;
+    };
+    
+    this.getUserInfo = function () {
+        // return information about user from server
+        // param email?
+        var user = this.createUserJSON("Adam", "Manner", 
+                                       "amanner@gmail.com", "G56", 
+                                       "paypal", "20", books, "filter", 
+                                       "Glasgow", "10", "6");
+        return user;
     };
     
     this.filterBooks = function(filter) {
