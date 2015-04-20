@@ -60,6 +60,7 @@ function Model() {
         this.copyBooksToFBooks(books, fBooks);
         this.setFilterBook(book3);
         var users = this.getLimitedUsers();
+        this.addUserToMap(user);
         this.addBooksToMap(users, filterBook);
     };
 
@@ -181,56 +182,68 @@ function Model() {
         markers = [];
     };
     
+    this.addUserToMap = function (user) {
+        // show users location on map
+    };
+    
     this.addBooksToMap = function(users, filterBook) {
         this.clearBooksFromMap();
         console.log("Model: Adding Books to Map");
         for (var j = 0; j < users.length; j++) {
             var cuser = users[j];
-            for (var i = 0; i < cuser.books.length; i++) {
-                var books = cuser.books[i];
-                var myLatLng = new google.maps.LatLng(cuser.location.lat, cuser.location.lng);
-                var marker = new google.maps.Marker({
-                    position: myLatLng,
-                    map: map,
-                    user: cuser,
-                    books: books
-                });
-                markers[i] = marker;
-                // add click listener to marker
-                google.maps.event.addListener(marker, 'click', function() {
-                    var user = this.user;
-                    var total = user.dislikes + user.likes;
-                    var rating = Math.round((user.likes / total) * 100);
-                    $('#searchModal .modal-content .collection').empty();
-                    $('#searchModal .modal-content #modalUser').text(user.firstname + " - " + rating + "% (" + total + ")" );
-                    for (var e = 0; e < user.books.length; e++) {
-                        if (useFilter) {
-                            if (user.books[e].title == filterBook.title) {
+            if (cuser.distance <= user.maxDistance) {
+                for (var i = 0; i < cuser.books.length; i++) {
+                    var books = cuser.books[i];
+                    var myLatLng = new google.maps.LatLng(cuser.location.lat, cuser.location.lng);
+                    var marker = new google.maps.Marker({
+                        position: myLatLng,
+                        map: map,
+                        user: cuser,
+                        books: books
+                    });
+                    markers[i] = marker;
+                    google.maps.event.addListener(marker, 'click', function() {
+                        var cuser = this.user;
+                        var total = cuser.dislikes + cuser.likes;
+                        var rating = Math.round((cuser.likes / total) * 100);
+                        var distance = cuser.distance;
+                        $('#searchModal .modal-content .collection').empty();
+                        $('#searchModal .modal-content #modalUser').text(cuser.firstname + " - " + 
+                                                                         rating + "% (" + 
+                                                                         total + ") - " + 
+                                                                         distance + "km");
+                        for (var e = 0; e < cuser.books.length; e++) {
+                            if (useFilter) {
+                                if (user.books[e].title == filterBook.title) {
+                                    var book = cuser.books[e],
+                                    bookSource   = $("#cBookTemplate").html(),
+                                    bookTemplate = Handlebars.compile(bookSource),
+                                    context = { 
+                                        title: book.title,
+                                        author: book.author,
+                                        guarantee: book.price},
+                                    html = bookTemplate(context);
+                                    $('#searchModal .modal-content .collection').append(html);  
+                                } 
+                            } else {
                                 var book = user.books[e],
                                 bookSource   = $("#cBookTemplate").html(),
                                 bookTemplate = Handlebars.compile(bookSource),
                                 context = { 
+                                    user: book.owner,
                                     title: book.title,
                                     author: book.author,
                                     guarantee: book.price},
                                 html = bookTemplate(context);
                                 $('#searchModal .modal-content .collection').append(html);  
-                            } 
-                        } else {
-                            var book = user.books[e],
-                            bookSource   = $("#cBookTemplate").html(),
-                            bookTemplate = Handlebars.compile(bookSource),
-                            context = { 
-                                user: book.owner,
-                                title: book.title,
-                                author: book.author,
-                                guarantee: book.price},
-                            html = bookTemplate(context);
-                            $('#searchModal .modal-content .collection').append(html);  
+                            }
                         }
-                    }
-                    $('#searchModal').openModal();
-                });
+                        $('#searchModal').openModal();
+
+                    });
+                }
+            } else {
+                console.log("user out of distance");   
             }
         }
     };
@@ -293,8 +306,8 @@ function Model() {
         if (user == null) {
             var user = this.createUserJSON("Adam", "Manner", 
                                "amanner@gmail.com", "G56", 
-                               "paypal", "20", books, "filter", 
-                               "Glasgow", "10", "6", 0, 0);
+                               "paypal", 6, books, "filter", 
+                               "Glasgow", 10, 6, 55.8580,-4.2590);
         }
         
         //TODO MVC 
@@ -343,7 +356,7 @@ function Model() {
 		var currentBook =   this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
 						"£10", "£8", "testbookimg/185326041X.jpg",
 						"Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-						"A. N. Owner", ["Novel", "Fiction", "Drama"], 55.861000, -4.290000, "Awaiting Postage");
+						"A. N. Owner", ["Novel", "Fiction", "Drama"], "Awaiting Postage");
 		//console.log("Model: Returning current book: " + JSON.stringify(currentBook));
 		return currentBook;
 	};
@@ -366,7 +379,7 @@ function Model() {
 
         var distance = R * c;
         console.log("Model: Distance between two points: " + Math.round(distance) + "m");
-        return Math.round(distance);
+        return Math.round(distance / 1000);
     };
     
     this.getLocation = function (user) {
@@ -465,7 +478,7 @@ function Model() {
                         "books": books,
                         "filter": filter,
                         "city": city,
-                        "like": likes,
+                        "likes": likes,
                         "dislikes": dislikes,
                         "location": 
                             {
@@ -490,9 +503,10 @@ function Model() {
                             {
                                 "lat":lat,
                                 "lng":lng
-                            }
+                            },
+                        "distance": this.getDistance([lat, lng], [this.getUser().location.lat, this.getUser().location.lng])
                         };
-        //console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
+        console.log("Model: Created UserLimitedJSON: " + JSON.stringify(userJSON));
         return userJSON;
     };
 }
