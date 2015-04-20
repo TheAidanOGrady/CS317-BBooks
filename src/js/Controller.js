@@ -17,7 +17,7 @@ function Controller() {
                 view.switchTo("search");
                 model.setLastScreen("search");
                 model.createMap();
-                model.addBooksToMap(model.getFilteredBooks());
+                model.addBooksToMap(model.getLimitedUsers());
             },
             signupFunc = function () {
                 view.switchTo("signup");
@@ -50,16 +50,16 @@ function Controller() {
             filterFunc = function () {
                 //model.setFilterBook(view.getFilterBook());
                 model.filterBooks(model.getFilterBook());
-                model.addBooksToMap(model.getFilteredBooks());
+                model.addBooksToMap(model.getLimitedUsers());
             },
             clearFilterFunc = function () {
                 model.copyBooksToFBooks(model.getBooks(), model.getFilteredBooks());
-                model.addBooksToMap(model.getFilteredBooks());
+                model.addBooksToMap(model.getLimitedUsers());
             },
 			addBookFunc = function() {
 				model.addBookToBooks(model.getCurrentBook(), model.getBooks());
 				model.copyBooksToFBooks(model.getBooks(), model.getFilteredBooks());
-				model.addBooksToMap(model.getFilteredBooks());
+				model.addBooksToMap(model.getLimitedUsers());
 			},
             getLocationFunc = function () {
                 model.setUserLocation(model.getUser());

@@ -122,23 +122,15 @@
 		</div>
 
 		<div class="BBookSection row hide" id="search">
-<!--    	<div id = "searchText" style="position: absolute: bottom: 80%;">
-                Options to filter should be here.<br>
-                <a class="waves-effect waves-light btn red" id="filterButton">Filter</a>
-                <a class="waves-effect waves-light btn red" id="clearFilterButton">Clear</a><br>
-                <div id = "bookText">WIP, see bottom of model.addbookstomap</div>
-            </div>
- -->            
+            <a class="waves-effect waves-light btn red" id="filterButton">Filter</a>
+            <a class="waves-effect waves-light btn red" id="clearFilterButton">Clear</a><br>  
 			 <!-- Modal Structure -->
 			 <div id="searchModal" class="modal bottom-sheet">
 			 	<div class="modal-content">
-					<h4 id="modalUser">User</h5>
 		 			<ul class="collection"></ul>
 	 			</div>
-
 			 </div>
-
-            <div id="map-canvas" style="position: absolute; right: 0px; left: 0px; bottom: 0px; top: 0px"></div> 			
+            <div id="map-canvas" style="position: absolute; right: 0px; left: 0px; bottom: 0px; top: 20px"></div> 			
 		</div>
 
 		<div class="BBookSection hide" id="books">
@@ -203,6 +195,7 @@
 	</script>
 
 	<script id="cBookTemplate" type="text/x-handlebars-template">
+        <h5>{{user}}</h5>
 		<li class="collection-item avatar">
 			<i class="mdi-action-book circle"></i>
 			<span class="title truncate">{{title}}</span>
