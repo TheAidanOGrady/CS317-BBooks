@@ -127,11 +127,11 @@ function View() {
         $("#loginCancel").click(callback);
         $("#signupCancel").click(callback);
     };
-    
+
     this.filterCallback = function (callback) {
         $("#filterButton").click(callback);
     };
-    
+
     this.clearFilterCallback = function (callback) {
         $("#clearFilterButton").click(callback);
     };
@@ -139,13 +139,11 @@ function View() {
     this.addBookCallback = function (callback) {
         $("#addBookButton").click(callback);
     };
-    
+
     this.getLocationCallback = function (callback) {
         $("#getLocationButton").click(callback);
     };
-    
-    
-	
+
     /***************************************************************************
      *
      * NAV CALLBACKS

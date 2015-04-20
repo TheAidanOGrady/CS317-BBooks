@@ -210,6 +210,7 @@ function Model() {
                 google.maps.event.addListener(marker, 'click', function() {
                     var user = this.user;
                     $('#searchModal .modal-content .collection').empty();
+                    $('#searchModal .modal-content #modalUser').text(user.firstname);
                     for (var e = 0; e < user.books.length; e++) {
                         var book = user.books[e],
                         bookSource   = $("#cBookTemplate").html(),
