@@ -199,8 +199,10 @@ function Model() {
                 // add click listener to marker
                 google.maps.event.addListener(marker, 'click', function() {
                     var user = this.user;
+                    var total = user.dislikes + user.likes;
+                    var rating = Math.round((user.likes / total) * 100);
                     $('#searchModal .modal-content .collection').empty();
-                    $('#searchModal .modal-content #modalUser').text(user.firstname + " - " + (user.dislikes / user.likes) * 100 + "% (" + (user.dislikes + user.likes) + ")" );
+                    $('#searchModal .modal-content #modalUser').text(user.firstname + " - " + rating + "% (" + total + ")" );
                     for (var e = 0; e < user.books.length; e++) {
                         if (useFilter) {
                             if (user.books[e].title == filterBook.title) {
