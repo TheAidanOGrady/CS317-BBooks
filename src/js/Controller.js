@@ -72,7 +72,7 @@ function Controller() {
                 model.setUserLocation(model.getUser());
             };
 
-        var books = model.getBooks();
+        var books = model.getUser().books;
         view.addBook(true, books[0]);
         view.addBook(true, books[1]);
         view.addBook(false, books[2]);

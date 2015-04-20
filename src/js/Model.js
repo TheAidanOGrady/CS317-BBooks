@@ -13,7 +13,7 @@ function Model() {
         useFilter = false,
         filterBook,
         loggedIn = true,
-        user,
+        user, // local user
 		currentBook;
 
     
@@ -52,11 +52,11 @@ function Model() {
                                         "£4.50", "£2.50", "testbookimg/0241950430.jpg",
                                         "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
                                         "J. Smith", ["Fiction"], 55.860085, -4.234175, "Available");
-		this.addBookToBooks(book1, books);
-		this.addBookToBooks(book2, books);
-		this.addBookToBooks(book3, books);
-		this.addBookToBooks(book4, books);
-        
+        user = this.getUserInfo();
+        this.addBookToUser(user, book1);
+		this.addBookToUser(user, book2);
+		this.addBookToUser(user, book3);
+		this.addBookToUser(user, book4);
         this.copyBooksToFBooks(books, fBooks);
         this.setFilterBook(book3);
         var users = this.getLimitedUsers();
@@ -289,6 +289,7 @@ function Model() {
     this.getUserInfo = function () {
         // return information about user from server
         // param emails
+        var books = [];
         if (user == null) {
             var user = this.createUserJSON("Adam", "Manner", 
                                "amanner@gmail.com", "G56", 
@@ -381,6 +382,15 @@ function Model() {
     
     this.getUser = function () {
         return user;  
+    };
+    
+    this.getUsersBooks = function () {
+        console.log("user books "+ user.books);
+        return user.books;  
+    };
+    
+    this.addBookToUser = function (user, book) {
+          user.books[user.books.length] = book;
     };
     
     this.getLimitedUsers = function() {
