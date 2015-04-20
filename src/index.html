@@ -130,12 +130,11 @@
             </div>
  -->            
 			 <!-- Modal Structure -->
-			 <div id="searchModal" class="modal">
+			 <div id="searchModal" class="modal bottom-sheet">
 			 	<div class="modal-content">
-				<h5 id="modalUser">User</h5>
-		 		<ul class="collapsible" data-collapsible="accordion">
-		 		</ul>
-	 	</div>
+					<h4 id="modalUser">User</h5>
+		 			<ul class="collection"></ul>
+	 			</div>
 
 			 </div>
 
@@ -190,10 +189,9 @@
 			<div class='card grey lighten-5'>
 				<div class='card-content'>
 					<div class='row'>
-						<span class='col s11 card-title red-text'>{{title}}</span>
+						<span class='card-title red-text'>{{title}}</span>
 						<p class="col s12"><b>{{author}}</b></p>
 					</div>
-					<div class="divider"></div>
 					<div class='row'>
 						<p class="col s12">Status: {{status}}</p>
 					</div>
@@ -204,17 +202,11 @@
 	</script>
 
 	<script id="cBookTemplate" type="text/x-handlebars-template">
-		<li>
-		    <div class="collapsible-header row">
-		    	<div class = "col s11">{{title}} by {{author}}</div>
-		    	<div class = "col s1">{{guarantee}}</div>
-		    </div>
-     		 <div class="collapsible-body row">
-		 		<h6 class="col s12">Retail: <span class="bookRetail">{{retail}}</span></h6>
-				<h6 class="col s12">Genres: <span class="bookGenres">{{genres}}</span></h6>
-				
-				<p class="col offset-s10"><a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Rent</a></p>
-			</div>
+		<li class="collection-item avatar">
+			<i class="mdi-action-book circle"></i>
+			<span class="title truncate">{{title}}</span>
+			<p>{{author}}</p>
+			<p>{{guarantee}}</p>
 		</li>
 	</script>
 

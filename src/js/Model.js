@@ -180,14 +180,12 @@ function Model() {
                     bookTemplate = Handlebars.compile(bookSource),
                     context = {title: book.title,
                         author: book.author,
-                        retail: book.retail,
-                        guarantee: book.price,
-                        genres: book.genre},
+                        guarantee: book.price},
                     html = bookTemplate(context);
         
-                $('#searchModal .modal-content .collapsible').empty();
-                $('#searchModal .modal-content .collapsible').append(html);
-                $('.collapsible').collapsible({accordion: true});
+                $('#searchModal .modal-content .collection').empty();
+                $('#searchModal .modal-content .collection').append(html);
+                $('#searchModal .modal-content .collection').append(html);
                 $('#searchModal').openModal();
                 // TODO MVC this
                 // TODO change it to hidesearch text, change "booktext"
