@@ -84,6 +84,19 @@ function View() {
         $("#nav-menu").toggleClass("hide");
     };
 
+    this.addBook = function (borrow, book) {
+        var books;
+        if (borrow) {
+            books = $('#borrowingTab');
+        } else {
+            books = $('#lendingTab');
+        }
+
+        books.append("<div class='col s12'><div class='card grey lighten-5'>" +
+            "<div class='card-content'><span class='card-title red-text'>" + 
+            book.title + "</span><p>" + book.author + "</p></div></div></div>");         
+    };
+
 
     /***************************************************************************
      *

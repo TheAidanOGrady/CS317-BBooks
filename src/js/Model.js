@@ -29,7 +29,7 @@ function Model() {
         console.log("Model: Logged in: " + loggedIn);
         
         //remove below
-        var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
+            book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
                                         "£10", "£8", "testbookimg/185326041X.jpg",
                                         "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
                                         "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197),

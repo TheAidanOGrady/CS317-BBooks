@@ -57,6 +57,12 @@ function Controller() {
                 model.addBooksToMap(model.getFilteredBooks());
             };
 
+        var books = model.getBooks();
+        view.addBook(true, books[0]);
+        view.addBook(true, books[1]);
+        view.addBook(false, books[2]);
+        view.addBook(false, books[3]);
+
         // if user is logged in
         if (model.getLoggedIn()) {
             // go to their last screen
