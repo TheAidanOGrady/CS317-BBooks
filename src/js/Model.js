@@ -74,13 +74,26 @@ function Model() {
         console.log("Model: Attempting login");
         console.log(details);
 
-        // TODO: Server side stuff
-        // if (login is accepted) 
-        this.setLoginCookie(details);
-        loggedIn = true;
-        // all log in works for now, for testing
-        // else tell user log in is wrong
+        $.ajax({
+			url: "php/login.php",
+			data: details
+		}).done(this.loginResponse);
     };
+	
+	this.loginResponse = function(response) {
+		console.log("SERVER: " + response);
+		if (response === "OK") {
+			//this.setLoginCookie(details); fix this somehow....
+			loggedIn = true;
+		}
+		else {
+			// Handle error messages:
+			// err-wrongdata : email or password is invalid
+			// err-nodata : nothing was entered
+			// err-nouser : username was not entered
+			// err-nopw : password was not entered
+		}
+	};
 
     this.isLoggedIn = function () {
         return loggedIn;
@@ -89,11 +102,24 @@ function Model() {
     this.signup = function (details) {
         console.log("Model: Attempting signup");
         console.log(details);
-        // TODO: Server side stuff
-
-        // If signup is successful, login
-        this.login(details);
+        $.ajax({
+			url: "php/register.php",
+			data: details
+		}).done(this.signupResponse);
     };
+	
+	this.signupResponse = function(response) {
+		console.log("SERVER: " + response);
+		if (response === "OK")
+		{
+			//this.login(details); // fix this somehow...
+		}
+		else {
+			// Handle error messages:
+			// err-email : email is already registered
+		}
+		
+	};
 
     this.setLoginCookie = function (details) {
         console.log("Model: Attempting to set log in cookie");
