@@ -19,7 +19,7 @@ function Controller() {
                 model.createMap();
                 model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
                 Materialize.toast('Displaying Books within ' + 
-                                  model.getUserInfo.maxDistance + 'km', 2000)
+                                  model.getUser().maxDistance + 'km', 2000)
             },
             signupFunc = function () {
                 view.switchTo("signup");
@@ -32,7 +32,7 @@ function Controller() {
             homeFunc = function () {
                 view.switchTo("home");
                 model.setLastScreen("home");
-                Materialize.toast('Welcome, ' + model.getUserInfo.firstname, 2000);
+                Materialize.toast('Welcome, ' + model.getUser().firstname, 2000);
             },
             bookFunc = function () {
                 view.switchTo("books");
