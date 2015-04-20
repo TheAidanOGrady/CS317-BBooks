@@ -11,7 +11,7 @@ function Model() {
         fBooks = [],
         markers = [],
         filterBook,
-        loggedIn = false,
+        loggedIn = true,
         user,
 		currentBook;
 
@@ -58,7 +58,9 @@ function Model() {
         
         this.copyBooksToFBooks(books, fBooks);
         this.setFilterBook(book3);
-        this.addBooksToMap(fBooks);
+        var users = this.getLimitedUsers();
+        console.log(users);
+        this.addBooksToMap(users);
         this.getDistance([55.869332, -4.292197], [55.869332, -4.292100]);
     };
 
@@ -183,41 +185,46 @@ function Model() {
         markers = [];
     };
     
-    this.addBooksToMap = function(books) {
+    this.addBooksToMap = function(users) {
         this.clearBooksFromMap();
         console.log("Model: Adding Books to Map");
-        for (var i = 0; i < books.length; i++) {
-            var book = books[i];
-            var myLatLng = new google.maps.LatLng(book.location.lat, book.location.lng);
-            // var contentString = '<h6>' + book.title + ' by ' + book.author + '</h6>' + 
-            //                     '<img src=' + book.cover + '><br>' +
-            //                     'Retail: ' + book.retail + ', Guarantee: ' + book.price + '<br>' +
-            //                     'Genres: ' + book.genre + '<br></p>' + 
-            //                     '<a class="waves-effect waves-light btn red" id="infomationButton">More Information</a><br>';
-            // create marker using book info
-            var marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                book: book
-            });
-            markers[i] = marker;
-            // add click listener to marker
-            google.maps.event.addListener(marker, 'click', function() {
-                var book = this.book,
-                    bookSource   = $("#cBookTemplate").html(),
-                    bookTemplate = Handlebars.compile(bookSource),
-                    context = {title: book.title,
-                        author: book.author,
-                        guarantee: book.price},
-                    html = bookTemplate(context);
-        
-                $('#searchModal .modal-content .collection').empty();
-                $('#searchModal .modal-content .collection').append(html);
-                $('#searchModal .modal-content .collection').append(html);
-                $('#searchModal').openModal();
-                // TODO MVC this
-                // TODO change it to hidesearch text, change "booktext"
-            });
+        for (var j = 0; j < users.length; j++) {
+            var cuser = users[j];
+            for (var i = 0; i < cuser.books.length; i++) {
+                var book = cuser.books[i];
+                var myLatLng = new google.maps.LatLng(cuser.location.lat, cuser.location.lng);
+                // var contentString = '<h6>' + book.title + ' by ' + book.author + '</h6>' + 
+                //                     '<img src=' + book.cover + '><br>' +
+                //                     'Retail: ' + book.retail + ', Guarantee: ' + book.price + '<br>' +
+                //                     'Genres: ' + book.genre + '<br></p>' + 
+                //                     '<a class="waves-effect waves-light btn red" id="infomationButton">More Information</a><br>';
+                // create marker using book info
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    user: cuser,
+                    books: books
+                });
+                markers[i] = marker;
+                // add click listener to marker
+                google.maps.event.addListener(marker, 'click', function() {
+                    var user = this.user;
+                    $('#searchModal .modal-content .collection').empty();
+                    for (var e = 0; e < user.books.length; e++) {
+                        var book = user.books[e],
+                        bookSource   = $("#cBookTemplate").html(),
+                        bookTemplate = Handlebars.compile(bookSource),
+                        context = { 
+                            user: book.owner,
+                            title: book.title,
+                            author: book.author,
+                            guarantee: book.price},
+                        html = bookTemplate(context);
+                        $('#searchModal .modal-content .collection').append(html);  
+                    }
+                    $('#searchModal').openModal();
+                });
+            }
         }
     };
     
@@ -239,28 +246,6 @@ function Model() {
             localStorage.lastScreen = lastScreen;
         }
         console.log("Model: Set Last screen: " + lastScreen);
-    };
-    
-    this.createBookJSON = function (ISBN, title, author, retail, price, cover, blurb, owner, genres, lat, lng, status) {
-           var bookJSON = { 
-                        "ISBN":ISBN, 
-                        "title" : title, 
-                        "author" : author, 
-                        "retail" : retail, 
-                        "price" : price, 
-                        "cover" : cover,
-                        "blurb" : blurb,
-                        "genre" : genres.toString(),
-                        "owner" : owner,
-                        "status" : status,
-                        "location": 
-                            {
-                                "lat":lat,
-                                "lng":lng
-                            }
-                        };
-            //console.log("Model: Created bookJSON: \n" + JSON.stringify(bookJSON));
-            return bookJSON;
     };
     
     this.copyBooksToFBooks = function(books, fBooks) {
@@ -288,31 +273,6 @@ function Model() {
     
     this.getBooks = function () {
         return books;  
-    };
-    
-    this.createUserJSON = function (firstname, surname, email, 
-                                    postcode, payment, maxDistance, 
-                                    books, filter, city, likes, dislikes, lat, lng) {
-        var userJSON = { 
-                        "firstname": firstname,
-                        "surname": surname,
-                        "email": email,
-                        "postcode": postcode,
-                        "payment": payment,
-                        "maxDistance": maxDistance,
-                        "books": books,
-                        "filter": filter,
-                        "city": city,
-                        "like": likes,
-                        "dislikes": dislikes,
-                        "location": 
-                            {
-                                "lat":lat,
-                                "lng":lng
-                            }
-                        };
-        //console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
-        return userJSON;
     };
     
     this.getUserInfo = function () {
@@ -411,5 +371,108 @@ function Model() {
     
     this.getUser = function () {
         return user;  
+    };
+    
+    this.getLimitedUsers = function() {
+        // return all users with limited info
+        // location, name, email, books
+        var users;
+        var fakeBooks1 = [                                                   
+                            this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
+                                                "£7", "£3.50", "testbookimg/0575094184.jpg",
+                                                "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
+                                                "Paul", ["Sci-Fi, Dystopia"], "Available")];
+        
+        var fakeBooks2 = [  this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
+                                                "£6", "£3.00", "testbookimg/0575094184.jpg",
+                                                "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
+                                                "John", ["Sci-Fi", "Dystopia"],  "Awaiting Collection"), 
+                            this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
+                                                "£4.50", "£2.50", "testbookimg/0241950430.jpg",
+                                                "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
+                                                "John", ["Fiction"], "Available"),
+                            this.createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
+                                                "£10", "£8", "testbookimg/185326041X.jpg",
+                                                "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
+                                                "John", ["Novel", "Fiction", "Drama"], "On Loan")];
+        var fakeuser1 = this.createLimitedUserJSON("Paul", "paul@paul.com", "G55", fakeBooks1, "Glasgow", 10, 5, 55.858736, -4.256491);
+        var fakeuser2 = this.createLimitedUserJSON("John", "john@john.com", "G52", fakeBooks2, "Glasgow", 16, 8, 55.865431, -4.264645);
+        users = [fakeuser1, fakeuser2];
+        return users;
+    };
+    
+    this.getNearUsers = function (user, users) {
+        // return all users within distance
+        var nearUsers, j = 0;
+        if (this.getDistance([users[i].location.lat, users[i].location.lng], [user.location.lat, user.location.lng]) < user.maxDistance) {
+            nearUsers[j++] = users[i];
+        }
+        return nearUsers;
+    };
+    
+    /** JSON CREATION **/
+    this.createBookJSON = function (ISBN, title, author, retail, price, cover, blurb, owner, genres, lat, lng, status) {
+           var bookJSON = { 
+                        "ISBN":ISBN, 
+                        "title" : title, 
+                        "author" : author, 
+                        "retail" : retail, 
+                        "price" : price, 
+                        "cover" : cover,
+                        "blurb" : blurb,
+                        "genre" : genres.toString(),
+                        "owner" : owner,
+                        "status" : status,
+                        "location": 
+                            {
+                                "lat":lat,
+                                "lng":lng
+                            }
+                        };
+            //console.log("Model: Created bookJSON: \n" + JSON.stringify(bookJSON));
+            return bookJSON;
+    };
+    this.createUserJSON = function (firstname, surname, email, 
+                                    postcode, payment, maxDistance, 
+                                    books, filter, city, likes, dislikes, lat, lng) {
+        var userJSON = { 
+                        "firstname": firstname,
+                        "surname": surname,
+                        "email": email,
+                        "postcode": postcode,
+                        "payment": payment,
+                        "maxDistance": maxDistance,
+                        "books": books,
+                        "filter": filter,
+                        "city": city,
+                        "like": likes,
+                        "dislikes": dislikes,
+                        "location": 
+                            {
+                                "lat":lat,
+                                "lng":lng
+                            }
+                        };
+        //console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
+        return userJSON;
+    };
+    
+    this.createLimitedUserJSON = function (firstname, email, postcode, books, city, likes, dislikes, lat, lng) {
+        var userJSON = { 
+                        "firstname": firstname,
+                        "email": email,
+                        "postcode": postcode,
+                        "books": books,
+                        "city": city,
+                        "like": likes,
+                        "dislikes": dislikes,
+                        "location": 
+                            {
+                                "lat":lat,
+                                "lng":lng
+                            }
+                        };
+        //console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
+        return userJSON;
     };
 }
