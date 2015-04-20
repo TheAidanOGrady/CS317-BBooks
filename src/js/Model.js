@@ -138,6 +138,11 @@ function Model() {
         this.deleteCookie('login');
         loggedIn = false;
 
+		$.ajax({
+			url: "php/logout.php"
+		}).done(function(response) {
+			console.log("SERVER LOGOUT: " + response);
+		});
         // remove below
         this.getLoginCookie();
         console.log("Model: Logged in: " + loggedIn);
