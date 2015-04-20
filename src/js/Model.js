@@ -30,7 +30,11 @@ function Model() {
         console.log("Model: Logged in: " + loggedIn);
         
         //remove below
-            book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
+        var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
+                                        "£10", "£8", "testbookimg/185326041X.jpg",
+                                        "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
+                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197),
+            book5 = this.createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
                                         "£10", "£8", "testbookimg/185326041X.jpg",
                                         "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
                                         "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197),
@@ -46,7 +50,7 @@ function Model() {
                                         "£4.50", "£2.50", "testbookimg/0241950430.jpg",
                                         "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
                                         "J. Smith", ["Fiction"], 55.860085, -4.234175);
-        books = [book1, book2, book3, book4];
+        books = [book1, book2, book3, book4, book5];
         
         this.copyBooksToFBooks(books, fBooks);
         this.setFilterBook(book3);
@@ -165,12 +169,19 @@ function Model() {
             markers[i] = marker;
             // add click listener to marker
             google.maps.event.addListener(marker, 'click', function() {
-                var book = this.book;
-                $('#searchModal .modal-content .bookTitle').text(book.title);
-                $('#searchModal .modal-content .bookAuthor').text(book.author);
-                $('#searchModal .modal-content .bookRetail').text(book.retail);
-                $('#searchModal .modal-content .bookGuarantee').text(book.price);
-                $('#searchModal .modal-content .bookGenres').text(book.genre);
+                var book = this.book,
+                    bookSource   = $("#cBookTemplate").html(),
+                    bookTemplate = Handlebars.compile(bookSource),
+                    context = {title: book.title,
+                        author: book.author,
+                        retail: book.retail,
+                        guarantee: book.price,
+                        genres: book.genre},
+                    html = bookTemplate(context);
+        
+                $('#searchModal .modal-content .collapsible').empty();
+                $('#searchModal .modal-content .collapsible').append(html);
+                $('.collapsible').collapsible({accordion: true});
                 $('#searchModal').openModal();
                 // TODO MVC this
                 // TODO change it to hidesearch text, change "booktext"

@@ -15,6 +15,7 @@ function View() {
         $(".button-collapse").sideNav({
             closeOnClick: true
         });
+        $('.collapsible').collapsible({accordion: true});
     };
 
 
