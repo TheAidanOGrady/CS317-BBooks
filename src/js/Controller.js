@@ -67,16 +67,19 @@ function Controller() {
 			addBookFunc = function() {
 				model.addBookToUser(model.getUser(), model.getCurrentBook());
                 model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
+                
+                // TODO MVC? clear books before adding as well.
+                var books = model.getUser().books;
+                var rented = false;
+                for (var i = 0; i < books.length; i++) {
+                    view.addBook(rented, books[i]);
+                    rented = !rented; // for testing
+                }
 			},
             getLocationFunc = function () {
                 model.setUserLocation(model.getUser());
             };
 
-        var books = model.getUser().books;
-        view.addBook(true, books[0]);
-        view.addBook(true, books[1]);
-        view.addBook(false, books[2]);
-        view.addBook(false, books[3]);
 
         // if user is logged in
         if (model.getLoggedIn()) {

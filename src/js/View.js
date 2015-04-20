@@ -138,6 +138,7 @@ function View() {
 
     this.addBookCallback = function (callback) {
         $("#addBookButton").click(callback);
+        $("#addBookSmallButton").click(callback);
     };
 
     this.getLocationCallback = function (callback) {
