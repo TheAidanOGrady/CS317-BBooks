@@ -61,6 +61,8 @@ function Model() {
         this.addBooksToMap(fBooks);
         
         this.getUserInfo();
+        
+        this.getDistance([55.869332, -4.292197], [55.869332, -4.292100]);
     };
 
     /*
@@ -327,5 +329,27 @@ function Model() {
 						"A. N. Owner", ["Novel", "Fiction", "Drama"], 55.861000, -4.290000, "Awaiting Postage");
 		console.log("Model: Returning current book: " + JSON.stringify(currentBook));
 		return currentBook;
-	}
+	};
+    
+    this.getDistance = function (location, location2) {
+        // distance is in Metres
+        var lat1 = location[0];
+        var lat2 = location2[0];
+        var lon1 = location[1];
+        var lon2 = location2[1];
+        var R = 6371000; // metres
+        var r1 = lat1 * Math.PI / 180;
+        var r2 = lat2 * Math.PI / 180;
+        var d1 = (lat2-lat1) * Math.PI / 180;
+        var d2 = (lon2-lon1) * Math.PI / 180;
+
+        var a = Math.sin(d1/2) * Math.sin(d1/2) +
+                Math.cos(r1) * Math.cos(r2) *
+                Math.sin(d2/2) * Math.sin(d2/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        var distance = R * c;
+        console.log("Model: Distance between two points: " + Math.round(distance) + "m");
+        return Math.round(distance);
+    };
 }
