@@ -188,10 +188,17 @@
 	<script id="bookTemplate" type="text/x-handlebars-template">
 		<div class='col s12'>
 			<div class='card grey lighten-5'>
-				<div class='card-content row'>
-					<span class='col s11 card-title red-text'>{{title}}</span>
-					<p class="col s12">{{author}}</p>
+				<div class='card-content'>
+					<div class='row'>
+						<span class='col s11 card-title red-text'>{{title}}</span>
+						<p class="col s12"><b>{{author}}</b></p>
+					</div>
+					<div class="divider"></div>
+					<div class='row'>
+						<p class="col s12">Status: {{status}}</p>
+					</div>
 				</div>
+
 			</div>
 		</div>
 	</script>

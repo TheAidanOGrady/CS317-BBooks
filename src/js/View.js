@@ -95,7 +95,7 @@ function View() {
         } else {
             books = $('#lendingTab');
         }
-        var context = {title: book.title, author: book.author};
+        var context = {title: book.title, author: book.author, status: book.status};
         var html = bookTemplate(context);
         books.append(html);         
     };
