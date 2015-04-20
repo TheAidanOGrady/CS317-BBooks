@@ -34,23 +34,23 @@ function Model() {
         var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
                                         "£10", "£8", "testbookimg/185326041X.jpg",
                                         "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197),
+                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197, "On Loan"),
             book5 = this.createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
                                         "£10", "£8", "testbookimg/185326041X.jpg",
                                         "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197),
+                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197, "On Loan"),
             book2 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
                                         "£7", "£3.50", "testbookimg/0575094184.jpg",
                                         "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                        "A. Nother Owner", ["Sci-Fi, Dystopia"], 55.8200, -4.300),
+                                        "A. Nother Owner", ["Sci-Fi, Dystopia"], 55.8200, -4.300, "Available"),
             book3 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
                                         "£6", "£3.00", "testbookimg/0575094184.jpg",
                                         "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                        "A. Smith", ["Sci-Fi", "Dystopia"], 55.826159, -4.226965),
+                                        "A. Smith", ["Sci-Fi", "Dystopia"], 55.826159, -4.226965, "Awaiting Collection"), 
             book4 = this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
                                         "£4.50", "£2.50", "testbookimg/0241950430.jpg",
                                         "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
-                                        "J. Smith", ["Fiction"], 55.860085, -4.234175);
+                                        "J. Smith", ["Fiction"], 55.860085, -4.234175, "Available");
 		this.addBookToBooks(book1, books);
 		this.addBookToBooks(book2, books);
 		this.addBookToBooks(book3, books);
@@ -157,7 +157,6 @@ function Model() {
         this.clearBooksFromMap();
         console.log("Model: Adding Books to Map");
         for (var i = 0; i < books.length; i++) {
-					console.log(books.length);
             var book = books[i];
             var myLatLng = new google.maps.LatLng(book.location.lat, book.location.lng);
             // var contentString = '<h6>' + book.title + ' by ' + book.author + '</h6>' + 
@@ -214,7 +213,7 @@ function Model() {
         console.log("Model: Set Last screen: " + lastScreen);
     };
     
-    this.createBookJSON = function (ISBN, title, author, retail, price, cover, blurb, owner, genres, lat, lng) {
+    this.createBookJSON = function (ISBN, title, author, retail, price, cover, blurb, owner, genres, lat, lng, status) {
            var bookJSON = { 
                         "ISBN":ISBN, 
                         "title" : title, 
@@ -225,6 +224,7 @@ function Model() {
                         "blurb" : blurb,
                         "genre" : genres.toString(),
                         "owner" : owner,
+                        "status" : status,
                         "location": 
                             {
                                 "lat":lat,
@@ -237,7 +237,6 @@ function Model() {
     
     this.copyBooksToFBooks = function(books, fBooks) {
         console.log("Model: Setting fBooks back to original Array");
-				console.log(books.length);
         for (var i = 0; i < books.length; i++) {
             fBooks[i] = books[i];
         }
@@ -319,14 +318,13 @@ function Model() {
 	this.addBookToBooks = function(book, books) {
 		books[books.length] = book;
 		console.log("Model: Adding book to Books: " + JSON.stringify(book));
-				console.log(books.length);
 	};
 	
 	this.getCurrentBook = function() {
 		var currentBook =   this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
 						"£10", "£8", "testbookimg/185326041X.jpg",
 						"Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-						"A. N. Owner", ["Novel", "Fiction", "Drama"], 55.861000, -4.290000);
+						"A. N. Owner", ["Novel", "Fiction", "Drama"], 55.861000, -4.290000, "Awaiting Postage");
 		console.log("Model: Returning current book: " + JSON.stringify(currentBook));
 		return currentBook;
 	}
