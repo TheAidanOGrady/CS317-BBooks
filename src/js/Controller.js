@@ -55,7 +55,12 @@ function Controller() {
             clearFilterFunc = function () {
                 model.copyBooksToFBooks(model.getBooks(), model.getFilteredBooks());
                 model.addBooksToMap(model.getFilteredBooks());
-            };
+            },
+			addBookFunc = function() {
+				model.addBookToBooks(model.getCurrentBook(), model.getBooks());
+				model.copyBooksToFBooks(model.getBooks(), model.getFilteredBooks());
+				model.addBooksToMap(model.getFilteredBooks());
+			};
 
         var books = model.getBooks();
         view.addBook(true, books[0]);
@@ -107,6 +112,8 @@ function Controller() {
         view.filterCallback(filterFunc);
         
         view.clearFilterCallback(clearFilterFunc);
+		
+		view.addBookCallback(addBookFunc);
 
         view.loginConfirmCallback(function () {
             model.login(view.getLogin());

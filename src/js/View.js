@@ -136,7 +136,10 @@ function View() {
         $("#clearFilterButton").click(callback);
     };
 
-
+	this.addBookCallback = function (callback) {
+        $("#addBookButton").click(callback);
+    };
+	
     /***************************************************************************
      *
      * NAV CALLBACKS
