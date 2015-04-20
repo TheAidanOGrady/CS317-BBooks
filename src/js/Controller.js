@@ -62,7 +62,7 @@ function Controller() {
 				model.addBooksToMap(model.getFilteredBooks());
 			},
             getLocationFunc = function () {
-                model.getLocation();
+                model.setUserLocation(model.getUser());
             };
 
         var books = model.getBooks();

@@ -29,7 +29,7 @@ function Model() {
             loggedIn = true;
         }
         console.log("Model: Logged in: " + loggedIn);
-        
+        user = this.getUserInfo();
         //remove below
         var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
                                         "£10", "£8", "testbookimg/185326041X.jpg",
@@ -59,11 +59,6 @@ function Model() {
         this.copyBooksToFBooks(books, fBooks);
         this.setFilterBook(book3);
         this.addBooksToMap(fBooks);
-        var user = this.getUserInfo();
-        var latlng = this.getLocation();
-        user.location.lat = latlng[0];
-        user.location.lng = latlng[2];
-        console.log(JSON.stringify(user));
         this.getDistance([55.869332, -4.292197], [55.869332, -4.292100]);
     };
 
@@ -322,15 +317,26 @@ function Model() {
     
     this.getUserInfo = function () {
         // return information about user from server
-        // param email?
-        var user = this.createUserJSON("Adam", "Manner", 
-                                       "amanner@gmail.com", "G56", 
-                                       "paypal", "20", books, "filter", 
-                                       "Glasgow", "10", "6", 0, 0);
+        // param emails
+        if (user == null) {
+            var user = this.createUserJSON("Adam", "Manner", 
+                               "amanner@gmail.com", "G56", 
+                               "paypal", "20", books, "filter", 
+                               "Glasgow", "10", "6", 0, 0);
+        }
         
         //TODO MVC 
         document.getElementById("userInfo").innerHTML = JSON.stringify(user);
         return user;
+    };
+    
+    this.setUserLocation = function(user) {
+        var location = this.getLocation();
+        console.log(location);
+        this.createUserJSON(user.firstname, user.surname, user.email, 
+                            user.postcode, user.payment, user.maxDistance,
+                            user.books, user.filter, user.city, user.likes,
+                            user.dislikes, location[0], location[1]);
     };
     
     this.filterBooks = function(filter) {
@@ -401,5 +407,9 @@ function Model() {
             return [lat, long];
         }
         return [0, 0];
+    };
+    
+    this.getUser = function () {
+        return user;  
     };
 }
