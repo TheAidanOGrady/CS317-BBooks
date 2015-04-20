@@ -278,6 +278,10 @@ function Model() {
         useFilter = boolean;  
     };
     
+    this.getUseFilter = function () {
+        return useFilter;   
+    };
+    
     this.getBooks = function () {
         return books;  
     };
@@ -354,7 +358,6 @@ function Model() {
         var r2 = lat2 * Math.PI / 180;
         var d1 = (lat2-lat1) * Math.PI / 180;
         var d2 = (lon2-lon1) * Math.PI / 180;
-
         var a = Math.sin(d1/2) * Math.sin(d1/2) +
                 Math.cos(r1) * Math.cos(r2) *
                 Math.sin(d2/2) * Math.sin(d2/2);

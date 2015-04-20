@@ -18,6 +18,8 @@ function Controller() {
                 model.setLastScreen("search");
                 model.createMap();
                 model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
+                Materialize.toast('Displaying Books within ' + 
+                                  model.getUserInfo.maxDistance + 'km', 2000)
             },
             signupFunc = function () {
                 view.switchTo("signup");
@@ -30,6 +32,7 @@ function Controller() {
             homeFunc = function () {
                 view.switchTo("home");
                 model.setLastScreen("home");
+                Materialize.toast('Welcome, ' + model.getUserInfo.firstname, 2000);
             },
             bookFunc = function () {
                 view.switchTo("books");
@@ -48,12 +51,18 @@ function Controller() {
                 model.setLastScreen("welcome");
             },
             filterFunc = function () {
-                model.setUseFilter(true);
+                model.setUseFilter(!model.getUseFilter());
                 model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
+                if (model.getUseFilter()) {
+                    Materialize.toast('Filter on.', 2000)
+                } else {
+                    Materialize.toast('Filter off.', 2000)
+                }
             },
             clearFilterFunc = function () {
                 model.setUseFilter(false);
                 model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
+                Materialize.toast('Filter cleared.', 2000)
             },
 			addBookFunc = function() {
 				model.addBookToUser(model.getUser(), model.getCurrentBook());
