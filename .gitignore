@@ -1,2 +1,2 @@
 sftp-config.json
-connect.php
+src/php/connect.php
