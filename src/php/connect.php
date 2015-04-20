@@ -1,4 +1,7 @@
 <?php
-	mysql_connect("devweb2014.cis.strath.ac.uk", "dsb12187", "outioner");
-	mysql_select_db("dsb12187") or die(mysql_error());
+	$login = "login";
+	$password = "password";
+	$db = $login;
+	mysql_connect("devweb2014.cis.strath.ac.uk", $login, $password);
+	mysql_select_db($db) or die(mysql_error());
 ?>
