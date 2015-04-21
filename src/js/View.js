@@ -96,15 +96,25 @@ function View() {
     };
 
     this.addBook = function (borrow, book) {
-        var books;
+        var books,
+            lend,
+            context,
+            html;
         if (borrow) {
             books = $('#borrowingTab');
+            lend = "Borrowing from";
         } else {
             books = $('#lendingTab');
+            lend = "Lending to";
         }
-        var context = {title: book.title, author: book.author, owner: book.owner, status: book.status};
-        var html = bookTemplate(context);
-        books.append(html); 
+
+        context = {title: book.title,
+            author: book.author,
+            lend: lend,
+            owner: book.owner,
+            status: book.status};
+        html = bookTemplate(context);
+        books.append(html);
     };
 
     /***************************************************************************
