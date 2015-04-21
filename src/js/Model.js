@@ -32,27 +32,27 @@ function Model() {
         console.log("Model: Logged in: " + loggedIn);
         user = this.getUserInfo();
         //remove below
+        user = this.getUserInfo();
         var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
                                         "£10", "£8", "testbookimg/185326041X.jpg",
                                         "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197, "On Loan"),
+                                        user.ID, ["Novel", "Fiction", "Drama"], "On Loan"),
             book5 = this.createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
                                         "£10", "£8", "testbookimg/185326041X.jpg",
                                         "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-                                        "A. N. Owner", ["Novel", "Fiction", "Drama"], 55.869332, -4.292197, "On Loan"),
+                                        user.ID, ["Novel", "Fiction", "Drama"], "On Loan"),
             book2 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
                                         "£7", "£3.50", "testbookimg/0575094184.jpg",
                                         "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                        "A. Nother Owner", ["Sci-Fi, Dystopia"], 55.8200, -4.300, "Available"),
+                                        user.ID,  ["Sci-Fi, Dystopia"], "On Loan"),
             book3 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
                                         "£6", "£3.00", "testbookimg/0575094184.jpg",
                                         "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                        "A. Smith", ["Sci-Fi", "Dystopia"], 55.826159, -4.226965, "Awaiting Collection"), 
+                                        user.ID, ["Sci-Fi", "Dystopia"], "Awaiting Collection"), 
             book4 = this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
                                         "£4.50", "£2.50", "testbookimg/0241950430.jpg",
                                         "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
-                                        "J. Smith", ["Fiction"], 55.860085, -4.234175, "Available");
-        user = this.getUserInfo();
+                                        1, ["Fiction"], "Available");
         this.addBookToUser(user, book1);
 		this.addBookToUser(user, book2);
 		this.addBookToUser(user, book3);
@@ -304,7 +304,7 @@ function Model() {
         // param emails
         var books = [];
         if (user == null) {
-            var user = this.createUserJSON("Adam", "Manner", 
+            var user = this.createUserJSON("5", "Adam", "Manner", 
                                "amanner@gmail.com", "G56", 
                                "paypal", 6, books, "filter", 
                                "Glasgow", 10, 6, 55.8580,-4.2590);
@@ -417,23 +417,23 @@ function Model() {
         var fakeBooks1 = [  this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
                                                 "£7", "£3.50", "testbookimg/0575094184.jpg",
                                                 "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                                "Paul", ["Sci-Fi, Dystopia"], "Available")];
+                                                0, ["Sci-Fi, Dystopia"], "Available")];
         
         var fakeBooks2 = [  this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
                                                 "£6", "£3.00", "testbookimg/0575094184.jpg",
                                                 "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                                "John", ["Sci-Fi", "Dystopia"],  "Awaiting Collection"), 
+                                                1, ["Sci-Fi", "Dystopia"],  "Awaiting Collection"), 
                             this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
                                                 "£4.50", "£2.50", "testbookimg/0241950430.jpg",
                                                 "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
-                                                "John", ["Fiction"], "Available")];
+                                                1, ["Fiction"], "Available")];
         var fakeBooks3 = [  this.createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
                                                 "£10", "£8", "testbookimg/185326041X.jpg",
                                                 "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-                                                "John", ["Novel", "Fiction", "Drama"], "On Loan")];
-        var fakeuser1 = this.createLimitedUserJSON("Paul", "paul@paul.com", "G55", fakeBooks1, "Glasgow", 10, 5, 55.858736, -4.256491);
-        var fakeuser2 = this.createLimitedUserJSON("John", "john@john.com", "G52", fakeBooks2, "Glasgow", 16, 8, 55.865431, -4.264645);
-        var fakeuser3 = this.createLimitedUserJSON("Jim", "jim@jim.com", "G44", fakeBooks3, "Glasgow", 16, 3, 55.805612, -4.239677);
+                                                2, ["Novel", "Fiction", "Drama"], "On Loan")];
+        var fakeuser1 = this.createLimitedUserJSON(0, "Paul", "paul@paul.com", "G55", fakeBooks1, "Glasgow", 10, 5, 55.858736, -4.256491);
+        var fakeuser2 = this.createLimitedUserJSON(1, "John", "john@john.com", "G52", fakeBooks2, "Glasgow", 16, 8, 55.865431, -4.264645);
+        var fakeuser3 = this.createLimitedUserJSON(2, "Jim",   "jim@jim.com", "G44", fakeBooks3, "Glasgow", 16, 3, 55.805612, -4.239677);
         users = [fakeuser1, fakeuser2, fakeuser3];
         return users;
     };
@@ -448,7 +448,7 @@ function Model() {
     };
     
     /** JSON CREATION **/
-    this.createBookJSON = function (ISBN, title, author, retail, price, cover, blurb, owner, genres, lat, lng, status) {
+    this.createBookJSON = function (ISBN, title, author, retail, price, cover, blurb, ownerID, genres, status) {
            var bookJSON = { 
                         "ISBN":ISBN, 
                         "title" : title, 
@@ -458,21 +458,17 @@ function Model() {
                         "cover" : cover,
                         "blurb" : blurb,
                         "genre" : genres.toString(),
-                        "owner" : owner,
-                        "status" : status,
-                        "location": 
-                            {
-                                "lat":lat,
-                                "lng":lng
-                            }
+                        "owner" : ownerID,
+                        "status" : status
                         };
             //console.log("Model: Created bookJSON: \n" + JSON.stringify(bookJSON));
             return bookJSON;
     };
-    this.createUserJSON = function (firstname, surname, email, 
+    this.createUserJSON = function (ID, firstname, surname, email, 
                                     postcode, payment, maxDistance, 
                                     books, filter, city, likes, dislikes, lat, lng) {
         var userJSON = { 
+                        "ID": ID,
                         "firstname": firstname,
                         "surname": surname,
                         "email": email,
@@ -494,8 +490,9 @@ function Model() {
         return userJSON;
     };
     
-    this.createLimitedUserJSON = function (firstname, email, postcode, books, city, likes, dislikes, lat, lng) {
+    this.createLimitedUserJSON = function (ID, firstname, email, postcode, books, city, likes, dislikes, lat, lng) {
         var userJSON = { 
+                        "ID": ID,
                         "firstname": firstname,
                         "email": email,
                         "postcode": postcode,
