@@ -90,24 +90,29 @@ function Controller() {
         // if user is logged in
         if (model.getLoggedIn()) {
             // go to their last screen
-            view.toggleNav();
             switch (model.getLastScreen()) {
             case "addBook":
+                view.toggleNav();
                 addBookFunc();
                 break;
             case "search":
+                view.toggleNav();
                 searchFunc();
                 break;
             case "home":
+                view.toggleNav();
                 homeFunc();
                 break;
             case "books":
+                view.toggleNav();
                 bookFunc();
                 break;
             case "settings":
+                view.toggleNav();
                 settingsFunc();
                 break;
             case "about":
+                view.toggleNav();
                 aboutFunc();
                 break;
             }
