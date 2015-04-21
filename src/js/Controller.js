@@ -74,6 +74,8 @@ function Controller() {
                 Materialize.toast('Filter cleared.', 2000)
             },
 			addBookFunc = function() {
+                view.switchTo("addBook");
+                model.setLastScreen("addBook");
 				model.addBookToUser(model.getUser(), model.getCurrentBook());
                 model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
 
@@ -90,6 +92,9 @@ function Controller() {
             // go to their last screen
             view.toggleNav();
             switch (model.getLastScreen()) {
+            case "addBook":
+                addBookFunc();
+                break;
             case "search":
                 searchFunc();
                 break;

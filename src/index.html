@@ -17,13 +17,13 @@
 	<header>
 		<div class="navbar-fixed">
 			<nav class="red" role="navigation">
-				<div class="nav-wrapper" id="nav">
+				<div class="nav-wrapper container" id="nav">
 					<a id="logo-container" class="brand-logo">Bbook</a>
 					<a id="nav-menu" href="#" data-activates="nav-mobile" class="button-collapse hide"><i class="mdi-navigation-menu"></i></a>
 						
-						<div id="searchFilterMenu" >
+						<div id="searchFilterMenu" class="hide">
 							<ul id="searchDropdown" class="dropdown-content">
-				      			<li><a href="#!" id="filterButton">Filter</a></li>
+				      			<li><a href="#!" id="filterButton">Filter Off</a></li>
 								<li><a href="#!" id="clearFilterButton">Clear</a></li>
 		      				</ul>
 
@@ -120,7 +120,7 @@
 				</form>	
 				<a class="waves-effect waves-light btn red" id="signupConfirm">Sign Up</a>
 				<a class="waves-effect waves-light btn red" id="signupCancel">Cancel</a>
-			</div>				
+			</div>
 		</div>
 
 		<!-- These divs should only be accessible when the user is logged in -->
@@ -132,11 +132,34 @@
 			</div>
 		</div>
 
+		<div class="BBookSection hide" id="addBook">
+			<div class="row center">
+				<form class="col s12" id="addBookForm">
+					<div class="row">
+						<div class="input-field col s12">
+							<input name="isbn" type="number" class="validate">
+							<label for="isbn">ISBN</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="file-field input-field">
+							<input class="file-path validate" type="text"/>
+							<div class="btn red">
+								<span>Image</span>
+								<input type="file" accept="image/*" capture="camera"/>
+							</div>
+						</div>
+    				</div>
+				</form>	
+				<a class="waves-effect waves-light btn red" id="addBookConfirm">Sign Up</a>
+				<a class="waves-effect waves-light btn red" id="addBookCancel">Cancel</a>
+			</div>				
+
+		</div>
+
 		<div class="BBookSection hide" id="search">
 		    <div id="map-canvas"></div> 			
-<!--             <a class="waves-effect waves-light btn red" style="position: fixed; bottom: 0px; left: 0px" id="filterButton">Filter</a>
-            <a class="waves-effect waves-light btn red" style="position: fixed; bottom: 0px; right: 0px;" id="clearFilterButton">Clear</a><br>  
- -->			 <!-- Modal Structure -->
+			 <!-- Modal Structure -->
 			 <div id="searchModal" class="modal bottom-sheet">
 			 	<div class="modal-content">
 			 	    <h4 id="modalUser"></h5>
