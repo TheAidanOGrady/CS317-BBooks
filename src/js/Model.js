@@ -322,6 +322,9 @@ function Model() {
                             user.postcode, user.payment, user.maxDistance,
                             user.books, user.filter, user.city, user.likes,
                             user.dislikes, location[0], location[1]);
+                    if (localStorage) {
+                console.log(localStorage.coord);
+            }
     };
     
     this.filterBooks = function(filter) {
@@ -387,10 +390,11 @@ function Model() {
         function foundLocation(position) {
             var lat = position.coords.latitude;
             var long = position.coords.longitude;
-            console.log("Model: get location: " + lat + ' ' + long);
-            return [lat, long];
+            if (localStorage) {
+                localStorage.lastcoord = [lat, long];
+            }
         }
-        return [0, 0];
+        console.log(localStorage.lastcoord);
     };
     
     this.getUser = function () {

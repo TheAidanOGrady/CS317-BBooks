@@ -76,6 +76,7 @@ function Controller() {
                 }
 			},
             getLocationFunc = function () {
+                Materialize.toast('Getting Location.', 2000)
                 model.setUserLocation(model.getUser());
             };
 
