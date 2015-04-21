@@ -142,7 +142,7 @@ function Controller() {
         
         view.clearFilterCallback(clearFilterFunc);
 		
-		view.addBookCallback(addBookFunc);
+        view.addBookCallback(addBookFunc);
         
         view.getLocationCallback(getLocationFunc);
 
@@ -160,6 +160,14 @@ function Controller() {
             model.logout();
             welcomeFunc();
             view.toggleNav();
+        });
+        
+        view.amendDetailsCallback(function () {
+            var newDetails = view.getChangeDetails();
+            model.amendUserDetails(newDetails.firstName, newDetails.lastName, 
+                                   newDetails.email, newDetails.postcode, 
+                                   newDetails.maxDistance, "Glasgow", "", "");
+            model.updateUserDatabase();
         });
 
         Materialize.toast('Welcome, ' + model.getUser().firstname, 2000);

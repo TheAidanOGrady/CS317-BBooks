@@ -192,10 +192,45 @@
 			<div class="col s12" id = "userInfo">
 				<p>Hello user, you should be logged in now. Change your settings here.</p>
 			</div>
-            <div class="col s12" id = "userCoords">
-				<p>Coords</p>
-			</div>
-            <a class="waves-effect waves-light btn red" id="getLocationButton">Get Location</a>
+            <div class="row center">
+                <form class="col s12" id="changeDetailForm">
+                    <div class="row">
+                        <div class="input-field col s2">
+                            <input name="firstnameSettings" type="text" class="validate">
+                            <label for="firstnameSettings">First Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s2">
+                            <input name="surnameSettings" type="text" class="validate">
+                            <label for="surameSettings">Surname</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s2">
+                            <input name="emailSettings" type="text" class="validate">
+                            <label for="emailSettings">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s2">
+                            <input name="postcodeSettings" type="text" class="validate">
+                            <label for="postcodeSettings">Postcode</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s2">
+                            <input name="maxDistanceSettings" type="text" class="validate">
+                            <label for="maxDistanceSettings">Max Distance</label>
+                        </div>
+                    </div>
+                </form>
+                <a class="waves-effect waves-light btn red" id="amendDetailsButton">Amend Changes</a>
+                <div class="col s12" id = "userCoords">
+                    <p>Coords</p>
+                </div>
+                <a class="waves-effect waves-light btn red" id="getLocationButton">Get Location</a>
+            </div>
 		</div>
 
 		<div class="BBookSection row hide" id="about">

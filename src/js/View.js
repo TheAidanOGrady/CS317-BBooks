@@ -48,6 +48,16 @@ function View() {
         details.password2 = $("#signupForm :input[name=passwordConfirm]").val();
         return details;
     };
+    
+    this.getChangeDetails = function () {
+        var details = {};
+        details.firstName = $("#changeDetailForm :input[name=firstnameSettings]").val();
+        details.lastName = $("#changeDetailForm :input[name=surnameSettings]").val();
+        details.email = $("#changeDetailForm :input[name=emailSettings]").val();
+        details.postcode = $("#changeDetailForm :input[name=postcodeSettings]").val();
+        details.maxDistance = $("#changeDetailForm :input[name=maxDistanceSettings]").val();
+        return details;
+    };
 
     /***************************************************************************
      *
@@ -159,6 +169,10 @@ function View() {
 
     this.getLocationCallback = function (callback) {
         $("#getLocationButton").click(callback);
+    };
+    
+    this.amendDetailsCallback = function (callback) {
+        $("#amendDetailsButton").click(callback);
     };
 
     /***************************************************************************

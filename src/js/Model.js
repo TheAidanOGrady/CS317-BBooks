@@ -310,6 +310,28 @@ function Model() {
         return books;  
     };
     
+    this.amendUserDetails = function (  firstname, surname, email, postcode, 
+                                        maxDistance, city, lat, lng) {
+        if (firstname == "") firstname = user.firstname;
+        if (surname == "") surname = user.surname;
+        if (email == "") email = user.email;
+        if (postcode == "") postcode = user.postcode;
+        //if (payment == "") payment = user.payment;
+        if (maxDistance == "") maxDistance = user.maxDistance;
+        if (city == "") city = user.city;
+        if (lat == "") lat = user.location.lat;
+        if (lng == "") lng = user.location.lng;
+        user = this.createUserJSON(user.ID, firstname, surname, 
+                                   email, postcode, user.payment, 
+                                   maxDistance, user.books, user.filter, 
+                                   user.city, user.likes, user.dislikes, lat, lng);
+    };
+    
+    this.updateUserDatabase = function () {
+        //uploads current user data to database
+        console.log("Model: Uploading local user to database: " + JSON.stringify(user));
+    };
+    
     this.getUserInfo = function () {
         // return information about user from server
         // param emails
