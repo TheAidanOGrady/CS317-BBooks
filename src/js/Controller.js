@@ -36,7 +36,6 @@ function Controller() {
             bookFunc = function () {
                 view.switchTo("books");
                 model.setLastScreen("books");
-                // TODO MVC? clear books before adding as well.
                 var books = model.getUser().books;
                 for (var i = 0; i < books.length; i++) {
                     if (books[i].owner == model.getUser().ID) {
@@ -81,7 +80,8 @@ function Controller() {
 			},
             getLocationFunc = function () {
                 Materialize.toast('Getting Location.', 2000)
-                model.setUserLocation(model.getUser());
+                model.getUserLocation(model.getUser());
+                model.getUserInfo();
             };
 
 

@@ -10,11 +10,12 @@ function Model() {
         books = [],
         fBooks = [],
         markers = [],
+        user, // local user
         useFilter = false,
         filterBook,
         loggedIn = true,
-        user, // local user
-		currentBook;
+		currentBook, 
+        coords;
 
     
     //remove below
@@ -28,6 +29,13 @@ function Model() {
         // ignore JSLints suggestion to change != to !==
         if (this.getLoginCookie() != null) {
             loggedIn = true;
+        }
+        if (localStorage) {
+            if (!localStorage.coords) {
+                localStorage.coords = [55.8580,-4.2590];
+            } else {
+                coords = localStorage.coords; 
+            }
         }
         console.log("Model: Logged in: " + loggedIn);
         user = this.getUserInfo();
@@ -306,28 +314,27 @@ function Model() {
         // return information about user from server
         // param emails
         var books = [];
-        if (user == null) {
+        var coords = [0.0, 0.0];
+        if (localStorage) {
+            coords = (localStorage.coords).split(","); 
+        }
             var user = this.createUserJSON("5", "Adam", "Manner", 
                                "amanner@gmail.com", "G56", 
                                "paypal", 6, books, "filter", 
-                               "Glasgow", 10, 6, 55.8580,-4.2590);
-        }
-        
+                               "Glasgow", 10, 6, parseFloat(coords[0]), parseFloat(coords[1]));
         //TODO MVC 
         document.getElementById("userInfo").innerHTML = JSON.stringify(user);
         return user;
     };
     
-    this.setUserLocation = function(user) {
-        var location = this.getLocation();
-        console.log(location);
-        this.createUserJSON(user.firstname, user.surname, user.email, 
-                            user.postcode, user.payment, user.maxDistance,
-                            user.books, user.filter, user.city, user.likes,
-                            user.dislikes, location[0], location[1]);
-                    if (localStorage) {
-                console.log(localStorage.coord);
+    this.getUserLocation = function() {
+        this.getLocation(function (returnVal) {
+            if (localStorage) {
+                console.log("Previous Location: " + localStorage.coord);
+                localStorage.coords = [returnVal.latitude, returnVal.longitude];
+                console.log("New Location: " + localStorage.coord);
             }
+        });
     };
     
     this.filterBooks = function(filter) {
@@ -342,7 +349,6 @@ function Model() {
                     console.log("Model: Title Match");
                     fBooks[booksFiltered] = books[i];   
                     booksFiltered++;
-                    console.log(books[i].title + ":" + filter.title);
                 }
             }
             //console.log("Model: Books Found: " + booksFiltered);
@@ -402,16 +408,16 @@ function Model() {
         return Math.round(distance / 1000);
     };
     
-    this.getLocation = function (user) {
-        navigator.geolocation.getCurrentPosition(foundLocation);
-        function foundLocation(position) {
-            var lat = position.coords.latitude;
-            var long = position.coords.longitude;
-            if (localStorage) {
-                localStorage.lastcoord = [lat, long];
-            }
-        }
-        console.log(localStorage.lastcoord);
+    this.getLocation = function (callback) {
+        navigator.geolocation.getCurrentPosition(
+              function (position) {
+                var returnValue = {
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude
+                }
+                callback(returnValue);
+              }
+            )
     };
     
     this.getUser = function () {
@@ -419,7 +425,6 @@ function Model() {
     };
     
     this.getUsersBooks = function () {
-        console.log("user books "+ user.books);
         return user.books;  
     };
     
@@ -481,6 +486,7 @@ function Model() {
             //console.log("Model: Created bookJSON: \n" + JSON.stringify(bookJSON));
             return bookJSON;
     };
+    
     this.createUserJSON = function (ID, firstname, surname, email, 
                                     postcode, payment, maxDistance, 
                                     books, filter, city, likes, dislikes, lat, lng) {
@@ -499,8 +505,8 @@ function Model() {
                         "dislikes": dislikes,
                         "location": 
                             {
-                                "lat":lat,
-                                "lng":lng
+                                "lat": parseFloat(lat),
+                                "lng": parseFloat(lng)
                             }
                         };
         //console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
@@ -519,12 +525,12 @@ function Model() {
                         "dislikes": dislikes,
                         "location": 
                             {
-                                "lat":lat,
-                                "lng":lng
+                                "lat": parseFloat(lat),
+                                "lng": parseFloat(lng)
                             },
                         "distance": this.getDistance([lat, lng], [this.getUser().location.lat, this.getUser().location.lng])
                         };
-        console.log("Model: Created UserLimitedJSON: " + JSON.stringify(userJSON));
+        //console.log("Model: Created UserLimitedJSON: " + JSON.stringify(userJSON));
         return userJSON;
     };
 }
