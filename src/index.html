@@ -17,17 +17,19 @@
 	<header>
 		<div class="navbar-fixed">
 			<nav class="red" role="navigation">
-				<div class="nav-wrapper container" id="nav">
+				<div class="nav-wrapper" id="nav">
 					<a id="logo-container" class="brand-logo">Bbook</a>
 					<a id="nav-menu" href="#" data-activates="nav-mobile" class="button-collapse hide"><i class="mdi-navigation-menu"></i></a>
+						
+						<div id="searchFilterMenu" >
+							<ul id="searchDropdown" class="dropdown-content">
+				      			<li><a href="#!" id="filterButton">Filter</a></li>
+								<li><a href="#!" id="clearFilterButton">Clear</a></li>
+		      				</ul>
 
-					<div class="right hide" id="searchFilterMenu">
-		      			<a class="dropdown-button" href="#!" data-activates="searchDropdown"><i class="mdi-navigation-more-vert right"></i></a>
-		      			<ul id="searchDropdown" class="dropdown-content">
-			      			<li><a href="#!" id="filterButton">Filter</a></li>
-							<li><a href="#!" id="clearFilterButton">Clear</a></li>
-		      			</ul>
-	      			</div>
+			      			<a class="dropdown-button right" href="#!" data-activates="searchDropdown"><i class="mdi-navigation-more-vert"></i></a>
+
+						</div>
 
 					<ul id="nav-desktop" class="right hide-on-med-and-down hide">
 						<li class="homeMenu"><a href="#">Home</a></li>

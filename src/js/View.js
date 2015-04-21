@@ -16,7 +16,7 @@ function View() {
             closeOnClick: true
         });
         $('.collapsible').collapsible({accordion: true});
-        $(".dropdown-button").dropdown({constrainwidth: false,belowOrigin: true});
+        $(".dropdown-button").dropdown({constrainwidth: false});
     };
 
 
