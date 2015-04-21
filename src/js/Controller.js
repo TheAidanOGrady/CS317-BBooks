@@ -36,6 +36,17 @@ function Controller() {
             bookFunc = function () {
                 view.switchTo("books");
                 model.setLastScreen("books");
+                // TODO MVC? clear books before adding as well.
+                var books = model.getUser().books;
+                for (var i = 0; i < books.length; i++) {
+                    if (books[i].owner == model.getUser().ID) {
+                        console.log("user owns book: true");
+                        view.addBook(true, books[i]);
+                    } else {
+                        console.log("user owns book: false");
+                        view.addBook(false, books[i]);
+                    }
+                }
             },
             settingsFunc = function () {
                 view.switchTo("settings");
@@ -66,14 +77,7 @@ function Controller() {
 			addBookFunc = function() {
 				model.addBookToUser(model.getUser(), model.getCurrentBook());
                 model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
-                
-                // TODO MVC? clear books before adding as well.
-                var books = model.getUser().books;
-                var rented = false;
-                for (var i = 0; i < books.length; i++) {
-                    view.addBook(rented, books[i]);
-                    rented = !rented; // for testing
-                }
+
 			},
             getLocationFunc = function () {
                 Materialize.toast('Getting Location.', 2000)
