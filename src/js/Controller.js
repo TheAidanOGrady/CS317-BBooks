@@ -168,6 +168,7 @@ function Controller() {
                                    newDetails.email, newDetails.postcode, 
                                    newDetails.maxDistance, "Glasgow", "", "");
             model.updateUserDatabase();
+            Materialize.toast('Details Amended.', 2000);
         });
 
         Materialize.toast('Welcome, ' + model.getUser().firstname, 2000);
