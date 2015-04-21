@@ -115,6 +115,8 @@ function Controller() {
                 view.toggleNav();
                 aboutFunc();
                 break;
+            default:
+                welcomeFunc();
             }
         } else {
             welcomeFunc();
