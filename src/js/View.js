@@ -16,6 +16,7 @@ function View() {
             closeOnClick: true
         });
         $('.collapsible').collapsible({accordion: true});
+        $(".dropdown-button").dropdown({constrainwidth: false,belowOrigin: true});
     };
 
 
@@ -76,6 +77,12 @@ function View() {
     this.switchTo = function (div) {
         $("#mainView > .BBookSection").addClass("hide");
         $("#" + div).removeClass("hide");
+
+        if (div === "search") {
+            $("#searchFilterMenu").removeClass("hide");
+        } else {
+            $("#searchFilterMenu").addClass("hide");            
+        }
     };
 
     /*
@@ -99,7 +106,6 @@ function View() {
         var html = bookTemplate(context);
         books.append(html);         
     };
-
 
     /***************************************************************************
      *

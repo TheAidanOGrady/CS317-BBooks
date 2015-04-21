@@ -32,7 +32,6 @@ function Controller() {
             homeFunc = function () {
                 view.switchTo("home");
                 model.setLastScreen("home");
-                Materialize.toast('Welcome, ' + model.getUser().firstname, 2000);
             },
             bookFunc = function () {
                 view.switchTo("books");
@@ -145,6 +144,8 @@ function Controller() {
             welcomeFunc();
             view.toggleNav();
         });
+
+        Materialize.toast('Welcome, ' + model.getUser().firstname, 2000);
 
     };
 }

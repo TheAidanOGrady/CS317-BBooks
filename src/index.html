@@ -9,6 +9,7 @@
 	<link rel="icon" sizes="192x192" href="img/icon.png" />
 	<link rel="apple-touch-icon" href="img/icon.png" />
 	<link rel="stylesheet" href="css/materialize.css" />
+	<link rel="stylesheet" href="css/style.css" />
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 </head>
 
@@ -19,6 +20,14 @@
 				<div class="nav-wrapper container" id="nav">
 					<a id="logo-container" class="brand-logo">Bbook</a>
 					<a id="nav-menu" href="#" data-activates="nav-mobile" class="button-collapse hide"><i class="mdi-navigation-menu"></i></a>
+
+					<div class="right hide" id="searchFilterMenu">
+		      			<a class="dropdown-button" href="#!" data-activates="searchDropdown"><i class="mdi-navigation-more-vert right"></i></a>
+		      			<ul id="searchDropdown" class="dropdown-content">
+			      			<li><a href="#!" id="filterButton">Filter</a></li>
+							<li><a href="#!" id="clearFilterButton">Clear</a></li>
+		      			</ul>
+	      			</div>
 
 					<ul id="nav-desktop" class="right hide-on-med-and-down hide">
 						<li class="homeMenu"><a href="#">Home</a></li>
@@ -121,17 +130,17 @@
 			</div>
 		</div>
 
-		<div class="BBookSection row hide" id="search">
-            <a class="waves-effect waves-light btn red" style="position: absolute; bottom: 0px; left: 0px" id="filterButton">Filter</a>
-            <a class="waves-effect waves-light btn red" style="position: absolute; bottom: 0px; right: 0px;" id="clearFilterButton">Clear</a><br>  
-			 <!-- Modal Structure -->
+		<div class="BBookSection hide" id="search">
+		    <div id="map-canvas"></div> 			
+<!--             <a class="waves-effect waves-light btn red" style="position: fixed; bottom: 0px; left: 0px" id="filterButton">Filter</a>
+            <a class="waves-effect waves-light btn red" style="position: fixed; bottom: 0px; right: 0px;" id="clearFilterButton">Clear</a><br>  
+ -->			 <!-- Modal Structure -->
 			 <div id="searchModal" class="modal bottom-sheet">
 			 	<div class="modal-content">
 			 	    <h4 id="modalUser"></h5>
 		 			<ul class="collection"></ul>
 	 			</div>
 			 </div>
-            <div id="map-canvas" style="position: absolute; right: 0px; left: 0px; bottom: 0px; top: 20px"></div> 			
 		</div>
 
 		<div class="BBookSection hide" id="books">
@@ -140,9 +149,12 @@
 				<li class="tab col s3"><a href="#lendingTab">Lending</a></li>
 			</ul>
 			<div id="borrowingTab" class="row"></div>
-			<div id="lendingTab" class="row"></div>
-            <a class="btn-floating btn-large waves-effect waves-light red" style="position: absolute; bottom: 10px; right: 10px;" id="addBookSmallButton">
-                <i class="mdi-content-add"></i></a>
+			<div id="lendingTab" class="row">
+				<a class="btn-floating btn-large waves-effect waves-light red" id="addBookSmallButton">
+                <i class="mdi-content-add"></i>
+            	</a>
+			</div>
+
   		</div>
 
 		<div class="BBookSection row hide" id="settings">
