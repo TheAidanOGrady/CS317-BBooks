@@ -89,7 +89,7 @@ function View() {
      * Toggles the display of the nav menus.
      */
     this.toggleNav = function () {
-        console.log("View: Toggling Nav Bar");
+        //console.log("View: Toggling Nav Bar");
         $("#nav-desktop").toggleClass("hide");
         $("#nav-mobile").toggleClass("hide");
         $("#nav-menu").toggleClass("hide");
@@ -102,9 +102,9 @@ function View() {
         } else {
             books = $('#lendingTab');
         }
-        var context = {title: book.title, author: book.author, status: book.status};
+        var context = {title: book.title, author: book.author, owner: book.owner, status: book.status};
         var html = bookTemplate(context);
-        books.append(html);         
+        books.append(html); 
     };
 
     /***************************************************************************
