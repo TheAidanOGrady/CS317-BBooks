@@ -3,7 +3,7 @@
 include("connect.php");
 
 if (isset($_GET['email']) && isset($_GET['password'])) {     
-    $result = mysql_query("SELECT * FROM Users WHERE email = '{$_GET['email']}' AND password = '{$_GET['password']}'") or die(mysql_error());
+    $result = mysql_query("SELECT * FROM users WHERE email = '{$_GET['email']}' AND password = '{$_GET['password']}'") or die(mysql_error());
     if($row = mysql_fetch_array($result)) {
 		session_start();
 		$_SESSION['id'] = $row[0];
