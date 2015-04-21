@@ -31,7 +31,7 @@ function View() {
      */
     this.getLogin = function () {
         var details = {};
-        details.username = $("#loginForm :input[name=email]").val();
+        details.email = $("#loginForm :input[name=email]").val();
         details.password = $("#loginForm :input[name=password]").val();
         return details;
     };

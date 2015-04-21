@@ -85,7 +85,7 @@ function Model() {
 			// Handle error messages:
 			// err-wrongdata : email or password is invalid
 			// err-nodata : nothing was entered
-			// err-nouser : username was not entered
+			// err-noemail : email was not entered
 			// err-nopw : password was not entered
 		}
 	};
