@@ -20,7 +20,7 @@ $id = $_SESSION['id'];
 //Insert the information into the table “website”
 mysql_query("INSERT INTO `books`(`isbn`, `Title`, `author`, `blurb`, `genre`) VALUES ('$isbn','$title','$author','$blurb','$genre','$retail')")
 or die(mysql_error());
-mysql_query("INSERT INTO `loans`(`lender_id`, `isbn`, `price`, `condition`, `status`,'lend_time') VALUES ('$id','$isbn','$price','$condition','$status','$lendtime')")
+mysql_query("INSERT INTO `loans`(`lender_id`, `isbn`, `price`, `book_condition`, `status`,'lend_time') VALUES ('$id','$isbn','$price','$condition','$status','$lendtime')")
 or die(mysql_error());  
 
 echo "Book has been added<br/>";

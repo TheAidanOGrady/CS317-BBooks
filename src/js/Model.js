@@ -265,6 +265,9 @@ function Model() {
         if (localStorage) {
             localStorage.lastScreen = lastScreen;
         }
+		if (screen === "books") {
+			this.updateBooks();
+		}
         console.log("Model: Set Last screen: " + lastScreen);
     };
     
@@ -362,6 +365,20 @@ function Model() {
 						"A. N. Owner", ["Novel", "Fiction", "Drama"], "Awaiting Postage");
 		//console.log("Model: Returning current book: " + JSON.stringify(currentBook));
 		return currentBook;
+	};
+	
+	this.updateBooks = function() {
+		console.log("Model: Getting books");
+        $.ajax({
+			url: "php/getBooks.php"
+		}).done(this.updateBooksResponse);
+	};
+	
+	this.updateBooksResponse = function(response) {
+		console.log("SERVER: " + response);
+		// clear the books array
+		// populate the new array from response (xml)
+		// refresh the screen
 	};
     
     this.getDistance = function (location, location2) {
