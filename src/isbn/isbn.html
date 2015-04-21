@@ -37,6 +37,7 @@
                 price = price / i+1;
                 price *= 0.67;
                 price = price.toFixed(2);
+				$_GET['retail'] = price;
                 document.getElementById('price').innerHTML = "£" + price;
            }}
            http_request.open("GET", result, true);
@@ -46,6 +47,7 @@
         function loadJSON(isbn)
         {
             console.log("ISBN: " + isbn);
+			$_GET['isbn'] = isbn;
     
             //PHP proxy file needed as devweb doesn't allow cross-site Javascript
            var result = "bookInfo.php?isbn=" + isbn;
@@ -65,14 +67,17 @@
                 //Check to see if book was actually found
                 if(typeof book.data[0].title != 'undefined'){
                     //Display Title
+					$_GET['title'] = book.data[0].title;
                 document.getElementById("Title").innerHTML =  book.data[0].title;
                 if(typeof book.data[0].author_data[0] != 'undefined'){
                     //Display 1st Author's name (if available)
+					$_GET['author'] = book.data[0].author_data[0].name;
                 document.getElementById("Author").innerHTML = book.data[0].author_data[0].name;}
             else{document.getElementById("Author").innerHTML = "No Author Found";
             }
                     if(typeof book.data[0].summary != 'undefined' && book.data[0].summary != ""){
                         //Display Summary of Book (if available)
+											$_GET['blurb'] = book.data[0].summary;
                 document.getElementById("Summary").innerHTML = book.data[0].summary;}
             else{document.getElementById("Summary").innerHTML = "No Summary Found";
             }
