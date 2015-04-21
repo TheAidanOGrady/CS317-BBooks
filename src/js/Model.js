@@ -38,8 +38,15 @@ function Model() {
             }
         }
         console.log("Model: Logged in: " + loggedIn);
-        user = this.getUserInfo();
-        //remove below
+        var books = [];
+        var coords = [0.0, 0.0];
+        if (localStorage) {
+            coords = (localStorage.coords).split(","); 
+        }
+        user = this.createUserJSON( "5", "Adam", "Manner", 
+                                    "amanner@gmail.com", "G56", 
+                                    "paypal", 6, books, "filter", 
+                                    "Glasgow", 10, 6, parseFloat(coords[0]), parseFloat(coords[1]));
         user = this.getUserInfo();
         var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
                                         "£10", "£8", "testbookimg/185326041X.jpg",
@@ -335,16 +342,7 @@ function Model() {
     this.getUserInfo = function () {
         // return information about user from server
         // param emails
-        var books = [];
-        var coords = [0.0, 0.0];
-        if (localStorage) {
-            coords = (localStorage.coords).split(","); 
-        }
-            var user = this.createUserJSON("5", "Adam", "Manner", 
-                               "amanner@gmail.com", "G56", 
-                               "paypal", 6, books, "filter", 
-                               "Glasgow", 10, 6, parseFloat(coords[0]), parseFloat(coords[1]));
-        //TODO MVC 
+        console.log(user);
         document.getElementById("userInfo").innerHTML = JSON.stringify(user);
         return user;
     };

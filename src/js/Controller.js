@@ -169,6 +169,7 @@ function Controller() {
                                    newDetails.maxDistance, "Glasgow", "", "");
             model.updateUserDatabase();
             Materialize.toast('Details Amended.', 2000);
+            model.getUserInfo();
         });
 
         Materialize.toast('Welcome, ' + model.getUser().firstname, 2000);
