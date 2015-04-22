@@ -14,7 +14,7 @@ function Model() {
         useFilter = false,
         filterBook,
         loggedIn = true,
-		currentBook, 
+		currentBook,
         coords;
 
     
@@ -32,20 +32,19 @@ function Model() {
         }
         if (localStorage) {
             if (!localStorage.coords) {
-                localStorage.coords = [55.8580,-4.2590];
+                localStorage.coords = [55.8580, -4.2590];
             } else {
-                coords = localStorage.coords; 
+                coords = localStorage.coords;
             }
         }
         console.log("Model: Logged in: " + loggedIn);
         var books = [];
-        var coords = [0.0, 0.0];
         if (localStorage) {
-            coords = (localStorage.coords).split(","); 
+            coords = (localStorage.coords).split(",");
         }
-        user = this.createUserJSON( "5", "Adam", "Manner", 
-                                    "amanner@gmail.com", "G56", 
-                                    "paypal", 6, books, "filter", 
+        user = this.createUserJSON(5, "Adam", "Manner",
+                                    "amanner@gmail.com", "G56",
+                                    "paypal", 6, books, "filter",
                                     "Glasgow", 10, 6, parseFloat(coords[0]), parseFloat(coords[1]));
         user = this.getUserInfo();
         var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
@@ -63,7 +62,7 @@ function Model() {
             book3 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
                                         "£6", "£3.00", "testbookimg/0575094184.jpg",
                                         "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                        user.ID, ["Sci-Fi", "Dystopia"], "Awaiting Collection"), 
+                                        user.ID, ["Sci-Fi", "Dystopia"], "Awaiting Collection"),
             book4 = this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
                                         "£4.50", "£2.50", "testbookimg/0241950430.jpg",
                                         "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
@@ -75,7 +74,7 @@ function Model() {
         this.copyBooksToFBooks(books, fBooks);
         this.setFilterBook(book3);
         var users = this.getLimitedUsers();
-        this.addUserToMap(user);
+        this.addUserToMap();
         this.addBooksToMap(users, filterBook);
     };
 
@@ -90,13 +89,12 @@ function Model() {
 		}).done(this.loginResponse);
     };
 	
-	this.loginResponse = function(response) {
+	this.loginResponse = function (response) {
 		console.log("SERVER: " + response);
 		if (response === "OK") {
 			//this.setLoginCookie(details); fix this somehow....
 			loggedIn = true;
-		}
-		else {
+		} else {
 			// Handle error messages:
 			// err-wrongdata : email or password is invalid
 			// err-nodata : nothing was entered
@@ -197,23 +195,44 @@ function Model() {
         markers = [];
     };
     
-    this.addUserToMap = function (user) {
-        // show users location on map
+    this.addUserToMap = function () {
+
     };
     
     this.addBooksToMap = function(users, filterBook) {
         this.clearBooksFromMap();
         console.log("Model: Adding Books to Map");
+        
+        var selficon = {
+            path: "M12,2C15.31,2 18,4.66 18,7.95C18,12.41 12,19 12,19C12,19 6,12.41 6,7.95C6,4.66 8.69,2 12,2M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M20,19C20,21.21 16.42,23 12,23C7.58,23 4,21.21 4,19C4,17.71 5.22,16.56 7.11,15.83L7.75,16.74C6.67,17.19 6,17.81 6,18.5C6,19.88 8.69,21 12,21C15.31,21 18,19.88 18,18.5C18,17.81 17.33,17.19 16.25,16.74L16.89,15.83C18.78,16.56 20,17.71 20,19Z"
+        };
+        var myLatLng = new google.maps.LatLng(user.location.lat, user.location.lng);
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            user: user,
+            icon: selficon
+        });
+        
+        
         for (var j = 0; j < users.length; j++) {
             var cuser = users[j];
             if (cuser.distance <= user.maxDistance) {
                 for (var i = 0; i < cuser.books.length; i++) {
                     var books = cuser.books[i];
                     var myLatLng = new google.maps.LatLng(cuser.location.lat, cuser.location.lng);
+
+                    var bookicon = {
+                        path: "M11,19V9A2,2 0 0,0 9,7H5V17H9A2,2 0 0,1 11,19M13,9V19A2,2 0 0,1 15,17H19V7H15A2,2 0 0,0 13,9M21,19H15A2,2 0 0,0 13,21H11A2,2 0 0,0 9,19H3V5H9A2,2 0 0,1 11,7H13A2,2 0 0,1 15,5H21V19Z"
+                    };
+                    var icon = {
+                        path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z"
+                    };
                     var marker = new google.maps.Marker({
                         position: myLatLng,
                         map: map,
                         user: cuser,
+                        icon: icon,
                         books: books
                     });
                     markers[i] = marker;
