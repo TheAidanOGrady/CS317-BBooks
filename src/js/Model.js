@@ -177,16 +177,6 @@ function Model() {
         console.log("Model: Set cookie: " + name + " = " + info);
     };
     
-    this.createMap = function() {
-        var myLatlng = new google.maps.LatLng(55.8580,-4.2590) // middle of Glasgow
-        var mapOptions = {
-            zoom: 11,
-            center: myLatlng
-        };
-
-        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    };
-    
     this.clearBooksFromMap = function() {
         console.log("Model: Clearing Map");
         for (var i = 0; i < markers.length; i++) {
@@ -197,6 +187,20 @@ function Model() {
     
     this.addUserToMap = function () {
 
+    };
+    
+    this.createMap = function() {
+        var myLatlng = new google.maps.LatLng(55.8580,-4.2590) // middle of Glasgow
+        var mapOptions = {
+            zoom: 11,
+            center: myLatlng
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+            var maxZoomLevel = 11;
+            console.log(map.getZoom());
+            if (map.getZoom() < maxZoomLevel) map.setZoom(maxZoomLevel);
+        });
     };
     
     this.addBooksToMap = function(users, filterBook) {
