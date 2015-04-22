@@ -204,8 +204,15 @@ function Model() {
         console.log("Model: Adding Books to Map");
         
         var selficon = {
-            path: "M12,2C15.31,2 18,4.66 18,7.95C18,12.41 12,19 12,19C12,19 6,12.41 6,7.95C6,4.66 8.69,2 12,2M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M20,19C20,21.21 16.42,23 12,23C7.58,23 4,21.21 4,19C4,17.71 5.22,16.56 7.11,15.83L7.75,16.74C6.67,17.19 6,17.81 6,18.5C6,19.88 8.69,21 12,21C15.31,21 18,19.88 18,18.5C18,17.81 17.33,17.19 16.25,16.74L16.89,15.83C18.78,16.56 20,17.71 20,19Z"
+            path: "M12,2C15.31,2 18,4.66 18,7.95C18,12.41 12,19 12,19C12,19 6,12.41 6,7.95C6,4.66 8.69,2 12,2M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M20,19C20,21.21 16.42,23 12,23C7.58,23 4,21.21 4,19C4,17.71 5.22,16.56 7.11,15.83L7.75,16.74C6.67,17.19 6,17.81 6,18.5C6,19.88 8.69,21 12,21C15.31,21 18,19.88 18,18.5C18,17.81 17.33,17.19 16.25,16.74L16.89,15.83C18.78,16.56 20,17.71 20,19Z",
+            fillColor: "#2196f3",
+            fillOpacity: 1
         };
+        var circle = new google.maps.Circle({
+          map: map,
+          radius: user.maxDistance * 1000,    // 10 miles in metres
+          fillColor: '#e3f2fd'
+        });
         var myLatLng = new google.maps.LatLng(user.location.lat, user.location.lng);
         var marker = new google.maps.Marker({
             position: myLatLng,
@@ -213,6 +220,7 @@ function Model() {
             user: user,
             icon: selficon
         });
+        circle.bindTo('center', marker, 'position');
         
         
         for (var j = 0; j < users.length; j++) {
@@ -223,9 +231,12 @@ function Model() {
                     var myLatLng = new google.maps.LatLng(cuser.location.lat, cuser.location.lng);
 
                     var bookicon = {
+                        fillColor: 'red',
                         path: "M11,19V9A2,2 0 0,0 9,7H5V17H9A2,2 0 0,1 11,19M13,9V19A2,2 0 0,1 15,17H19V7H15A2,2 0 0,0 13,9M21,19H15A2,2 0 0,0 13,21H11A2,2 0 0,0 9,19H3V5H9A2,2 0 0,1 11,7H13A2,2 0 0,1 15,5H21V19Z"
                     };
                     var icon = {
+                        fillColor: '#f44336',
+                        fillOpacity: 1,
                         path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z"
                     };
                     var marker = new google.maps.Marker({
