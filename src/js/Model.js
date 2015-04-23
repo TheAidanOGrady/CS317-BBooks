@@ -44,7 +44,7 @@ function Model() {
         }
         user = this.createUserJSON(5, "Adam", "Manner",
                                     "amanner@gmail.com", "G56",
-                                    "paypal", 6, books, "filter",
+                                    5000, 6, books, "filter",
                                     "Glasgow", 10, 6, parseFloat(coords[0]), parseFloat(coords[1]));
         user = this.getUserInfo();
         var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
@@ -76,6 +76,7 @@ function Model() {
         var users = this.getLimitedUsers();
         this.addUserToMap();
         this.addBooksToMap(users, filterBook);
+        this.updateBooks();
     };
 
     /*
@@ -357,13 +358,12 @@ function Model() {
         if (surname == "") surname = user.surname;
         if (email == "") email = user.email;
         if (postcode == "") postcode = user.postcode;
-        //if (payment == "") payment = user.payment;
         if (maxDistance == "") maxDistance = user.maxDistance;
         if (city == "") city = user.city;
         if (lat == "") lat = user.location.lat;
         if (lng == "") lng = user.location.lng;
         user = this.createUserJSON(user.ID, firstname, surname, 
-                                   email, postcode, user.payment, 
+                                   email, postcode, user.credits, 
                                    maxDistance, user.books, user.filter, 
                                    user.city, user.likes, user.dislikes, lat, lng);
     };
@@ -542,7 +542,7 @@ function Model() {
     };
     
     this.createUserJSON = function (ID, firstname, surname, email, 
-                                    postcode, payment, maxDistance, 
+                                    postcode, credits, maxDistance, 
                                     books, filter, city, likes, dislikes, lat, lng) {
         var userJSON = { 
                         "ID": ID,
@@ -550,7 +550,7 @@ function Model() {
                         "surname": surname,
                         "email": email,
                         "postcode": postcode,
-                        "payment": payment,
+                        "credits": credits,
                         "maxDistance": maxDistance,
                         "books": books,
                         "filter": filter,
@@ -567,7 +567,9 @@ function Model() {
         return userJSON;
     };
     
-    this.createLimitedUserJSON = function (ID, firstname, email, postcode, books, city, likes, dislikes, lat, lng) {
+    this.createLimitedUserJSON = function ( ID, firstname, email, 
+                                            postcode, books, city, 
+                                            likes, dislikes, lat, lng) {
         var userJSON = { 
                         "ID": ID,
                         "firstname": firstname,
