@@ -23,6 +23,7 @@
 *    • Filtering method
 *
 *   Misc:
+*    • Add credits in
 *
 ************************************************/
 
@@ -58,49 +59,18 @@ function Model() {
             if (!localStorage.coords) {
                 localStorage.coords = [55.8580, -4.2590];
             } else {
-                coords = localStorage.coords;
+                coords = (localStorage.coords).split(",");
             }
         }
         console.log("Model: Logged in: " + loggedIn);
-        var books = [];
-        if (localStorage) {
-            coords = (localStorage.coords).split(",");
+        if (loggedIn) {
+            this.getUserInfo();
+            this.copyBooksToFBooks(books, fBooks);
+            this.setFilterBook(book3);
+            var users = this.getLimitedUsers();
+            this.addBooksToMap(users, filterBook);
+            this.updateBooks();
         }
-        user = this.createUserJSON(5, "Adam", "Manner",
-                                    "amanner@gmail.com", "G56",
-                                    5000, 6000, books, "filter",
-                                    "Glasgow", 10, 6, parseFloat(coords[0]), parseFloat(coords[1]));
-        user = this.getUserInfo();
-        var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
-                                        "£10", "£8", "testbookimg/185326041X.jpg",
-                                        "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-                                        user.ID, ["Novel", "Fiction", "Drama"], "On Loan"),
-            book5 = this.createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
-                                        "£10", "£8", "testbookimg/185326041X.jpg",
-                                        "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-                                        user.ID, ["Novel", "Fiction", "Drama"], "On Loan"),
-            book2 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
-                                        "£7", "£3.50", "testbookimg/0575094184.jpg",
-                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                        user.ID,  ["Sci-Fi, Dystopia"], "On Loan"),
-            book3 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
-                                        "£6", "£3.00", "testbookimg/0575094184.jpg",
-                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                        user.ID, ["Sci-Fi", "Dystopia"], "Awaiting Collection"),
-            book4 = this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
-                                        "£4.50", "£2.50", "testbookimg/0241950430.jpg",
-                                        "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
-                                        1, ["Fiction"], "Available");
-        this.addBookToUser(user, book1);
-		this.addBookToUser(user, book2);
-		this.addBookToUser(user, book3);
-		this.addBookToUser(user, book4);
-        this.copyBooksToFBooks(books, fBooks);
-        this.setFilterBook(book3);
-        var users = this.getLimitedUsers();
-        this.addUserToMap();
-        this.addBooksToMap(users, filterBook);
-        this.updateBooks();
     };
 
     /*
@@ -119,6 +89,7 @@ function Model() {
 		if (response === "OK") {
 			//this.setLoginCookie(details); fix this somehow....
 			loggedIn = true;
+            console.log(response);
 		} else {
 			// Handle error messages:
 			// err-wrongdata : email or password is invalid
@@ -398,9 +369,34 @@ function Model() {
     };
     
     this.getUserInfo = function () {
-        // return information about user from server
-        // param emails
-        console.log(user);
+        user = this.createUserJSON(5, "Adam", "Manner",
+                                    "amanner@gmail.com", "G56",
+                                    5000, 6000, books, "filter",
+                                    "Glasgow", 10, 6, parseFloat(coords[0]), parseFloat(coords[1]));
+        var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
+                                        "£10", "£8", "testbookimg/185326041X.jpg",
+                                        "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
+                                        user.ID, ["Novel", "Fiction", "Drama"], "On Loan"),
+            book5 = this.createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
+                                        "£10", "£8", "testbookimg/185326041X.jpg",
+                                        "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
+                                        user.ID, ["Novel", "Fiction", "Drama"], "On Loan"),
+            book2 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
+                                        "£7", "£3.50", "testbookimg/0575094184.jpg",
+                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
+                                        user.ID,  ["Sci-Fi, Dystopia"], "On Loan"),
+            book3 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
+                                        "£6", "£3.00", "testbookimg/0575094184.jpg",
+                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
+                                        user.ID, ["Sci-Fi", "Dystopia"], "Awaiting Collection"),
+            book4 = this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
+                                        "£4.50", "£2.50", "testbookimg/0241950430.jpg",
+                                        "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
+                                        1, ["Fiction"], "Available");
+        this.addBookToUser(user, book1);
+        this.addBookToUser(user, book2);
+        this.addBookToUser(user, book3);
+        this.addBookToUser(user, book4);
         document.getElementById("userInfo").innerHTML = JSON.stringify(user);
         return user;
     };
