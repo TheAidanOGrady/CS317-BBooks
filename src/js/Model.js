@@ -68,7 +68,7 @@ function Model() {
         }
         user = this.createUserJSON(5, "Adam", "Manner",
                                     "amanner@gmail.com", "G56",
-                                    5000, 6, books, "filter",
+                                    5000, 6000, books, "filter",
                                     "Glasgow", 10, 6, parseFloat(coords[0]), parseFloat(coords[1]));
         user = this.getUserInfo();
         var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
@@ -239,7 +239,7 @@ function Model() {
         };
         var circle = new google.maps.Circle({
           map: map,
-          radius: user.maxDistance * 1000,    // 10 miles in metres
+          radius: user.maxDistance,
           fillColor: '#e3f2fd'
         });
         var myLatLng = new google.maps.LatLng(user.location.lat, user.location.lng);
@@ -483,7 +483,7 @@ function Model() {
 
         var distance = R * c;
         console.log("Model: Distance between two points: " + Math.round(distance) + "m");
-        return Math.round(distance / 1000);
+        return Math.round(distance);
     };
     
     this.getLocation = function (callback) {

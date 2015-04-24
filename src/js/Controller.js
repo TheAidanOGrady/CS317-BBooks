@@ -19,7 +19,7 @@ function Controller() {
                 model.createMap();
                 model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
                 Materialize.toast('Displaying Books within ' + 
-                                  model.getUser().maxDistance + 'km', 2000)
+                                  (model.getUser().maxDistance / 1000) + 'km', 2000)
             },
             signupFunc = function () {
                 view.switchTo("signup");
@@ -166,7 +166,7 @@ function Controller() {
             var newDetails = view.getChangeDetails();
             model.amendUserDetails(newDetails.firstName, newDetails.lastName, 
                                    newDetails.email, newDetails.postcode, 
-                                   newDetails.maxDistance, "Glasgow", "", "");
+                                   praseInt(newDetails.maxDistance), "Glasgow", "", "");
             model.updateUserDatabase();
             Materialize.toast('Details Amended.', 2000);
             model.getUserInfo();
