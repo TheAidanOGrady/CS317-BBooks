@@ -2,6 +2,30 @@
 /*global $, jQuery*/
 "use strict";
 
+
+/******************* TODO **********************
+*   
+*   Database:
+*    • Get users from database
+*    • Get books for each user from database
+*    • Update database with User info
+*
+*   UI:
+*    • Rent Button
+*    • User Settings reformat
+*    • Home Page set up
+*    • Add Book interface
+*    • Stop Books from doubling
+*    • Change filter book
+*
+*   Model:
+*    • Remove dummy data
+*    • Filtering method
+*
+*   Misc:
+*
+************************************************/
+
 function Model() {
 
     var map,
@@ -384,9 +408,9 @@ function Model() {
     this.getUserLocation = function() {
         this.getLocation(function (returnVal) {
             if (localStorage) {
-                console.log("Previous Location: " + localStorage.coord);
+                console.log("Previous Location: " + localStorage.coords);
                 localStorage.coords = [returnVal.latitude, returnVal.longitude];
-                console.log("New Location: " + localStorage.coord);
+                console.log("New Location: " + localStorage.coords);
             }
         });
     };
