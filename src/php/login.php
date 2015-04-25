@@ -7,6 +7,7 @@ if (isset($_GET['email']) && isset($_GET['password'])) {
     if($row = mysql_fetch_array($result)) {
 		session_start();
 		$_SESSION['id'] = $row[0];
+        echo "{$row[0]},{$row[1]},{$row[2]},{$row[3]},{$row[4]},{$row[5]},{$row[6]},{$row[7]},{$row[8]},{$row[9]},{$row[11]},{$row[12]}";
     }
 	else echo "err-wrongdata";
 } else {
