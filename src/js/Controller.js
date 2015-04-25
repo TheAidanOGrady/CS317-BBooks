@@ -150,6 +150,7 @@ function Controller() {
             model.login(view.getLogin());
             homeFunc();
             view.toggleNav();
+            Materialize.toast('Welcome, ' + model.getUser().firstname, 2000);
         });
 
         view.signupConfirmCallback(function () {
@@ -171,8 +172,6 @@ function Controller() {
             Materialize.toast('Details Amended.', 2000);
             model.getUserInfo();
         });
-
-        Materialize.toast('Welcome, ' + model.getUser().firstname, 2000);
 
     };
 }

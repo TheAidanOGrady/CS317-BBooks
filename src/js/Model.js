@@ -27,6 +27,45 @@
 *
 ************************************************/
 
+var serverResponse = "";
+var user;
+var setLocalUser = function (data) {
+    user = createUserJSON(data[0], data[1], data[2], data[3], 
+                          data[4], data[5], data[6], 
+                          "", "",  data[7], data[8], 
+                          data[9], data[10], data[11]);  
+    console.log("Model: setUser: " + JSON.stringify(user));
+},
+    getUserInfo = function () {
+        document.getElementById("userInfo").innerHTML = JSON.stringify(user);
+        return user;
+},
+    createUserJSON = function (ID, firstname, surname, email, 
+                                postcode, credits, maxDistance, 
+                                books, filter, city, likes, dislikes, lat, lng) {
+    var userJSON = { 
+                    "ID": ID,
+                    "firstname": firstname,
+                    "surname": surname,
+                    "email": email,
+                    "postcode": postcode,
+                    "credits": credits,
+                    "maxDistance": maxDistance,
+                    "books": books,
+                    "filter": filter,
+                    "city": city,
+                    "likes": likes,
+                    "dislikes": dislikes,
+                    "location": 
+                        {
+                            "lat": parseFloat(lat),
+                            "lng": parseFloat(lng)
+                        }
+                    };
+    //console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
+    return userJSON;
+};
+
 function Model() {
 
     var map,
@@ -35,10 +74,9 @@ function Model() {
         books = [],
         fBooks = [],
         markers = [],
-        user, // local user
         useFilter = false,
         filterBook,
-        loggedIn = true,
+        loggedIn = false,
 		currentBook,
         coords;
 
@@ -62,15 +100,12 @@ function Model() {
                 coords = (localStorage.coords).split(",");
             }
         }
+        //this.copyBooksToFBooks(books, fBooks);
+        //this.setFilterBook(book3);
+        //var users = this.getLimitedUsers();
+        //this.addBooksToMap(users, filterBook);
+        //this.updateBooks();
         console.log("Model: Logged in: " + loggedIn);
-        if (loggedIn) {
-            this.getUserInfo();
-            this.copyBooksToFBooks(books, fBooks);
-            this.setFilterBook(book3);
-            var users = this.getLimitedUsers();
-            this.addBooksToMap(users, filterBook);
-            this.updateBooks();
-        }
     };
 
     /*
@@ -85,11 +120,12 @@ function Model() {
     };
 	
 	this.loginResponse = function (response) {
-		console.log("SERVER: " + response);
-		if (response === "OK") {
-			//this.setLoginCookie(details); fix this somehow....
+		if (response != "err-wrongdata") {
+            serverResponse = response.split(",");
 			loggedIn = true;
-            console.log(response);
+            console.log(serverResponse);
+            setLocalUser(serverResponse);
+            getUserInfo();
 		} else {
 			// Handle error messages:
 			// err-wrongdata : email or password is invalid
@@ -98,7 +134,7 @@ function Model() {
 			// err-nopw : password was not entered
 		}
 	};
-
+    
     this.isLoggedIn = function () {
         return loggedIn;
     };
@@ -369,34 +405,6 @@ function Model() {
     };
     
     this.getUserInfo = function () {
-        user = this.createUserJSON(5, "Adam", "Manner",
-                                    "amanner@gmail.com", "G56",
-                                    5000, 6000, books, "filter",
-                                    "Glasgow", 10, 6, parseFloat(coords[0]), parseFloat(coords[1]));
-        var book1 = this.createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
-                                        "£10", "£8", "testbookimg/185326041X.jpg",
-                                        "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-                                        user.ID, ["Novel", "Fiction", "Drama"], "On Loan"),
-            book5 = this.createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
-                                        "£10", "£8", "testbookimg/185326041X.jpg",
-                                        "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-                                        user.ID, ["Novel", "Fiction", "Drama"], "On Loan"),
-            book2 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
-                                        "£7", "£3.50", "testbookimg/0575094184.jpg",
-                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                        user.ID,  ["Sci-Fi, Dystopia"], "On Loan"),
-            book3 = this.createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
-                                        "£6", "£3.00", "testbookimg/0575094184.jpg",
-                                        "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                        user.ID, ["Sci-Fi", "Dystopia"], "Awaiting Collection"),
-            book4 = this.createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
-                                        "£4.50", "£2.50", "testbookimg/0241950430.jpg",
-                                        "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
-                                        1, ["Fiction"], "Available");
-        this.addBookToUser(user, book1);
-        this.addBookToUser(user, book2);
-        this.addBookToUser(user, book3);
-        this.addBookToUser(user, book4);
         document.getElementById("userInfo").innerHTML = JSON.stringify(user);
         return user;
     };
@@ -583,7 +591,7 @@ function Model() {
                                 "lng": parseFloat(lng)
                             }
                         };
-        //console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
+        console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
         return userJSON;
     };
     
