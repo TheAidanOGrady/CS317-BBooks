@@ -49,13 +49,13 @@ var setLocalUser = function (data) {
                     "surname": surname,
                     "email": email,
                     "postcode": postcode,
-                    "credits": credits,
-                    "maxDistance": maxDistance,
+                    "credits": parseInt(credits),
+                    "maxDistance": parseInt(maxDistance),
                     "books": books,
                     "filter": filter,
                     "city": city,
-                    "likes": likes,
-                    "dislikes": dislikes,
+                    "likes": parseInt(likes),
+                    "dislikes": parseInt(dislikes),
                     "location": 
                         {
                             "lat": parseFloat(lat),
@@ -64,6 +64,29 @@ var setLocalUser = function (data) {
                     };
     //console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
     return userJSON;
+},
+    updateUserDatabase = function (user) {
+        var details = { };
+        details.id = user.ID;
+        details.f_name = user.firstname;
+        details.s_name = user.surname;
+        details.email = user.email;
+        details.postcode = user.postcode;
+        details.credits = user.credits;
+        details.maxDistance = user.maxDistance;
+        details.latitude = user.location.lat;
+        details.longitude = user.location.lng;
+                       
+        $.ajax({
+			url: "php/updateUser.php",
+			data: details
+		});
+        console.log("Model: Uploading local user to database: " + JSON.stringify(user));
+},
+    setUserLocation = function(location) {
+        user.location.lat = location[0];
+        user.location.lng = location[1];
+        updateUserDatabase(user);
 };
 
 function Model() {
@@ -123,7 +146,6 @@ function Model() {
 		if (response != "err-wrongdata") {
             serverResponse = response.split(",");
 			loggedIn = true;
-            console.log(serverResponse);
             setLocalUser(serverResponse);
             getUserInfo();
 		} else {
@@ -393,15 +415,11 @@ function Model() {
         if (city == "") city = user.city;
         if (lat == "") lat = user.location.lat;
         if (lng == "") lng = user.location.lng;
-        user = this.createUserJSON(user.ID, firstname, surname, 
+        user = createUserJSON(user.ID, firstname, surname, 
                                    email, postcode, user.credits, 
                                    maxDistance, user.books, user.filter, 
                                    user.city, user.likes, user.dislikes, lat, lng);
-    };
-    
-    this.updateUserDatabase = function () {
-        //uploads current user data to database
-        console.log("Model: Uploading local user to database: " + JSON.stringify(user));
+        updateUserDatabase(user);
     };
     
     this.getUserInfo = function () {
@@ -412,9 +430,8 @@ function Model() {
     this.getUserLocation = function() {
         this.getLocation(function (returnVal) {
             if (localStorage) {
-                console.log("Previous Location: " + localStorage.coords);
                 localStorage.coords = [returnVal.latitude, returnVal.longitude];
-                console.log("New Location: " + localStorage.coords);
+                setUserLocation([returnVal.latitude, returnVal.longitude]);
             }
         });
     };
@@ -569,31 +586,6 @@ function Model() {
             return bookJSON;
     };
     
-    this.createUserJSON = function (ID, firstname, surname, email, 
-                                    postcode, credits, maxDistance, 
-                                    books, filter, city, likes, dislikes, lat, lng) {
-        var userJSON = { 
-                        "ID": ID,
-                        "firstname": firstname,
-                        "surname": surname,
-                        "email": email,
-                        "postcode": postcode,
-                        "credits": credits,
-                        "maxDistance": maxDistance,
-                        "books": books,
-                        "filter": filter,
-                        "city": city,
-                        "likes": likes,
-                        "dislikes": dislikes,
-                        "location": 
-                            {
-                                "lat": parseFloat(lat),
-                                "lng": parseFloat(lng)
-                            }
-                        };
-        console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
-        return userJSON;
-    };
     
     this.createLimitedUserJSON = function ( ID, firstname, email, 
                                             postcode, books, city, 
@@ -605,8 +597,8 @@ function Model() {
                         "postcode": postcode,
                         "books": books,
                         "city": city,
-                        "likes": likes,
-                        "dislikes": dislikes,
+                        "likes": parseInt(likes),
+                        "dislikes": parseInt(dislikes),
                         "location": 
                             {
                                 "lat": parseFloat(lat),

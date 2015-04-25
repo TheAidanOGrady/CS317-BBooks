@@ -150,7 +150,6 @@ function Controller() {
             model.login(view.getLogin());
             homeFunc();
             view.toggleNav();
-            Materialize.toast('Welcome, ' + model.getUser().firstname, 2000);
         });
 
         view.signupConfirmCallback(function () {
@@ -167,8 +166,7 @@ function Controller() {
             var newDetails = view.getChangeDetails();
             model.amendUserDetails(newDetails.firstName, newDetails.lastName, 
                                    newDetails.email, newDetails.postcode, 
-                                   praseInt(newDetails.maxDistance), "Glasgow", "", "");
-            model.updateUserDatabase();
+                                   parseInt(newDetails.maxDistance), "Glasgow", "", "");
             Materialize.toast('Details Amended.', 2000);
             model.getUserInfo();
         });
