@@ -8,7 +8,6 @@
 *   Database:
 *    • Get users from database
 *    • Get books for each user from database
-*    • Update database with User info
 *
 *   UI:
 *    • Rent Button
@@ -591,7 +590,7 @@ function Model() {
                                             postcode, books, city, 
                                             likes, dislikes, lat, lng) {
         var userJSON = { 
-                        "ID": ID,
+                        "ID": parseInt(ID),
                         "firstname": firstname,
                         "email": email,
                         "postcode": postcode,
