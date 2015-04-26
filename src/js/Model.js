@@ -161,11 +161,49 @@ function Model() {
     };
 
     this.signup = function (details) {
+        var keys = Object.keys(details);
         console.log("Model: Attempting signup");
+
+        if(!details.firstName){
+            alert("Please enter your first name.");
+            return;
+        }
+
+        if(!details.lastName){
+            alert("Please enter your last name.");
+            return;
+        }
+
+        if(!details.email){
+            alert("Please enter your email.");
+            return;
+        }
+
+        if(!details.password){
+            alert("Please enter your password.");
+            return;
+        }
+
+        if(!details.password2){
+            alert("Please re-enter your password.");
+            return;
+        }
+
+        if(!details.postcode){
+            alert("Please enter your postcode.");
+            return;
+        }
+        
+
+        if(details.password !== details.password2){
+            alert("Passwords do not match. Please try again");
+            return;
+        }
+        
         $.ajax({
-			url: "php/register.php",
-			data: details
-		}).done(this.signupResponse);
+            url: "php/register.php",
+            data: details
+        }).done(this.signupResponse);
     };
 	
 	this.signupResponse = function(response) {
@@ -404,7 +442,7 @@ function Model() {
         return books;  
     };
     
-    this.amendUserDetails = function (  firstname, surname, email, postcode, 
+    this.amendUserDetails = function ( firstname, surname, email, postcode, 
                                         maxDistance, city, lat, lng) {
         if (firstname == "") firstname = user.firstname;
         if (surname == "") surname = user.surname;

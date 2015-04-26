@@ -46,6 +46,7 @@ function View() {
         details.email = $("#signupForm :input[name=email]").val();
         details.password = $("#signupForm :input[name=password]").val();
         details.password2 = $("#signupForm :input[name=passwordConfirm]").val();
+        details.postcode = $("#signupForm :input[name=postcode]").val();
         return details;
     };
     
@@ -170,7 +171,7 @@ function View() {
     this.getLocationCallback = function (callback) {
         $("#getLocationButton").click(callback);
     };
-    
+
     this.amendDetailsCallback = function (callback) {
         $("#amendDetailsButton").click(callback);
     };
