@@ -107,7 +107,8 @@ function View() {
     };
 
     this.clearBooks = function () {
-        //TODO clear books tab    
+        $('#borrowingTab').empty();   
+        $('#lendingTab').empty();   
     };
     
     this.addBook = function (borrow, book) {

@@ -638,7 +638,7 @@ function Model() {
             var status = books[i].getElementsByTagName("status")[0].childNodes[0].nodeValue;
             var time = books[i].getElementsByTagName("time")[0].childNodes[0].nodeValue;
             var book = createBookJSON(isbn, title, author, retail, price, "", blurb, owner, [""], status);
-            addBookToUser(user, book);
+            userBooks[userBooks.length] = book;
         }
         //TODO fix
 	};
