@@ -567,6 +567,81 @@ function Model() {
 		//console.log("Model: Returning current book: " + JSON.stringify(currentBook));
 		return currentBook;
 	};
+
+	
+	/*
+	
+	this.getUserBooksFromDatabase = function(details) {
+		console.log("Model: Getting books");
+		var refToModel = this;
+        $.ajax({
+			url: "php/getBooks.php",
+			success: function(response) { refToModel.updateBooksResponse(response) }
+		});
+	
+	this.updateBooksResponse = function(response) {
+		console.log("SERVER: " + response);
+		
+		// clear the books array
+		//user.books = [];
+		
+		// populate the new array from response (xml)
+		var xml = $.parseXML(response);
+		console.log(this);
+		var data = xml.getElementsByTagName("book");
+		for (var i = 0; i < data.length; i++)
+		{
+			var book = this.createBookJSON(data[i].children[0].textContent, data[i].children[1].textContent, data[i].children[2].textContent,
+						data[i].children[5].textContent, data[i].children[6].textContent, "testbookimg/185326041X.jpg",
+						data[i].children[3].textContent,
+						"A. N. Owner", [data[i].children[4].textContent], data[i].children[8].textContent);
+			this.addBookToUser(user, book);
+			console.log(data);
+		}
+		// refresh the screen
+	};
+	
+	*/
+	
+	this.getUserBooksFromDatabase = function(details) {
+		console.log("Model: Getting books");
+		var refToModel = this;
+        $.ajax({
+			url: "php/getUserBooks.php",
+            data: details
+		}).done(this.updateUserBooksResponse);
+	};
+	
+	this.updateUserBooksResponse = function(response) {
+		//console.log("SERVER: " + response);
+        var parser;
+        var xmlDoc;
+        if (window.DOMParser) {
+          parser=new DOMParser();
+          xmlDoc=parser.parseFromString(response,"text/xml");
+        }
+        else {
+          xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+          xmlDoc.async=false;
+          xmlDoc.loadXML(response);
+        }
+        var books = xmlDoc.getElementsByTagName("book");
+        for (var i = 0; i < books.length; i++) {
+            var isbn = books[i].getElementsByTagName("isbn")[0].childNodes[0].nodeValue;
+            var owner = books[i].getElementsByTagName("owner")[0].childNodes[0].nodeValue;
+            var title = books[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+            var author = books[i].getElementsByTagName("author")[0].childNodes[0].nodeValue;
+            var blurb = books[i].getElementsByTagName("blurb")[0].childNodes[0].nodeValue;
+            var genre = books[i].getElementsByTagName("genre")[0].childNodes[0].nodeValue;
+            var retail = books[i].getElementsByTagName("retail")[0].childNodes[0].nodeValue;
+            var price = books[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
+            var status = books[i].getElementsByTagName("status")[0].childNodes[0].nodeValue;
+            var time = books[i].getElementsByTagName("time")[0].childNodes[0].nodeValue;
+            var book = createBookJSON(isbn, title, author, retail, price, "", blurb, owner, [""], status);
+            addBookToUser(user, book);
+        }
+        //TODO fix
+	};
     
     this.getDistance = function (location, location2) {
         // distance is in Metres
