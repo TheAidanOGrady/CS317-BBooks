@@ -616,6 +616,7 @@ function Model() {
 	
 	this.updateUserBooksResponse = function(response) {
 		//console.log("SERVER: " + response);
+        userBooks = [];
         var parser;
         var xmlDoc;
         if (window.DOMParser) {
@@ -642,7 +643,6 @@ function Model() {
             var book = createBookJSON(isbn, title, author, retail, price, "", blurb, owner, [""], status);
             userBooks[userBooks.length] = book;
         }
-        //TODO fix
 	};
     
     this.getDistance = function (location, location2) {
@@ -683,7 +683,7 @@ function Model() {
     };
     
     this.getUsersBooks = function () {
-        return user.books;  
+        return userBooks;
     };
     
     this.getLimitedUsers = function() {
