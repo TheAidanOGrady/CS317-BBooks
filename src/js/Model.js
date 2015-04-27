@@ -765,4 +765,93 @@ function Model() {
     this.getUsersBooks = function () {
         return userBooks;
     };
+    
+    function getBookInfo(isbn){
+                loadJSON(isbn);
+                loadPrices(isbn);
+            }
+            
+            function loadPrices(isbn)
+        {
+            console.log("ISBN: " + isbn);
+    
+            //PHP proxy file needed as devweb doesn't allow cross-site Javascript
+           var result = "../php/bookPrices.php?isbn=" + isbn;
+           var http_request = new XMLHttpRequest();
+           try{
+              http_request = new XMLHttpRequest();
+           }catch (e){
+                    console.log("Ajax error");
+                    return false;
+                 }
+           http_request.onreadystatechange  = function(){
+              if (http_request.readyState == 4  )
+              {
+                  //JSON object containing all book data
+                var book = JSON.parse(http_request.responseText);
+                var i = 0;
+                var price = 0;
+                while(book.data[i]){
+                    price += parseFloat(book.data[i].price);
+                    i++;
+                }
+                //Average price in dollars
+                price = price / i+1;
+                price *= 0.67;
+                price = price.toFixed(2);
+                var retail = "£" + price;
+           }}
+           http_request.open("GET", result, true);
+           http_request.send();
+        }
+
+        function loadJSON(isbn)
+        {
+            console.log("ISBN: " + isbn);
+    
+            //PHP proxy file needed as devweb doesn't allow cross-site Javascript
+           var result = "../php/bookInfo.php?isbn=" + isbn;
+           var http_request = new XMLHttpRequest();
+           try{
+              http_request = new XMLHttpRequest();
+           }catch (e){
+                    console.log("Ajax error");
+                    return false;
+                 }
+           http_request.onreadystatechange  = function(){
+              if (http_request.readyState == 4  )
+              {
+                  //JSON object containing all book data
+                var book = JSON.parse(http_request.responseText);
+
+                //Check to see if book was actually found
+                if(typeof book.data[0].title != 'undefined'){
+                    //Display Title
+		var title = book.data[0].title;
+                if(typeof book.data[0].author_data[0] != 'undefined'){
+                    //Display 1st Author's name (if available)
+			var author = book.data[0].author_data[0].name;}
+            else{ //ASK USER FOR AUTHOR NAME
+            }
+                    if(typeof book.data[0].summary != 'undefined' && book.data[0].summary != ""){
+                        //Display Summary of Book (if available)
+		var blurb = book.data[0].summary;}
+            else{
+                //ASK USER FOR DESCRIPTION OF BOOK
+            }
+        //             Genres not handled well by database, would be better asking the user.
+        //    var genres = book.data[0].subject_ids;
+
+              }}
+          else{
+              ////If ISBN was not recognised by database.
+                //Ask user for all book information.
+//              document.getElementById("Title").innerHTML = "Invalid ISBN";
+//          document.getElementById("Summary").innerHTML = "";
+//          document.getElementById("Author").innerHTML = "";
+      }
+           }
+           http_request.open("GET", result, true);
+           http_request.send();
+        }
 }
