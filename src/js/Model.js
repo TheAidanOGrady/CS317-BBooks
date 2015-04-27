@@ -31,7 +31,7 @@ var user, userBooks = [];
 var setLocalUser = function (data) {
     user = createUserJSON(data[0], data[1], data[2], data[3], 
                           data[4], data[5], data[6], 
-                          [], "",  data[7], data[8], 
+                          userBooks, "",  data[7], data[8], 
                           data[9], data[10], data[11]);  
     setLoginCookie(JSON.stringify(user));
     console.log("Model: setUser: " + JSON.stringify(user));
@@ -99,6 +99,44 @@ var setLocalUser = function (data) {
 		}).done(ajaxResponse);
         console.log("Model: Uploading local user to database: " + JSON.stringify(user));
 },
+    getUserBooksFromDatabase = function(id) {
+		console.log("Model: Getting books");
+        var details = { id: id };
+        $.ajax({
+			url: "php/getUserBooks.php",
+            data: details
+		}).done(updateUserBooksResponse);
+},
+    updateUserBooksResponse = function(response) {
+		//console.log("SERVER: " + response);
+        var parser;
+        var xmlDoc;
+        if (window.DOMParser) {
+          parser=new DOMParser();
+          xmlDoc=parser.parseFromString(response,"text/xml");
+        }
+        else {
+          xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+          xmlDoc.async=false;
+          xmlDoc.loadXML(response);
+        }
+        var books = xmlDoc.getElementsByTagName("book");
+        for (var i = 0; i < books.length; i++) {
+            var isbn = books[i].getElementsByTagName("isbn")[0].childNodes[0].nodeValue;
+            var owner = books[i].getElementsByTagName("owner")[0].childNodes[0].nodeValue;
+            var title = books[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+            var author = books[i].getElementsByTagName("author")[0].childNodes[0].nodeValue;
+            var blurb = books[i].getElementsByTagName("blurb")[0].childNodes[0].nodeValue;
+            var genre = books[i].getElementsByTagName("genre")[0].childNodes[0].nodeValue;
+            var retail = books[i].getElementsByTagName("retail")[0].childNodes[0].nodeValue;
+            var price = books[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
+            var status = books[i].getElementsByTagName("status")[0].childNodes[0].nodeValue;
+            var time = books[i].getElementsByTagName("time")[0].childNodes[0].nodeValue;
+            var book = createBookJSON(isbn, title, author, retail, price, "", blurb, owner, [""], status);
+            userBooks[userBooks.length] = book;
+        }
+        //TODO fix
+},
     setCookie = function (name, info) {
         document.cookie = name + '=' + info;
         console.log("Model: Set cookie: " + name + " = " + info);
@@ -147,10 +185,8 @@ function Model() {
         if (this.getLoginCookie() != null) {
             loggedIn = true;
             user = JSON.parse(this.getLoginCookie());
-            this.getUserInfo();
-            var details = {};
-            details.id = user.ID;
-            this.getUserBooksFromDatabase(details);
+            getUserBooksFromDatabase(user.ID);
+            getUserInfo();
         }
 
         // TODO location storage
@@ -176,11 +212,10 @@ function Model() {
 	this.loginResponse = function (response) {
 		if (response != "err-wrongdata") {
             serverResponse = response.split(",");
+            getUserBooksFromDatabase(serverResponse[0]);
 			loggedIn = true;
-            serverResponse.books = {};
             setLocalUser(serverResponse);
             getUserInfo();
-            
 		} else {
 			// Handle error messages:
 			// err-wrongdata : email or password is invalid
@@ -531,45 +566,6 @@ function Model() {
 						"A. N. Owner", ["Novel", "Fiction", "Drama"], "Awaiting Postage");
 		//console.log("Model: Returning current book: " + JSON.stringify(currentBook));
 		return currentBook;
-	};
-	
-	this.getUserBooksFromDatabase = function(details) {
-		console.log("Model: Getting books");
-        $.ajax({
-			url: "php/getUserBooks.php",
-            data: details
-		}).done(this.updateUserBooksResponse);
-	};
-	
-	this.updateUserBooksResponse = function(response) {
-		//console.log("SERVER: " + response);
-        var parser;
-        var xmlDoc;
-        if (window.DOMParser) {
-          parser=new DOMParser();
-          xmlDoc=parser.parseFromString(response,"text/xml");
-        }
-        else {
-          xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-          xmlDoc.async=false;
-          xmlDoc.loadXML(response);
-        }
-        var books = xmlDoc.getElementsByTagName("book");
-        for (var i = 0; i < books.length; i++) {
-            var isbn = books[i].getElementsByTagName("isbn")[0].childNodes[0].nodeValue;
-            var owner = books[i].getElementsByTagName("owner")[0].childNodes[0].nodeValue;
-            var title = books[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-            var author = books[i].getElementsByTagName("author")[0].childNodes[0].nodeValue;
-            var blurb = books[i].getElementsByTagName("blurb")[0].childNodes[0].nodeValue;
-            var genre = books[i].getElementsByTagName("genre")[0].childNodes[0].nodeValue;
-            var retail = books[i].getElementsByTagName("retail")[0].childNodes[0].nodeValue;
-            var price = books[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
-            var status = books[i].getElementsByTagName("status")[0].childNodes[0].nodeValue;
-            var time = books[i].getElementsByTagName("time")[0].childNodes[0].nodeValue;
-            var book = createBookJSON(isbn, title, author, retail, price, "", blurb, owner, [""], status);
-            addBookToUser(user, book);
-        }
-        //TODO fix
 	};
     
     this.getDistance = function (location, location2) {
