@@ -509,15 +509,32 @@ function Model() {
 	
 	this.updateBooks = function() {
 		console.log("Model: Getting books");
+		var refToModel = this;
         $.ajax({
-			url: "php/getBooks.php"
-		}).done(this.updateBooksResponse);
+			url: "php/getBooks.php",
+			success: function(response) { refToModel.updateBooksResponse(response) }
+		});
 	};
 	
 	this.updateBooksResponse = function(response) {
 		console.log("SERVER: " + response);
+		
 		// clear the books array
+		//user.books = [];
+		
 		// populate the new array from response (xml)
+		var xml = $.parseXML(response);
+		console.log(this);
+		var data = xml.getElementsByTagName("book");
+		for (var i = 0; i < data.length; i++)
+		{
+			var book = this.createBookJSON(data[i].children[0].textContent, data[i].children[1].textContent, data[i].children[2].textContent,
+						data[i].children[5].textContent, data[i].children[6].textContent, "testbookimg/185326041X.jpg",
+						data[i].children[3].textContent,
+						"A. N. Owner", [data[i].children[4].textContent], data[i].children[8].textContent);
+			this.addBookToUser(user, book);
+			console.log(data);
+		}
 		// refresh the screen
 	};
     

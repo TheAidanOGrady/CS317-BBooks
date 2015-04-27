@@ -9,6 +9,7 @@ if (!isset($_SESSION['id'])) {
 }
 else {
 	$result = mysql_query("SELECT * FROM loans WHERE lender_id = '{$_SESSION['id']}'") or die(mysql_error());
+	echo "<books>";
 	while($row = mysql_fetch_array($result)) {
 		$isbn = $row[2];
 		echo "<book>";
@@ -30,5 +31,6 @@ else {
 		echo "<time>{$row[6]}</time>";
 		echo "</book>";
 	}
+	echo "</books>";
 }
 ?>
