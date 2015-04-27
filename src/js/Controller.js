@@ -15,6 +15,7 @@ function Controller() {
         view.init();
         var searchFunc = function () {
                 view.switchTo("search");
+                setTimeout(model.getUserBooksFromDatabase, 300);
                 model.setLastScreen("search");
                 model.createMap();
                 model.addBooksToMap(model.getNearUsers(), model.getFilterBook());
@@ -85,7 +86,7 @@ function Controller() {
             getLocationFunc = function () {
                 Materialize.toast('Getting Location.', 2000)
                 model.getUserLocation(model.getUser());
-                model.getUserInfo();
+                setTimeout(model.getUserInfo, 200);
             };
 
 
@@ -99,7 +100,9 @@ function Controller() {
                 break;
             case "search":
                 view.toggleNav();
-                setTimeout(searchFunc, 1500);
+                model.getNearUsersFromDatabase();
+                console.log(model.getNearUsers());
+                setTimeout(searchFunc, 500);
                 break;
             case "home":
                 view.toggleNav();

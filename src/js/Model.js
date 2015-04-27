@@ -141,6 +141,7 @@ var setLocalUser = function (data) {
           xmlDoc.async=false;
           xmlDoc.loadXML(response);
         }
+        userBooks = [];
         var books = xmlDoc.getElementsByTagName("book");
         for (var i = 0; i < books.length; i++) {
             var isbn = books[i].getElementsByTagName("isbn")[0].childNodes[0].nodeValue;
@@ -340,8 +341,6 @@ function Model() {
         localStorage.user = null; 
         loggedIn = false;
         userBooks = [];
-        user = null;
-        nearUsers = null;
 
 		$.ajax({
 			url: "php/logout.php"
