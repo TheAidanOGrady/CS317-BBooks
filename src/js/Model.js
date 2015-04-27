@@ -246,6 +246,7 @@ function Model() {
 			url: "php/login.php",
 			data: details
 		}).done(this.loginResponse);
+        this.init();
     };
 	
 	this.loginResponse = function (response) {
@@ -556,6 +557,7 @@ function Model() {
                                    maxDistance, user.books, user.filter, 
                                    user.city, user.likes, user.dislikes, lat, lng);
         updateUserDatabase(user);
+        setLoginCookie(JSON.stringify(user));
         this.addBooksToMap(nearUsers, filterBook);
     };
     
