@@ -34,10 +34,6 @@ var setLocalUser = function (data) {
     setLoginCookie(JSON.stringify(user));
     console.log("Model: setUser: " + JSON.stringify(user));
 },
-    getUserInfo = function () {
-        document.getElementById("userInfo").innerHTML = JSON.stringify(user);
-        return user;
-},
     createUserJSON = function (ID, firstname, surname, email, 
                                 postcode, credits, maxDistance, 
                                 books, filter, city, likes, dislikes, lat, lng) {
@@ -222,7 +218,7 @@ function Model() {
             loggedIn = true;
             user = JSON.parse(this.getLoginCookie());
             getUserBooksFromDatabase(user.ID);
-            getUserInfo();
+            this.getUserInfo();
             this.getNearUsersFromDatabase();
             console.log(nearUsers);
         }
@@ -763,6 +759,29 @@ function Model() {
     this.getUsersBooks = function () {
         return userBooks;
     };
+
+    this.addBook = function(book) {
+        var bookRegex = new RegExp('^[0-9]{10}([0-9]{3})?$');
+        if(!book.isbn){
+            alert("Please enter ISBN.");
+            return;
+        } else if(!bookRegex.test(book.isbn)) {
+                alert("Invalid ISBN number, ISBN should be 10 or 13 digit number.");
+                return;
+        }
+        
+        if(!book.price){
+            alert("Please enter price.");
+            return;
+        }
+        console.log(book);
+    };
+
+    this.addBookToUser = function (user, book) {
+        userBooks[userBooks.length] = book;
+        user.books = userBooks;
+    };
+
     
     function getBookInfo(isbn){
                 loadJSON(isbn);

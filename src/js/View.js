@@ -50,7 +50,7 @@ function View() {
         details.postcode = $("#signupForm :input[name=postcode]").val();
         return details;
     };
-    
+
     this.getChangeDetails = function () {
         var details = {};
         details.firstName = $("#changeDetailForm :input[name=firstnameSettings]").val();
@@ -60,6 +60,14 @@ function View() {
         details.maxDistance = $("#changeDetailForm :input[name=maxDistanceSettings]").val();
         return details;
     };
+
+    this.getAddBook = function () {
+        var details = {};
+        details.isbn = $("#addBookForm :input[name=isbn]").val();
+        details.price = $("#addBookForm :input[name=price]").val();
+        return details;
+    };
+
 
     /***************************************************************************
      *
@@ -181,6 +189,15 @@ function View() {
     this.amendDetailsCallback = function (callback) {
         $("#amendDetailsButton").click(callback);
     };
+
+    this.addBookConfirmCallback = function (callback) {
+        $("#addBookConfirm").click(callback);
+    };
+
+    this.addBookCancelCallback = function (callback) {
+        $("#addBookCancel").click(callback);
+    };
+
 
     /***************************************************************************
      *

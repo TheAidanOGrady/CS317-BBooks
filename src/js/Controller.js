@@ -176,6 +176,14 @@ function Controller() {
             model.getUserInfo();
         });
 
+        view.addBookConfirmCallback(function () {
+            model.addBook(view.getAddBook());
+        });
+
+        view.addBookCancelCallback(function () {
+            homeFunc();
+        });
+
     };
 }
 
