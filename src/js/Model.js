@@ -27,7 +27,7 @@
 ************************************************/
 
 var serverResponse = "";
-var user, userBooks = [];
+var user, userBooks = [], nearUsers = [];
 var setLocalUser = function (data) {
     user = createUserJSON(data[0], data[1], data[2], data[3], 
                           data[4], data[5], data[6], 
@@ -80,7 +80,29 @@ var setLocalUser = function (data) {
                         };
             //console.log("Model: Created bookJSON: \n" + JSON.stringify(bookJSON));
             return bookJSON;
-    },
+},
+    createLimitedUserJSON = function ( ID, firstname, email, 
+                                            postcode, books, city, 
+                                            likes, dislikes, lat, lng) {
+        var userJSON = { 
+                        "ID": parseInt(ID),
+                        "firstname": firstname,
+                        "email": email,
+                        "postcode": postcode,
+                        "books": books,
+                        "city": city,
+                        "likes": parseInt(likes),
+                        "dislikes": parseInt(dislikes),
+                        "location": 
+                            {
+                                "lat": parseFloat(lat),
+                                "lng": parseFloat(lng)
+                            },
+                        "distance": getDistance([lat, lng], [user.location.lat, user.location.lng])
+                        };
+        //console.log("Model: Created UserLimitedJSON: " + JSON.stringify(userJSON));
+        return userJSON;
+},
     updateUserDatabase = function (user) {
         var details = { };
         details.id = user.ID;
@@ -92,7 +114,6 @@ var setLocalUser = function (data) {
         details.maxDistance = user.maxDistance;
         details.latitude = user.location.lat;
         details.longitude = user.location.lng;
-        console.log(details);
         $.ajax({
 			url: "php/updateUser.php",
 			data: details
@@ -134,16 +155,35 @@ var setLocalUser = function (data) {
             var time = books[i].getElementsByTagName("time")[0].childNodes[0].nodeValue;
             var book = createBookJSON(isbn, title, author, retail, price, "", blurb, owner, [""], status);
             userBooks[userBooks.length] = book;
-            console.log(userBooks);
         }
         //TODO fix
 },
+    getDistance = function (location, location2) {
+        // distance is in Metres
+        var lat1 = location[0];
+        var lat2 = location2[0];
+        var lon1 = location[1];
+        var lon2 = location2[1];
+        var R = 6371000; // metres
+        var r1 = lat1 * Math.PI / 180;
+        var r2 = lat2 * Math.PI / 180;
+        var d1 = (lat2-lat1) * Math.PI / 180;
+        var d2 = (lon2-lon1) * Math.PI / 180;
+        var a = Math.sin(d1/2) * Math.sin(d1/2) +
+                Math.cos(r1) * Math.cos(r2) *
+                Math.sin(d2/2) * Math.sin(d2/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        var distance = R * c;
+        //console.log("Model: Distance between two points: " + Math.round(distance) + "m");
+        return Math.round(distance);
+},
     setCookie = function (name, info) {
         document.cookie = name + '=' + info;
-        console.log("Model: Set cookie: " + name + " = " + info);
+        //console.log("Model: Set cookie: " + name + " = " + info);
 },
     setLoginCookie = function (details) {
-        console.log("Model: Attempting to set log in cookie: " + details);
+        //console.log("Model: Attempting to set log in cookie: " + details);
         setCookie("login", details);
 },
     addBookToUser = function (user, book) {
@@ -172,10 +212,6 @@ function Model() {
         loggedIn = false,
 		currentBook,
         coords;
-
-    
-    //remove below
-    var book1, book2, book3, book4;
     
     /*
      * Initialization of the model
@@ -188,8 +224,10 @@ function Model() {
             user = JSON.parse(this.getLoginCookie());
             getUserBooksFromDatabase(user.ID);
             getUserInfo();
+            this.getNearUsersFromDatabase();
+            console.log(nearUsers);
         }
-
+        
         // TODO location storage
         //this.copyBooksToFBooks(books, fBooks);
         //this.setFilterBook(book3);
@@ -291,7 +329,7 @@ function Model() {
 
     this.getLoginCookie = function () {
         var username = this.getCookie('login');
-        console.log('Model: Login cookie says: ' + username);
+        //console.log('Model: Login cookie says: ' + username);
         return username;
     };
 
@@ -381,8 +419,11 @@ function Model() {
         
         for (var j = 0; j < users.length; j++) {
             var cuser = users[j];
+            console.log(cuser);
+            console.log(cuser.distance <= user.maxDistance);
             if (cuser.distance <= user.maxDistance) {
                 for (var i = 0; i < cuser.books.length; i++) {
+                    
                     var books = cuser.books[i];
                     var myLatLng = new google.maps.LatLng(cuser.location.lat, cuser.location.lng);
 
@@ -457,7 +498,7 @@ function Model() {
         if (lastScreen == null) {
             lastScreen = localStorage.lastScreen;   
         }
-        console.log("Model: Get Last screen: " + lastScreen);
+        //console.log("Model: Get Last screen: " + lastScreen);
         return lastScreen;
     };
     
@@ -466,7 +507,7 @@ function Model() {
         if (localStorage) {
             localStorage.lastScreen = lastScreen;
         }
-        console.log("Model: Set Last screen: " + lastScreen);
+        //console.log("Model: Set Last screen: " + lastScreen);
     };
     
     this.copyBooksToFBooks = function(books, fBooks) {
@@ -645,26 +686,53 @@ function Model() {
         }
 	};
     
-    this.getDistance = function (location, location2) {
-        // distance is in Metres
-        var lat1 = location[0];
-        var lat2 = location2[0];
-        var lon1 = location[1];
-        var lon2 = location2[1];
-        var R = 6371000; // metres
-        var r1 = lat1 * Math.PI / 180;
-        var r2 = lat2 * Math.PI / 180;
-        var d1 = (lat2-lat1) * Math.PI / 180;
-        var d2 = (lon2-lon1) * Math.PI / 180;
-        var a = Math.sin(d1/2) * Math.sin(d1/2) +
-                Math.cos(r1) * Math.cos(r2) *
-                Math.sin(d2/2) * Math.sin(d2/2);
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-        var distance = R * c;
-        console.log("Model: Distance between two points: " + Math.round(distance) + "m");
-        return Math.round(distance);
+    this.getNearUsers = function() {
+        return nearUsers;
     };
+     
+    this.getNearUsersFromDatabase = function() {
+		console.log("Model: Getting NearUsers");
+		var refToModel = this;
+        $.ajax({
+			url: "php/getNearUsers.php"
+		}).done(this.getNearUsersResponse);
+	};
+	
+	this.getNearUsersResponse = function(response) {
+		//console.log("SERVER: " + response);
+        var parser;
+        var xmlDoc;
+        if (window.DOMParser) {
+          parser=new DOMParser();
+          xmlDoc=parser.parseFromString(response,"text/xml");
+        }
+        else {
+          xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+          xmlDoc.async=false;
+          xmlDoc.loadXML(response);
+        }
+        var users = xmlDoc.getElementsByTagName("user");
+        var fakebooks = [createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
+						"£10", "£8", "testbookimg/185326041X.jpg",
+						"Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
+						"A. N. Owner", ["Novel", "Fiction", "Drama"], "Awaiting Postage")];
+        for (var i = 0; i < users.length; i++) {
+            var id = users[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
+            var fn = users[i].getElementsByTagName("firstname")[0].childNodes[0].nodeValue;
+            var em = users[i].getElementsByTagName("email")[0].childNodes[0].nodeValue;
+            var pc = users[i].getElementsByTagName("postcode")[0].childNodes[0].nodeValue;
+            var ci = users[i].getElementsByTagName("city")[0].childNodes[0].nodeValue;
+            var li = users[i].getElementsByTagName("likes")[0].childNodes[0].nodeValue;
+            var ds = users[i].getElementsByTagName("dislikes")[0].childNodes[0].nodeValue;
+            var lt = users[i].getElementsByTagName("latitude")[0].childNodes[0].nodeValue;
+            var ln = users[i].getElementsByTagName("longitude")[0].childNodes[0].nodeValue;
+            var luser = createLimitedUserJSON(id, fn, em, pc, fakebooks, ci, li, ds, lt, ln);
+            if (id != user.id) {
+                // add to clients "nearUsers";   
+            }
+            nearUsers[nearUsers.length] = luser;
+        }
+	};
     
     this.getLocation = function (callback) {
         navigator.geolocation.getCurrentPosition(
@@ -684,67 +752,5 @@ function Model() {
     
     this.getUsersBooks = function () {
         return userBooks;
-    };
-    
-    this.getLimitedUsers = function() {
-        // return all users with limited info
-        // location, name, email, books
-        var users;
-        var fakeBooks1 = [  createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
-                                                "£7", "£3.50", "testbookimg/0575094184.jpg",
-                                                "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                                0, ["Sci-Fi, Dystopia"], "Available")];
-        
-        var fakeBooks2 = [  createBookJSON("0575094184", "Do Androids Dream of Electric Sheep?", "Philip K. Dick",
-                                                "£6", "£3.00", "testbookimg/0575094184.jpg",
-                                                "Do Androids Dream of Electric Sheep? is a book that most people think they remember, and almost always get more or less wrong.",
-                                                1, ["Sci-Fi", "Dystopia"],  "Awaiting Collection"), 
-                            createBookJSON("0241950430", "The Catcher in the Rye", "J. Salinger",
-                                                "£4.50", "£2.50", "testbookimg/0241950430.jpg",
-                                                "Since his debut in 1951 as The Catcher in the Rye, Holden Caulfield has been synonymous with 'cynical adolescent'.",
-                                                1, ["Fiction"], "Available")];
-        var fakeBooks3 = [  createBookJSON("185326041X", "Great Gatsby", "F. Scott Fitzgerald",
-                                                "£10", "£8", "testbookimg/185326041X.jpg",
-                                                "Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-                                                2, ["Novel", "Fiction", "Drama"], "On Loan")];
-        var fakeuser1 = this.createLimitedUserJSON(0, "Paul", "paul@paul.com", "G55", fakeBooks1, "Glasgow", 10, 5, 55.858736, -4.256491);
-        var fakeuser2 = this.createLimitedUserJSON(1, "John", "john@john.com", "G52", fakeBooks2, "Glasgow", 16, 8, 55.865431, -4.264645);
-        var fakeuser3 = this.createLimitedUserJSON(2, "Jim",   "jim@jim.com", "G44", fakeBooks3, "Glasgow", 16, 3, 55.805612, -4.239677);
-        users = [fakeuser1, fakeuser2, fakeuser3];
-        return users;
-    };
-    
-    this.getNearUsers = function (user, users) {
-        // return all users within distance
-        var nearUsers, j = 0;
-        if (this.getDistance([users[i].location.lat, users[i].location.lng], [user.location.lat, user.location.lng]) < user.maxDistance) {
-            nearUsers[j++] = users[i];
-        }
-        return nearUsers;
-    };
-    
-    /** JSON CREATION **/
-    
-    this.createLimitedUserJSON = function ( ID, firstname, email, 
-                                            postcode, books, city, 
-                                            likes, dislikes, lat, lng) {
-        var userJSON = { 
-                        "ID": parseInt(ID),
-                        "firstname": firstname,
-                        "email": email,
-                        "postcode": postcode,
-                        "books": books,
-                        "city": city,
-                        "likes": parseInt(likes),
-                        "dislikes": parseInt(dislikes),
-                        "location": 
-                            {
-                                "lat": parseFloat(lat),
-                                "lng": parseFloat(lng)
-                            },
-                        "distance": this.getDistance([lat, lng], [this.getUser().location.lat, this.getUser().location.lng])
-                        };
-        //console.log("Model: Created UserLimitedJSON: " + JSON.stringify(userJSON));
-        return userJSON;
     };
 }

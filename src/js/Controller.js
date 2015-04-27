@@ -17,7 +17,7 @@ function Controller() {
                 view.switchTo("search");
                 model.setLastScreen("search");
                 model.createMap();
-                model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
+                model.addBooksToMap(model.getNearUsers(), model.getFilterBook());
                 Materialize.toast('Displaying Books within ' + 
                                   (model.getUser().maxDistance / 1000) + 'km', 2000)
             },
@@ -63,7 +63,7 @@ function Controller() {
             },
             filterFunc = function () {
                 model.setUseFilter(!model.getUseFilter());
-                model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
+                model.addBooksToMap(model.getNearUsers(), model.getFilterBook());
                 if (model.getUseFilter()) {
                     Materialize.toast('Filter on.', 2000)
                 } else {
@@ -72,14 +72,14 @@ function Controller() {
             },
             clearFilterFunc = function () {
                 model.setUseFilter(false);
-                model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
+                model.addBooksToMap(model.getNearUsers(), model.getFilterBook());
                 Materialize.toast('Filter cleared.', 2000)
             },
 			addBookFunc = function() {
                 view.switchTo("addBook");
                 model.setLastScreen("addBook");
 				model.addBookToUser(model.getUser(), model.getCurrentBook());
-                model.addBooksToMap(model.getLimitedUsers(), model.getFilterBook());
+                model.addBooksToMap(model.getNearUsers(), model.getFilterBook());
 
 			},
             getLocationFunc = function () {
@@ -99,7 +99,7 @@ function Controller() {
                 break;
             case "search":
                 view.toggleNav();
-                searchFunc();
+                setTimeout(searchFunc, 1500);
                 break;
             case "home":
                 view.toggleNav();
