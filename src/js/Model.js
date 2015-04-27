@@ -300,6 +300,7 @@ function Model() {
         this.deleteCookie('login');
         localStorage.user = null; 
         loggedIn = false;
+        userBooks = [];
 
 		$.ajax({
 			url: "php/logout.php"
