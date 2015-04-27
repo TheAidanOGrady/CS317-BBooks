@@ -24,7 +24,7 @@
 *
 ************************************************/
 
-var serverResponse = "";
+var serverResponse = "", currentBook = {};
 var user, userBooks = [], nearUsers = [];
 var setLocalUser = function (data) {
     user = createUserJSON(data[0], data[1], data[2], data[3], 
@@ -32,7 +32,7 @@ var setLocalUser = function (data) {
                           userBooks, "",  data[7], data[8], 
                           data[9], data[10], data[11]);  
     setLoginCookie(JSON.stringify(user));
-    console.log("Model: setUser: " + JSON.stringify(user));
+    //console.log("Model: setUser: " + JSON.stringify(user));
 },
     getUserInfo = function () {
         document.getElementById("userInfo").innerHTML = JSON.stringify(user);
@@ -98,7 +98,7 @@ var setLocalUser = function (data) {
                             },
                         "distance": getDistance([lat, lng], [user.location.lat, user.location.lng])
                         };
-        console.log("Model: Created UserLimitedJSON: " + JSON.stringify(userJSON));
+        //console.log("Model: Created UserLimitedJSON: " + JSON.stringify(userJSON));
         return userJSON;
 },
     updateUserDatabase = function (user) {
@@ -217,6 +217,7 @@ function Model() {
      */
     this.init = function () {
         console.log("Model: Created");
+        this.getBookInfo("0575094184");
         // ignore JSLints suggestion to change != to !==
         if (this.getLoginCookie() != null) {
             loggedIn = true;
@@ -315,7 +316,7 @@ function Model() {
     };
 	
 	this.signupResponse = function(response) {
-		console.log("SERVER: " + response);
+		//console.log("SERVER: " + response);
 		if (response === "OK")
 		{
 			//this.login(details); // fix this somehow...
@@ -700,7 +701,7 @@ function Model() {
 	};
 	
 	this.getNearUsersResponse = function(response) {
-		console.log("SERVER: " + response);
+		//console.log("SERVER: " + response);
         var parser;
         var xmlDoc;
         if (window.DOMParser) {
@@ -764,28 +765,25 @@ function Model() {
         return userBooks;
     };
     
-    function getBookInfo(isbn){
-                loadJSON(isbn);
-                loadPrices(isbn);
-            }
+    this.getBookInfo = function (isbn){
+        setTimeout(this.loadJSON(isbn), 100);
+        setTimeout(this.loadPrices(isbn), 1000);
+    };
             
-            function loadPrices(isbn)
-        {
-            console.log("ISBN: " + isbn);
-    
-            //PHP proxy file needed as devweb doesn't allow cross-site Javascript
-           var result = "../php/bookPrices.php?isbn=" + isbn;
-           var http_request = new XMLHttpRequest();
-           try{
-              http_request = new XMLHttpRequest();
-           }catch (e){
-                    console.log("Ajax error");
-                    return false;
-                 }
-           http_request.onreadystatechange  = function(){
-              if (http_request.readyState == 4  )
-              {
-                  //JSON object containing all book data
+    this.loadPrices = function (isbn) {
+        //PHP proxy file needed as devweb doesn't allow cross-site Javascript
+        var result = "php/bookPrices.php?isbn=" + isbn;
+        var http_request = new XMLHttpRequest();
+        try{
+            http_request = new XMLHttpRequest();    
+        } catch (e){
+            console.log("Ajax error");
+            return false;
+        }
+        
+        http_request.onreadystatechange  = function(){
+            if (http_request.readyState == 4)  {
+                //JSON object containing all book data
                 var book = JSON.parse(http_request.responseText);
                 var i = 0;
                 var price = 0;
@@ -798,58 +796,48 @@ function Model() {
                 price *= 0.67;
                 price = price.toFixed(2);
                 var retail = "£" + price;
-           }}
-           http_request.open("GET", result, true);
-           http_request.send();
+                //console.log(currentBook);
+                currentBook = createBookJSON(currentBook.ISBN, currentBook.title, currentBook.author, retail, 0, "", currentBook.blurb, user.ID, [""], 0);
+                console.log(currentBook);
+            }
         }
+        http_request.open("GET", result, true);
+        http_request.send();
+    };
 
-        function loadJSON(isbn)
-        {
-            console.log("ISBN: " + isbn);
-    
-            //PHP proxy file needed as devweb doesn't allow cross-site Javascript
-           var result = "../php/bookInfo.php?isbn=" + isbn;
-           var http_request = new XMLHttpRequest();
-           try{
-              http_request = new XMLHttpRequest();
-           }catch (e){
-                    console.log("Ajax error");
-                    return false;
-                 }
-           http_request.onreadystatechange  = function(){
-              if (http_request.readyState == 4  )
-              {
-                  //JSON object containing all book data
+    this.loadJSON = function(isbn) {
+        //PHP proxy file needed as devweb doesn't allow cross-site Javascript
+        var result = "php/bookInfo.php?isbn=" + isbn;
+        var http_request = new XMLHttpRequest();
+        try{
+            http_request = new XMLHttpRequest();
+        } catch (e){
+            console.log("Ajax error");
+            return false;
+         }
+        http_request.onreadystatechange  = function(){
+            if (http_request.readyState == 4) {
+                //JSON object containing all book data
+                console.log(http_request.responseText);
                 var book = JSON.parse(http_request.responseText);
-
+                var title, author, blurb;
                 //Check to see if book was actually found
-                if(typeof book.data[0].title != 'undefined'){
+                if(typeof book.data[0].title != 'undefined') {
                     //Display Title
-		var title = book.data[0].title;
-                if(typeof book.data[0].author_data[0] != 'undefined'){
-                    //Display 1st Author's name (if available)
-			var author = book.data[0].author_data[0].name;}
-            else{ //ASK USER FOR AUTHOR NAME
-            }
-                    if(typeof book.data[0].summary != 'undefined' && book.data[0].summary != ""){
+                    title = book.data[0].title;
+                    if(typeof book.data[0].author_data[0] != 'undefined') {
+                        //Display 1st Author's name (if available)
+                        author = book.data[0].author_data[0].name;
+                    }
+                    if(typeof book.data[0].summary != 'undefined' && book.data[0].summary != "") {
                         //Display Summary of Book (if available)
-		var blurb = book.data[0].summary;}
-            else{
-                //ASK USER FOR DESCRIPTION OF BOOK
+                        blurb = book.data[0].summary;
+                    }
+                    currentBook = createBookJSON(isbn, title, author, 0, 0, "", blurb, user.ID, [""], 0);
+                } 
             }
-        //             Genres not handled well by database, would be better asking the user.
-        //    var genres = book.data[0].subject_ids;
-
-              }}
-          else{
-              ////If ISBN was not recognised by database.
-                //Ask user for all book information.
-//              document.getElementById("Title").innerHTML = "Invalid ISBN";
-//          document.getElementById("Summary").innerHTML = "";
-//          document.getElementById("Author").innerHTML = "";
-      }
-           }
-           http_request.open("GET", result, true);
-           http_request.send();
         }
-}
+        http_request.open("GET", result, true);
+        http_request.send();
+    }
+    };
