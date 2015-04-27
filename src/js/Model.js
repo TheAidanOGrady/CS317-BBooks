@@ -6,8 +6,7 @@
 /******************* TODO **********************
 *   
 *   Database:
-*    • Get users from database
-*    • Get books for each user from database
+*    • Update book status
 *
 *   UI:
 *    • Rent Button
@@ -18,7 +17,6 @@
 *    • Change filter book
 *
 *   Model:
-*    • Remove dummy data
 *    • Filtering method
 *
 *   Misc:

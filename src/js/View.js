@@ -5,7 +5,8 @@
 function View() {
 
     var bookSource   = $("#bookTemplate").html(),
-        bookTemplate = Handlebars.compile(bookSource);
+        bookTemplate = Handlebars.compile(bookSource),
+        status = ["available", "on loan", "awaiting collection", "awaiting postage"]
 
     /*
      * Initialization of the view
@@ -128,7 +129,7 @@ function View() {
             author: book.author,
             lend: lend,
             owner: book.owner,
-            status: book.status};
+            status: status[book.status]};
         html = bookTemplate(context);
         books.append(html);
     };
