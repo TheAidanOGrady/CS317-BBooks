@@ -75,17 +75,20 @@ var setLocalUser = function (data) {
         details.maxDistance = user.maxDistance;
         details.latitude = user.location.lat;
         details.longitude = user.location.lng;
-                       
+        console.log(details);
         $.ajax({
 			url: "php/updateUser.php",
 			data: details
-		});
+		}).done(ajaxResponse);
         console.log("Model: Uploading local user to database: " + JSON.stringify(user));
 },
     setUserLocation = function(location) {
         user.location.lat = location[0];
         user.location.lng = location[1];
         updateUserDatabase(user);
+},
+    ajaxResponse = function (response) {
+        console.log(response);
 };
 
 function Model() {
@@ -115,13 +118,7 @@ function Model() {
         if (this.getLoginCookie() != null) {
             loggedIn = true;
         }
-        if (localStorage) {
-            if (!localStorage.coords) {
-                localStorage.coords = [55.8580, -4.2590];
-            } else {
-                coords = (localStorage.coords).split(",");
-            }
-        }
+        // TODO location storage
         //this.copyBooksToFBooks(books, fBooks);
         //this.setFilterBook(book3);
         //var users = this.getLimitedUsers();
@@ -448,7 +445,7 @@ function Model() {
         if (surname == "") surname = user.surname;
         if (email == "") email = user.email;
         if (postcode == "") postcode = user.postcode;
-        if (maxDistance == "") maxDistance = user.maxDistance;
+        if (isNaN(maxDistance)) maxDistance = user.maxDistance;
         if (city == "") city = user.city;
         if (lat == "") lat = user.location.lat;
         if (lng == "") lng = user.location.lng;
