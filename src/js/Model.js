@@ -33,6 +33,7 @@ var setLocalUser = function (data) {
                           data[4], data[5], data[6], 
                           "", "",  data[7], data[8], 
                           data[9], data[10], data[11]);  
+    setLoginCookie(JSON.stringify(user));
     console.log("Model: setUser: " + JSON.stringify(user));
 },
     getUserInfo = function () {
@@ -82,6 +83,14 @@ var setLocalUser = function (data) {
 		}).done(ajaxResponse);
         console.log("Model: Uploading local user to database: " + JSON.stringify(user));
 },
+    setCookie = function (name, info) {
+        document.cookie = name + '=' + info;
+        console.log("Model: Set cookie: " + name + " = " + info);
+},
+    setLoginCookie = function (details) {
+        console.log("Model: Attempting to set log in cookie: " + details);
+        setCookie("login", details);
+},
     setUserLocation = function(location) {
         user.location.lat = location[0];
         user.location.lng = location[1];
@@ -117,6 +126,8 @@ function Model() {
         // ignore JSLints suggestion to change != to !==
         if (this.getLoginCookie() != null) {
             loggedIn = true;
+            user = JSON.parse(this.getLoginCookie());
+            this.getUserInfo();
         }
         // TODO location storage
         //this.copyBooksToFBooks(books, fBooks);
@@ -144,6 +155,7 @@ function Model() {
 			loggedIn = true;
             setLocalUser(serverResponse);
             getUserInfo();
+            
 		} else {
 			// Handle error messages:
 			// err-wrongdata : email or password is invalid
@@ -216,12 +228,6 @@ function Model() {
 		
 	};
 
-    this.setLoginCookie = function (details) {
-        console.log("Model: Attempting to set log in cookie");
-        this.setCookie("login", details.username);
-        this.getLoginCookie(); // remove this
-    };
-
     this.getLoginCookie = function () {
         var username = this.getCookie('login');
         console.log('Model: Login cookie says: ' + username);
@@ -259,11 +265,6 @@ function Model() {
     this.deleteCookie = function (name) {
         document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
-    
-    this.setCookie = function (name, info) {
-        document.cookie = name + '=' + info;
-        console.log("Model: Set cookie: " + name + " = " + info);
-    };
     
     this.clearBooksFromMap = function() {
         console.log("Model: Clearing Map");
