@@ -389,8 +389,7 @@ function Model() {
         };
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
         google.maps.event.addListener(map, 'zoom_changed', function() {
-            var maxZoomLevel = 11;
-            console.log(map.getZoom());
+            var maxZoomLevel = 10;
             if (map.getZoom() < maxZoomLevel) map.setZoom(maxZoomLevel);
         });
     };
