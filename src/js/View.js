@@ -106,6 +106,10 @@ function View() {
         $("#nav-menu").toggleClass("hide");
     };
 
+    this.clearBooks = function () {
+        //TODO clear books tab    
+    };
+    
     this.addBook = function (borrow, book) {
         var books,
             lend,

@@ -36,14 +36,16 @@ function Controller() {
             bookFunc = function () {
                 view.switchTo("books");
                 model.setLastScreen("books");
-                var books = model.getUser().books;
+                var books = model.getUsersBooks();
+                console.log(books);
+                view.clearBooks();
                 for (var i = 0; i < books.length; i++) {
                     if (books[i].owner == model.getUser().ID) {
                         console.log("user owns book: true");
-                        view.addBook(true, books[i]);
+                        view.addBook(false, books[i]);
                     } else {
                         console.log("user owns book: false");
-                        view.addBook(false, books[i]);
+                        view.addBook(true, books[i]);
                     }
                 }
             },
