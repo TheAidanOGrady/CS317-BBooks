@@ -134,6 +134,7 @@ var setLocalUser = function (data) {
             var time = books[i].getElementsByTagName("time")[0].childNodes[0].nodeValue;
             var book = createBookJSON(isbn, title, author, retail, price, "", blurb, owner, [""], status);
             userBooks[userBooks.length] = book;
+            console.log(userBooks);
         }
         //TODO fix
 },
