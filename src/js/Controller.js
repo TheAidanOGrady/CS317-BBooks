@@ -41,10 +41,10 @@ function Controller() {
                 model.setLastScreen("books");
                 for (var i = 0; i < books.length; i++) {
                     if (books[i].owner == model.getUser().ID) {
-                        console.log("user owns book: true");
+                        //console.log("user owns book: true");
                         view.addBook(false, books[i]);
                     } else {
-                        console.log("user owns book: false");
+                        //console.log("user owns book: false");
                         view.addBook(true, books[i]);
                     }
                 }
