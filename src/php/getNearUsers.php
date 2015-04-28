@@ -25,6 +25,14 @@ while($row = mysql_fetch_array($result)) {
             echo "<genre>{$book[4]}</genre>";
             echo "<retail>{$book[5]}</retail>";
         }
+		else
+		{
+			echo "<title>Sorry! No book in database</title>";
+            echo "<author>Sorry! No book in database</author>";
+            echo "<blurb>Sorry! No book in database</blurb>";
+            echo "<genre>Sorry! No book in database</genre>";
+            echo "<retail>Sorry! No book in database</retail>";
+		}
         echo "<price>{$row2[3]}</price>";
         echo "<condition>{$row2[4]}</condition>";
         echo "<status>{$row2[5]}</status>";
