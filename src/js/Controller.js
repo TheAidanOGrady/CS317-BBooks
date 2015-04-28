@@ -184,6 +184,17 @@ function Controller() {
             homeFunc();
         });
 
+        view.borrowBookCallback(function () {
+            var id = $(this).attr("id"),
+            book = {};
+            book.owner = 0;
+            book.title = $("#" + id + " .searchTitle").html();
+            book.author = $("#" + id + " .searchAuthor").html();
+            book.price = $("#" +id + " .searchPrice").html();
+            console.log(id);
+            console.log(book);
+        });
+
     };
 }
 

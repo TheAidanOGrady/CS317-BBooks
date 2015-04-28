@@ -166,7 +166,7 @@
 			 <div id="searchModal" class="modal bottom-sheet">
 			 	<div class="modal-content">
 			 	    <h4 id="modalUser"></h5>
-		 			<ul class="collection"></ul>
+		 			<ul class="collection" id="searchResults"></ul>
 	 			</div>
 			 </div>
 		</div>
@@ -280,10 +280,10 @@
 	</script>
 
 	<script id="cBookTemplate" type="text/x-handlebars-template">
-		<li class="collection-item">
-			<h5>{{title}}</h5>
-			<p>{{author}}</p>
-			<p>£ {{guarantee}}</p>
+		<li class="collection-item searchResult" id="{{id}}">
+			<h5 class="searchTitle">{{title}}</h5>
+			<p class="searchAuthor">{{author}}</p>
+			<p class="searchPrice">£ {{guarantee}}</p>
 		</li>
 	</script>
 

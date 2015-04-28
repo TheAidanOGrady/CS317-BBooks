@@ -198,6 +198,9 @@ function View() {
         $("#addBookCancel").click(callback);
     };
 
+    this.borrowBookCallback = function (callback) {
+        $("#searchResults").on("click", "li", callback);
+    };
 
     /***************************************************************************
      *

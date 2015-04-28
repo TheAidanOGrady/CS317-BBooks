@@ -459,6 +459,7 @@ function Model() {
                                     bookSource   = $("#cBookTemplate").html(),
                                     bookTemplate = Handlebars.compile(bookSource),
                                     context = { 
+                                        id: "bookResult" + e,
                                         title: book.title,
                                         author: book.author,
                                         guarantee: book.price},
@@ -470,6 +471,7 @@ function Model() {
                                 bookSource   = $("#cBookTemplate").html(),
                                 bookTemplate = Handlebars.compile(bookSource),
                                 context = { 
+                                    id: "bookResult" + e,
                                     user: book.owner,
                                     title: book.title,
                                     author: book.author,
@@ -861,5 +863,9 @@ function Model() {
         }
         http_request.open("GET", result, true);
         http_request.send();
-    }
     };
+
+    this.borrowBook = function (){
+
+    }
+};
