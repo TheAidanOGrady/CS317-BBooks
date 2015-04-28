@@ -59,8 +59,9 @@ var setLocalUser = function (data) {
     //console.log("Model: Created UserJSON: " + JSON.stringify(userJSON));
     return userJSON;
 },
-    createBookJSON = function (ISBN, title, author, retail, price, cover, blurb, ownerID, genres, status) {
+    createBookJSON = function (ISBN, BID, title, author, retail, price, cover, blurb, ownerID, genres, status) {
            var bookJSON = { 
+                        "BID": BID,
                         "ISBN":ISBN, 
                         "title" : title, 
                         "author" : author, 
@@ -148,7 +149,8 @@ var setLocalUser = function (data) {
             var price = books[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
             var status = books[i].getElementsByTagName("status")[0].childNodes[0].nodeValue;
             var time = books[i].getElementsByTagName("time")[0].childNodes[0].nodeValue;
-            var book = createBookJSON(isbn, title, author, retail, price, "", blurb, owner, [""], status);
+            var BID = books[i].getElementsByTagName("BID")[0].childNodes[0].nodeValue;
+            var book = createBookJSON(isbn, BID, title, author, retail, price, "", blurb, owner, [""], status);
             userBooks[userBooks.length] = book;
         }
         //TODO fix
@@ -325,9 +327,7 @@ function Model() {
     this.logout = function () {
         console.log("Model: Attempting to Log out");
         this.deleteCookie('login');
-        localStorage.user = null; 
         loggedIn = false;
-        userBooks = [];
 
 		$.ajax({
 			url: "php/logout.php"
@@ -451,7 +451,7 @@ function Model() {
                                     bookSource   = $("#cBookTemplate").html(),
                                     bookTemplate = Handlebars.compile(bookSource),
                                     context = { 
-                                        id: "bookResult" + e,
+                                        id: book.BID,
                                         title: book.title,
                                         author: book.author,
                                         guarantee: book.price},
@@ -641,14 +641,14 @@ function Model() {
 	
 	*/
 	
-	// this.getUserBooksFromDatabase = function(details) {
-		// console.log("Model: Getting books");
-		// var refToModel = this;
-        // $.ajax({
-			// url: "php/getUserBooks.php",
-			// data: details
-		// }).done(this.updateUserBooksResponse);
-	// };
+	 this.getUserBooksFromDatabase = function(details) {
+		 console.log("Model: Getting books");
+		 var refToModel = this;
+         $.ajax({
+			 url: "php/getUserBooks.php",
+			 data: details
+		 }).done(this.updateUserBooksResponse);
+	 };
 	
 	this.updateUserBooksResponse = function(response) {
 		//console.log("SERVER: " + response);
@@ -667,6 +667,7 @@ function Model() {
         var books = xmlDoc.getElementsByTagName("book");
         for (var i = 0; i < books.length; i++) {
             var isbn = books[i].getElementsByTagName("isbn")[0].childNodes[0].nodeValue;
+            var BID = books[i].getElementsByTagName("BID")[0].childNodes[0].nodeValue;
             var owner = books[i].getElementsByTagName("owner")[0].childNodes[0].nodeValue;
             var title = books[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
             var author = books[i].getElementsByTagName("author")[0].childNodes[0].nodeValue;
@@ -676,7 +677,7 @@ function Model() {
             var price = books[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
             var status = books[i].getElementsByTagName("status")[0].childNodes[0].nodeValue;
             var time = books[i].getElementsByTagName("time")[0].childNodes[0].nodeValue;
-            var book = createBookJSON(isbn, title, author, retail, price, "", blurb, owner, [""], status);
+            var book = createBookJSON(isbn, BID, title, author, retail, price, "", blurb, owner, [""], status);
             userBooks[userBooks.length] = book;
         }
 	};
@@ -712,6 +713,7 @@ function Model() {
             var booksArray = [];
             for (var j = 0; j < books.length; j++) {
                 var isbn = books[j].getElementsByTagName("isbn")[0].childNodes[0].nodeValue;
+                var BID = books[j].getElementsByTagName("BID")[0].childNodes[0].nodeValue;
                 var owner = books[j].getElementsByTagName("owner")[0].childNodes[0].nodeValue;
                 var title = books[j].getElementsByTagName("title")[0].childNodes[0].nodeValue;
                 var author = books[j].getElementsByTagName("author")[0].childNodes[0].nodeValue;
@@ -721,7 +723,7 @@ function Model() {
                 var price = books[j].getElementsByTagName("price")[0].childNodes[0].nodeValue;
                 var status = books[j].getElementsByTagName("status")[0].childNodes[0].nodeValue;
                 var time = books[j].getElementsByTagName("time")[0].childNodes[0].nodeValue;
-                var book = createBookJSON(isbn, title, author, retail, price, "", blurb, owner, [""], status);
+                var book = createBookJSON(isbn, BID, title, author, retail, price, "", blurb, owner, [""], status);
                 booksArray[booksArray.length] = book;
             }
             var id = users[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
@@ -758,6 +760,26 @@ function Model() {
         return userBooks;
     };
 
+    this.addCredits = function (credits) {
+        credits = parseInt(credits);        
+        user.credits = parseInt(user.credits) + parseInt(credits);
+        updateUserDatabase(user)
+    };
+    
+    this.removeCredits = function (credits) {
+        credits = parseInt(credits);
+        if (credits <= user.credits) {
+            user.credits = user.credits - credits;   
+        } else {
+            return false;
+        }
+        updateUserDatabase(user)
+    };
+    
+    this.getCredits = function () {
+        return user.credits;   
+    }
+    
     this.addBook = function(book) {
         var bookRegex = new RegExp('^[0-9]{10}([0-9]{3})?$');
         if(!book.isbn){
@@ -818,7 +840,7 @@ function Model() {
                 price = price.toFixed(2);
                 var retail = price;
                 //console.log(currentBook);
-                currentBook = createBookJSON(isbn, currentBook.title, currentBook.author, retail, currentBook.price, "", currentBook.blurb, user.ID, [""], 0);
+                currentBook = createBookJSON(isbn, "", currentBook.title, currentBook.author, retail, currentBook.price, "", currentBook.blurb, user.ID, [""], 0);
                 console.log(currentBook);
 				
 				$.ajax({
@@ -846,7 +868,7 @@ function Model() {
         // change ISBN to BID
         for (var i = 0; i < nearUsers.length; i++) {
             for (var j = 0; j < nearUsers[i].books.length; j++) {
-                if (nearUsers[i].books[j].isbn == BID) {
+                if (nearUsers[i].books[j].BID == BID) {
                     return nearUsers[i];
                 }
             }

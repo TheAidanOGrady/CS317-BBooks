@@ -15,6 +15,7 @@ while($row = mysql_fetch_array($result)) {
         $isbn = $row2[2];
         echo "<book>";
         echo "<owner>{$row2[0]}</owner>";
+        echo "<BID>{$row2[7]}</BID>";
         echo "<isbn>{$isbn}</isbn>";
         $result3 = mysql_query("SELECT * FROM books WHERE isbn = '{$isbn}'") or die(mysql_error());
         if ($book = mysql_fetch_array($result3)) {

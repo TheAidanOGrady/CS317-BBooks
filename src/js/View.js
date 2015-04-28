@@ -60,6 +60,11 @@ function View() {
         details.maxDistance = $("#changeDetailForm :input[name=maxDistanceSettings]").val();
         return details;
     };
+    
+    this.getCredits = function () {
+        return $("#changeCreditsForm :input[name=creditSettings]").val();
+    };
+
 
     this.getAddBook = function () {
         var details = {};
@@ -199,6 +204,14 @@ function View() {
 
     this.borrowBookCallback = function (callback) {
         $("#searchResults").on("click", "li", callback);
+    };
+    
+    this.addCreditsCallback = function (callback) {
+        $("#addCreditsButton").on("click", callback);
+    };
+    
+    this.removeCreditsCallback = function (callback) {
+        $("#removeCreditsButton").on("click", callback);
     };
 
     /***************************************************************************
