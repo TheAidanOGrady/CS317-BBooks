@@ -10,7 +10,7 @@ else
 	$isbn = $_GET['isbn'];
 	$filename = "./prices.json";
 
-	file_put_contents($filename, file_get_contents("http://isbndb.com/api/v2/json/XBOU017W/prices/" . $isbn));
+	file_put_contents($filename, file_get_contents("http://isbndb.com/api/v2/json/CZA0E1D9/prices/" . $isbn));
 
 	header('Content-Type: application/json; charset=utf-8');
 
