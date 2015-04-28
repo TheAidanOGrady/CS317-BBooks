@@ -558,7 +558,7 @@ function Model() {
     this.rentBook = function (BID) {
         console.log("Attempting to rent book with ID: " + BID);
         var book = this.getBookFromID(BID);
-        var response = this.removeCredits(100);
+        var response = this.removeCredits(book.price * 100);
         if (response != false) { // user has enough credits
             // change status to awaiting collection/postage
 			var refToModel = this;
