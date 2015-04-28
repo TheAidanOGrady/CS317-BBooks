@@ -464,9 +464,11 @@ function Model() {
                                     bookTemplate = Handlebars.compile(bookSource),
                                     context = { 
                                         id: book.BID,
+                                        BID: book.BID,
                                         title: book.title,
                                         author: book.author,
-                                        guarantee: book.price},
+                                        guarantee: book.price 
+                                    },
                                     html = bookTemplate(context);
                                     $('#searchModal .modal-content .collection').append(html);  
                                 } 
@@ -475,11 +477,13 @@ function Model() {
                                 bookSource   = $("#cBookTemplate").html(),
                                 bookTemplate = Handlebars.compile(bookSource),
                                 context = { 
-                                    id: "bookResult" + e,
+                                    id: book.BID,
+                                    BID: book.BID,
                                     user: book.owner,
                                     title: book.title,
                                     author: book.author,
-                                    guarantee: book.price},
+                                    guarantee: book.price
+                                },
                                 html = bookTemplate(context);
                                 $('#searchModal .modal-content .collection').append(html);  
                             }
@@ -543,6 +547,21 @@ function Model() {
     
     this.getUseFilter = function () {
         return useFilter;   
+    };
+    
+    this.rentBook = function (BID) {
+        console.log("Attempting to rent book with ID: " + BID);
+        // change status to awaiting collection/postage
+        // change lender ID to user.ID
+        // remove price from this.users credits
+        // add price to owner.ID
+    };
+    
+    this.returnBook = function (BID) {
+        console.log("Attempting to return book with ID: " + BID);
+        // change status to avaliable
+        // change lender ID to -1
+        // return price - 10% to this.user
     };
     
     this.getBooks = function () {

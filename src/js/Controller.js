@@ -211,12 +211,11 @@ function Controller() {
             var id = $(this).attr("id"),
             book = {};
             // TODO change to book ID (need to add book ID)
-            book.owner = model.getBookOwner(book.BID);
             book.title = $("#" + id + " .searchTitle").html();
             book.author = $("#" + id + " .searchAuthor").html();
             book.price = $("#" +id + " .searchPrice").html();
-            console.log(id);
-            console.log(book);
+            book.BID = $("#" +id + " .searchBID").html();
+            model.rentBook(book.BID);
         });
 
         view.showAddFilterCallback(function (){
