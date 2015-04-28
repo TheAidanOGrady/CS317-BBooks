@@ -153,6 +153,22 @@ function Controller() {
         
         view.getLocationCallback(getLocationFunc);
 
+        view.addCreditsCallback(function () {
+            var credits = view.getCredits();
+            model.addCredits(credits);
+            Materialize.toast('Adding Credits', 2000);
+        });
+        
+        view.removeCreditsCallback(function () {
+            var credits = view.getCredits();
+            var response = model.removeCredits(credits);
+            if (response != false) {
+                Materialize.toast('Removing Credits', 2000);
+            } else {
+                Materialize.toast('You don\'t have that many Credits!', 2000);
+            }
+        });
+                                   
         view.loginConfirmCallback(function () {
             model.login(view.getLogin());
             homeFunc();

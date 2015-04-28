@@ -758,6 +758,26 @@ function Model() {
         return userBooks;
     };
 
+    this.addCredits = function (credits) {
+        credits = parseInt(credits);        
+        user.credits = parseInt(user.credits) + parseInt(credits);
+        updateUserDatabase(user)
+    };
+    
+    this.removeCredits = function (credits) {
+        credits = parseInt(credits);
+        if (credits <= user.credits) {
+            user.credits = user.credits - credits;   
+        } else {
+            return false;
+        }
+        updateUserDatabase(user)
+    };
+    
+    this.getCredits = function () {
+        return user.credits;   
+    }
+    
     this.addBook = function(book) {
         var bookRegex = new RegExp('^[0-9]{10}([0-9]{3})?$');
         if(!book.isbn){
