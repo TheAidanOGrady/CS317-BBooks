@@ -189,7 +189,8 @@ function Controller() {
         view.borrowBookCallback(function () {
             var id = $(this).attr("id"),
             book = {};
-            book.owner = 0;
+            // TODO change to book ID (need to add book ID)
+            book.owner = model.getBookOwner(book.isbn).ID;
             book.title = $("#" + id + " .searchTitle").html();
             book.author = $("#" + id + " .searchAuthor").html();
             book.price = $("#" +id + " .searchPrice").html();

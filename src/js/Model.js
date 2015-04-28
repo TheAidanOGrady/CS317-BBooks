@@ -830,6 +830,17 @@ function Model() {
         return "Invalid User";
     };
     
+    this.getBookOwner = function (BID) {
+        // change ISBN to BID
+        for (var i = 0; i < nearUsers.length; i++) {
+            for (var j = 0; j < nearUsers[i].books.length; j++) {
+                if (nearUsers[i].books[j].isbn == BID) {
+                    return nearUsers[i];
+                }
+            }
+        }
+    };
+    
     this.loadJSON = function(isbn,user) {
         //PHP proxy file needed as devweb doesn't allow cross-site Javascript
         var result = "php/bookInfo.php?isbn=" + isbn;
