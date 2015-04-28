@@ -226,6 +226,11 @@ function Controller() {
             model.setFilterBook(view.getFilter());
         });
 
+        // Handles status update.
+        $( ".status" ).change(function() {
+            alert("Target change");
+        });
+
     };
     window.addEventListener('load', function(e) {
         window.applicationCache.addEventListener('updateready', function(e) {

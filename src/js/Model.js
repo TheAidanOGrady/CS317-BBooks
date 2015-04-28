@@ -246,6 +246,7 @@ function Model() {
 			data: details
 		}).done(this.loginResponse);
         this.init();
+        this.getUserInfo();
     };
 	
 	this.loginResponse = function (response) {
