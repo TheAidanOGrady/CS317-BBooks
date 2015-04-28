@@ -454,42 +454,45 @@ function Model() {
                                                                          total + ") - " + 
                                                                          Math.round(distance / 1000) + 'km');
                         for (var e = 0; e < cuser.books.length; e++) {
-                            if (useFilter) {
-                                console.log("Using filter");
-                                var title = cuser.books[e].title.toLowerCase();
-                                console.log(title + filterBook);
-                                if (title.indexOf(filterBook) > -1) {
-                                    console.log("Found match");
+                            //if (cuser.books[e].borrower) { // it isn't being borrowed
+                            console.log(cuser.books[e].borrower);
+                                if (useFilter) {
+                                    console.log("Using filter");
+                                    var title = cuser.books[e].title.toLowerCase();
+                                    console.log(title + filterBook);
+                                    if (title.indexOf(filterBook) > -1) {
+                                        console.log("Found match");
+                                        var book = cuser.books[e],
+                                        bookSource   = $("#cBookTemplate").html(),
+                                        bookTemplate = Handlebars.compile(bookSource),
+                                        context = { 
+                                            id: book.BID,
+                                            BID: book.BID,
+                                            title: book.title,
+                                            author: book.author,
+                                            guarantee: (parseFloat(book.price)).toFixed(2),
+                                            credits: (book.price * 100)
+                                        },
+                                        html = bookTemplate(context);
+                                        $('#searchModal .modal-content .collection').append(html);  
+                                    } 
+                                } else {
                                     var book = cuser.books[e],
                                     bookSource   = $("#cBookTemplate").html(),
                                     bookTemplate = Handlebars.compile(bookSource),
                                     context = { 
                                         id: book.BID,
                                         BID: book.BID,
+                                        user: book.owner,
                                         title: book.title,
                                         author: book.author,
                                         guarantee: (parseFloat(book.price)).toFixed(2),
-                                        credits: (book.price * 100)
+                                        credits: Math.round(book.price * 100)
                                     },
                                     html = bookTemplate(context);
                                     $('#searchModal .modal-content .collection').append(html);  
-                                } 
-                            } else {
-                                var book = cuser.books[e],
-                                bookSource   = $("#cBookTemplate").html(),
-                                bookTemplate = Handlebars.compile(bookSource),
-                                context = { 
-                                    id: book.BID,
-                                    BID: book.BID,
-                                    user: book.owner,
-                                    title: book.title,
-                                    author: book.author,
-                                    guarantee: (parseFloat(book.price)).toFixed(2),
-                                    credits: Math.round(book.price * 100)
-                                },
-                                html = bookTemplate(context);
-                                $('#searchModal .modal-content .collection').append(html);  
-                            }
+                                }
+                            //}
                         }
                         $('#searchModal').openModal();
 
@@ -915,6 +918,12 @@ function Model() {
                 var retail = price;
                 //console.log(currentBook);
                 currentBook = createBookJSON(isbn, "", currentBook.title, currentBook.author, retail, currentBook.price, "", currentBook.blurb, user.ID, -1,[""], 0);
+                if (currentBook.blurb == null) {
+                    currentBook.blurb = " ";   
+                }
+                if (currentBook.genre == null) {
+                    currentBook.genre = " ";   
+                }
                 console.log(currentBook);
 				
 				$.ajax({
