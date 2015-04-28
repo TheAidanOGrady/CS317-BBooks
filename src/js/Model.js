@@ -1010,6 +1010,7 @@ function Model() {
 	
 	this.changeBookStatus = function(bid, newstatus)
 	{
+        console.log(newstatus);
 		var refToModel = this;
 		$.ajax({
 			url: "php/updateBookStatus.php",

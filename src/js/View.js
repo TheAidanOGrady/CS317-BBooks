@@ -6,7 +6,7 @@ function View() {
 
     var bookSource   = $("#bookTemplate").html(),
         bookTemplate = Handlebars.compile(bookSource),
-        status = ["available", "on loan", "awaiting collection", "awaiting postage"];
+        status = ["N/A", "available", "on loan", "awaiting collection", "awaiting postage"];
 
     /*
      * Initialization of the view
