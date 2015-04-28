@@ -178,10 +178,10 @@
 			</ul>
 			<div id="borrowingTab" class="row"></div>
 			<div id="lendingTab" class="row">
-				<a class="btn-floating btn-large waves-effect waves-light red" id="addBookSmallButton">
-                <i class="mdi-content-add"></i>
-            	</a>
 			</div>
+			<a class="btn-floating btn-large waves-effect waves-light red" id="addBookSmallButton">
+                <i class="mdi-content-add"></i>
+           	</a>
 
   		</div>
 
@@ -246,7 +246,6 @@
 			<div class="divider"></div>
 			<div class="section col s12">
 				<h5>App Developers</h5>
-				<p>Felipe Aragao</p>
 				<p>Paul McGurk</p>
 				<p>Aidan O'Grady</p>
 				<p>Daniel Rafferty</p>
@@ -267,8 +266,6 @@
 					<div class='row'>
 						<span class='card-title red-text'>{{title}}</span>
 						<p class="col s12"><b>{{author}}</b></p>
-					</div>
-					<div class='row'>
                         <p class="col s12">{{lend}}: {{owner}}</p>
 						<p class="col s12">Status: {{status}}</p>
 					</div>
@@ -279,11 +276,10 @@
 	</script>
 
 	<script id="cBookTemplate" type="text/x-handlebars-template">
-		<li class="collection-item avatar">
-			<i class="mdi-action-book circle"></i>
-			<span class="title truncate">{{title}}</span>
+		<li class="collection-item">
+			<h5>{{title}}</h5>
 			<p>{{author}}</p>
-			<p>{{guarantee}}</p>
+			<p>£ {{guarantee}}</p>
 		</li>
 	</script>
 

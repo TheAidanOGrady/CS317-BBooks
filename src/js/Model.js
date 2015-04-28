@@ -443,6 +443,9 @@ function Model() {
                         var cuser = this.user;
                         var total = cuser.dislikes + cuser.likes
                         var rating = Math.round((cuser.likes / total) * 100);
+                        if (isNaN(rating)) {
+                            rating = 0;
+                        }
                         var distance = cuser.distance;
                         $('#searchModal .modal-content .collection').empty();
                         $('#searchModal .modal-content #modalUser').text(cuser.firstname + " - " + 
