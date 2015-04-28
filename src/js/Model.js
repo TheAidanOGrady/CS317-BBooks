@@ -219,17 +219,10 @@ function Model() {
             loggedIn = true;
             user = JSON.parse(this.getLoginCookie());
             getUserBooksFromDatabase(user.ID);
-            this.getUserInfo();
+            setTimeout(this.getUserInfo, 1000);
             this.getNearUsersFromDatabase();
             console.log(nearUsers);
         }
-        
-        // TODO location storage
-        //this.copyBooksToFBooks(books, fBooks);
-        //this.setFilterBook(book3);
-        //var users = this.getLimitedUsers();
-        //this.addBooksToMap(users, filterBook);
-        //this.updateBooks();
         console.log("Model: Logged in: " + loggedIn);
     };
 
@@ -251,7 +244,6 @@ function Model() {
             getUserBooksFromDatabase(serverResponse[0]);
 			loggedIn = true;
             setLocalUser(serverResponse);
-            setTimeout(getUserInfo, 1000);
 		} else {
 			// Handle error messages:
 			// err-wrongdata : email or password is invalid

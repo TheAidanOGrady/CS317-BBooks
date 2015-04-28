@@ -93,6 +93,7 @@ function Controller() {
         // if user is logged in
         if (model.getLoggedIn()) {
             // go to their last screen
+            model.getUserInfo();
             switch (model.getLastScreen()) {
             case "addBook":
                 view.toggleNav();
@@ -185,6 +186,14 @@ function Controller() {
         });
 
     };
+    window.addEventListener('load', function(e) {
+        window.applicationCache.addEventListener('updateready', function(e) {
+                if (window.applicationCache.status 
+                        == window.applicationCache.UPDATEREADY) {
+                    window.location.reload();
+                    }
+            }, false);
+    }, false);
 }
 
 var Controller = new Controller();
