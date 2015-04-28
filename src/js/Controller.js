@@ -31,6 +31,7 @@ function Controller() {
                 model.setLastScreen("login");
             },
             homeFunc = function () {
+                model.getUserInfo();
                 view.switchTo("home");
                 model.setLastScreen("home");
             },
