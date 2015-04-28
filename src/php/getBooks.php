@@ -29,6 +29,7 @@ else {
 		echo "<condition>{$row[4]}</condition>";
 		echo "<status>{$row[5]}</status>";
 		echo "<time>{$row[6]}</time>";
+        echo "<BID>{$row2[7]}</BID>";
 		echo "</book>";
 	}
 	echo "</books>";

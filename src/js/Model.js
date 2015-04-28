@@ -124,7 +124,7 @@ var setLocalUser = function (data) {
 		}).done(updateUserBooksResponse);
 },
     updateUserBooksResponse = function(response) {
-		//console.log("SERVER: " + response);
+		console.log("SERVER: " + response);
         var parser;
         var xmlDoc;
         if (window.DOMParser) {
@@ -140,7 +140,6 @@ var setLocalUser = function (data) {
         var books = xmlDoc.getElementsByTagName("book");
         for (var i = 0; i < books.length; i++) {
             var isbn = books[i].getElementsByTagName("isbn")[0].childNodes[0].nodeValue;
-            var BID = books[i].getElementsByTagName("BID")[0].childNodes[0].nodeValue;
             var owner = books[i].getElementsByTagName("owner")[0].childNodes[0].nodeValue;
             var title = books[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
             var author = books[i].getElementsByTagName("author")[0].childNodes[0].nodeValue;
@@ -150,6 +149,7 @@ var setLocalUser = function (data) {
             var price = books[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
             var status = books[i].getElementsByTagName("status")[0].childNodes[0].nodeValue;
             var time = books[i].getElementsByTagName("time")[0].childNodes[0].nodeValue;
+            var BID = books[i].getElementsByTagName("BID")[0].childNodes[0].nodeValue;
             var book = createBookJSON(isbn, BID, title, author, retail, price, "", blurb, owner, [""], status);
             userBooks[userBooks.length] = book;
         }
