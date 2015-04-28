@@ -141,12 +141,14 @@ function View() {
             lend = "Lending to";
         }
         context = {title: book.title,
+            id: book.BID,
             author: book.author,
             lend: lend,
             owner: owner,
             status: status[book.status]};
         html = bookTemplate(context);
         books.append(html);
+        console.log(book);
         $('select').material_select();
     };
 

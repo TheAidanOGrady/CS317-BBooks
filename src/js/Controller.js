@@ -225,7 +225,9 @@ function Controller() {
         });
 
         view.changeStatusCallback(function () {
-            console.log("status change");
+            var status = $(this).val(),
+                id = $(this).attr("id");
+            model.changeBookStatus(id, status);
         });
 
     };
