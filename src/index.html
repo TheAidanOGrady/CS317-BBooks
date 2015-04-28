@@ -133,21 +133,49 @@
 		<!-- These divs should only be accessible when the user is logged in -->
 		<div class="BBookSection row hide" id="home">
 			<div class="col s12">
-				<p>Hello user, you should be logged in now. Here will be an overview of
-				things you need to deal with.</p>
-				<a class="waves-effect waves-light btn red" id="addBookButton">Add Book</a>
+				<h1 id="firstName">First Name here</h1>
+				<div class="divider"></div>
+				<div class="section">
+					<div class="row">
+						<div class="valign-wrapper valign-wrapper">
+							<a class="col s3 waves-effect waves-light btn red valign" id="addBookButton">Add Book</a>
+							<h5 class=" offset-s1 col s8">Add a book to lend to people in your area!</h5>
+						</div>
+					</div>
+				</div>
+				<div class="divider"></div>
+				<div class="section">
+					<div class="row">
+						<div class="valign-wrapper valign-wrapper">
+							<div class="row col s8">
+								<div class="row">
+									<h5>You have <span id="credits"></span> credits.</h5>
+								</div>
+								<div class="row input-field">
+									<input name="creditSettings" type="text" class="validate">
+									<label for="creditSettings">Credits</label>
+								</div>
+							</div>
+							<div class="row col s4">
+								<div class="row">
+									<a class="waves-effect waves-light btn red col s12" id="addCreditsButton">Add Credits</a>
+								</div>
+								<div class="row">
+									<a class="waves-effect waves-light btn red col s12" id="removeCreditsButton">Remove Credits</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
                 <div class="row center">
                     <form class="col s12" id="changeCreditsForm">
                         <div class="row">
                             <div class="input-field col s3">
-                                <input name="creditSettings" type="text" class="validate">
-                                <label for="creditSettings">Credits</label>
                             </div>
                         </div>
                     </form>
                 </div>
-				<a class="waves-effect waves-light btn red" id="addCreditsButton">Add Credits</a>
-				<a class="waves-effect waves-light btn red" id="removeCreditsButton">Remove Credits</a>
 			</div>
 		</div>
 
