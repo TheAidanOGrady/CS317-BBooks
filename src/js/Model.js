@@ -251,7 +251,7 @@ function Model() {
             getUserBooksFromDatabase(serverResponse[0]);
 			loggedIn = true;
             setLocalUser(serverResponse);
-            getUserInfo();
+            setTimeout(getUserInfo, 500);
 		} else {
 			// Handle error messages:
 			// err-wrongdata : email or password is invalid
