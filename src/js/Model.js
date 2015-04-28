@@ -554,14 +554,29 @@ function Model() {
     this.rentBook = function (BID) {
         console.log("Attempting to rent book with ID: " + BID);
         var book = this.getBookFromID(BID);
-        var response = this.removeCredits(book.price * 100);
+        var response = this.removeCredits(100);
         if (response != false) { // user has enough credits
             // change status to awaiting collection/postage
+			var refToModel = this;
+			$.ajax({
+				url: "php/borrowBook.php",
+				data: { bid: BID }
+			}).done(function(response) { refToModel.rentBookResponse(response); } );
             // change lender ID to user.ID
             // add price to owner.ID
         }
         
     };
+	
+	this.rentBookResponse = function (response)
+	{
+		if (response == "OK")
+			console.log("book borrowed");
+		else if (response == "err-notavailable")
+			console.log("book is not available to borrow");
+		else if (response == "err-notloggeding")
+			console.log(response); // TODO
+	};
     
     this.getBookFromID = function (BID) {
         for (var i = 0; i < nearUsers.length; i++) {
