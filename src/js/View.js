@@ -1,12 +1,12 @@
 /*jslint node: true, browser: true */
-/*global $, jQuery*/
+/*global $, jQuery, Handlebars */
 "use strict";
 
 function View() {
 
     var bookSource   = $("#bookTemplate").html(),
         bookTemplate = Handlebars.compile(bookSource),
-        status = ["available", "on loan", "awaiting collection", "awaiting postage"]
+        status = ["available", "on loan", "awaiting collection", "awaiting postage"];
 
     /*
      * Initialization of the view
@@ -60,7 +60,7 @@ function View() {
         details.maxDistance = $("#changeDetailForm :input[name=maxDistanceSettings]").val();
         return details;
     };
-    
+
     this.getCredits = function () {
         return $("#changeCreditsForm :input[name=creditSettings]").val();
     };
@@ -109,7 +109,7 @@ function View() {
         if (div === "search") {
             $("#searchFilterMenu").removeClass("hide");
         } else {
-            $("#searchFilterMenu").addClass("hide");            
+            $("#searchFilterMenu").addClass("hide");
         }
     };
 
@@ -124,10 +124,10 @@ function View() {
     };
 
     this.clearBooks = function () {
-        $('#borrowingTab').empty();   
-        $('#lendingTab').empty();   
+        $('#borrowingTab').empty();
+        $('#lendingTab').empty();
     };
-    
+
     this.addBook = function (borrow, book, owner) {
         var books,
             lend,
@@ -147,6 +147,7 @@ function View() {
             status: status[book.status]};
         html = bookTemplate(context);
         books.append(html);
+        $('select').material_select();
     };
 
     /***************************************************************************
@@ -208,11 +209,11 @@ function View() {
     this.borrowBookCallback = function (callback) {
         $("#searchResults").on("click", "li", callback);
     };
-    
+
     this.addCreditsCallback = function (callback) {
         $("#addCreditsButton").on("click", callback);
     };
-    
+
     this.removeCreditsCallback = function (callback) {
         $("#removeCreditsButton").on("click", callback);
     };
@@ -220,9 +221,13 @@ function View() {
     this.showAddFilterCallback = function (callback) {
         $('#addFilterButton').click(callback);
     };
-    
+
     this.setFilterCallback = function (callback) {
         $('#setFilterButton').click(callback);
+    };
+
+    this.changeStatusCallback = function (callback) {
+        $("#books").on("change", "select", callback);
     };
 
     /***************************************************************************

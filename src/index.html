@@ -133,7 +133,7 @@
 		<!-- These divs should only be accessible when the user is logged in -->
 		<div class="BBookSection row hide" id="home">
 			<div class="col s12">
-				<h1 id="firstName">First Name here</h1>
+				<h3 id="firstName" class="red-text">First Name here</h3>
 				<div class="divider"></div>
 				<div class="section">
 					<div class="row">
@@ -310,16 +310,24 @@
 
 	<script id="bookTemplate" type="text/x-handlebars-template">
 		<div class='col s12'>
-			<div class='card grey lighten-5'>
+			<div class='card grey lighten-5 bookCard'>
 				<div class='card-content'>
 					<div class='row'>
-						<span class='card-title red-text'>{{title}}</span>
-						<p class="col s12"><b>{{author}}</b></p>
-                        <p class="col s12">{{lend}}: {{owner}}</p>
-						<p class="col s12">Status: {{status}}</p>
-					</div>
+						<span class='card-title red-text col s12'>{{title}}</span>
+						<p class="col s6"><b>{{author}}</b></p>
+                        <p class="col s6"><b>Status</b></p>
+                        <p class="col s6"><b>{{lend}}</b>: {{owner}}</p>
+						<div class="input-field col s6">
+							<select class="status">
+								<option value="" disabled selected>Choose your option</option>
+								<option value="1">Available</option>
+								<option value="2">On Loan</option>
+								<option value="3">Waiting Collection</option>
+								<option value="4">Waiting Postage</option>
+							</select>
+						</div>
+  					</div>
 				</div>
-
 			</div>
 		</div>
 	</script>

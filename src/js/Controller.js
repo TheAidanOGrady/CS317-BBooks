@@ -226,6 +226,10 @@ function Controller() {
             model.setFilterBook(view.getFilter());
         });
 
+        view.changeStatusCallback(function () {
+            console.log("status change");
+        });
+
     };
     window.addEventListener('load', function(e) {
         window.applicationCache.addEventListener('updateready', function(e) {
