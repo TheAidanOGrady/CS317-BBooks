@@ -41,12 +41,13 @@ function Controller() {
                 view.switchTo("books");
                 model.setLastScreen("books");
                 for (var i = 0; i < books.length; i++) {
+                    var owner = model.getUserByID(books[i].owner);
                     if (books[i].owner == model.getUser().ID) {
                         //console.log("user owns book: true");
-                        view.addBook(false, books[i]);
+                        view.addBook(false, books[i], owner.firstname);
                     } else {
                         //console.log("user owns book: false");
-                        view.addBook(true, books[i]);
+                        view.addBook(true, books[i], owner.firstname);
                     }
                 }
             },
