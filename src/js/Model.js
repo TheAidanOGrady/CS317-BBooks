@@ -555,6 +555,7 @@ function Model() {
     };
     
     this.rentBook = function (BID) {
+        
         console.log("Attempting to rent book with ID: " + BID);
         var book = this.getBookFromID(BID);
         var response = this.removeCredits(book.price * 100);
@@ -568,7 +569,7 @@ function Model() {
             // change lender ID to user.ID
             // add price to owner.ID
         }
-        
+        setTimeout(this.getNearUsers, 300);
     };
 	
 	this.rentBookResponse = function (response)
@@ -1020,5 +1021,6 @@ function Model() {
 			if (response == "err-notloggedin")
 				;// refToModel.doSomething()
 		});
+        setTimeout(this.getNearUsers, 300);
 	}
 };

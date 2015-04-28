@@ -214,6 +214,8 @@ function Controller() {
             book.price = $("#" +id + " .searchPrice").html();
             book.BID = $("#" +id + " .searchBID").html();
             model.rentBook(book.BID);
+            Materialize.toast('Book Borrowed. Remaining Credits: ' + model.getCredits(), 2000);
+            setTimeout(homeFunc, 500);
         });
 
         view.showAddFilterCallback(function (){
@@ -228,6 +230,8 @@ function Controller() {
             var status = $(this).val(),
                 id = $(this).attr("id");
             model.changeBookStatus(id, status);
+            Materialize.toast('Book Status Changed', 2000);
+            setTimeout(homeFunc, 500);
         });
 
     };
