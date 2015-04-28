@@ -17,7 +17,7 @@ function View() {
             closeOnClick: true
         });
         $('.collapsible').collapsible({accordion: true});
-        $(".dropdown-button").dropdown({constrainwidth: false});
+        // $(".dropdown-button").dropdown({constrainwidth: false});
     };
 
 
@@ -212,6 +212,10 @@ function View() {
     
     this.removeCreditsCallback = function (callback) {
         $("#removeCreditsButton").on("click", callback);
+    };
+
+    this.showAddFilterCallback = function (callback) {
+        $('#addFilterButton').click(callback);
     };
 
     /***************************************************************************

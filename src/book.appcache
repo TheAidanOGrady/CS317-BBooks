@@ -1,11 +1,11 @@
 CACHE MANIFEST
 
 index.html
-/css/*
-/font/*
-/img/*
-/js/*
-/php/*
+./css/*
+./font/*
+./img/*
+./js/*
+./php/*
 
 NETWORK:
 *

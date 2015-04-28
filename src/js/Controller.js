@@ -214,6 +214,10 @@ function Controller() {
             console.log(book);
         });
 
+        view.showAddFilterCallback(function (){
+            $('#filterModal').openModal();
+        });
+
     };
     window.addEventListener('load', function(e) {
         window.applicationCache.addEventListener('updateready', function(e) {

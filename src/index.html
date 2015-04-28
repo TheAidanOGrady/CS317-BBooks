@@ -1,4 +1,4 @@
-<html manifest="book.appcache">
+<html>
 <head>
 	<title>Bbook</title>
 	<meta charset="UTF-8">
@@ -21,15 +21,16 @@
 					<a id="logo-container" class="brand-logo">Bbook</a>
 					<a id="nav-menu" href="#" data-activates="nav-mobile" class="button-collapse hide"><i class="mdi-navigation-menu"></i></a>
 						
-						<div id="searchFilterMenu" class="hide">
-							<ul id="searchDropdown" class="dropdown-content">
-				      			<li><a href="#!" id="filterButton">Filter Off</a></li>
-								<li><a href="#!" id="clearFilterButton">Clear</a></li>
-		      				</ul>
+					<div id="searchFilterMenu" class="hide">
+						<ul id="searchDropdown" class="dropdown-content">
+			      			<li><a href="#!" id="filterButton">Filter Off</a></li>
+			      			<li><a href="#!" id="addFilterButton">Add to Filter</a></li>
+							<li><a href="#!" id="clearFilterButton">Clear</a></li>
+	      				</ul>
 
-			      			<a class="dropdown-button right" href="#!" data-activates="searchDropdown"><i class="mdi-navigation-more-vert"></i></a>
+		      			<a class="dropdown-button right" href="#!" data-constrainwidth="false" data-activates="searchDropdown"><i class="mdi-navigation-more-vert"></i></a>
 
-						</div>
+					</div>
 
 					<ul id="nav-desktop" class="right hide-on-med-and-down hide">
 						<li class="homeMenu"><a href="#">Home</a></li>
@@ -181,6 +182,19 @@
 		 			<ul class="collection" id="searchResults"></ul>
 	 			</div>
 			 </div>
+
+			<div id="filterModal" class="modal bottom-sheet">
+				<div class="modal-content">
+					<form class="row">
+						<div class="input-field col s9">
+							<input name="filter" type="text" class="validate">
+							<label for="filter">Filter</label>
+						</div>
+						<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat col s3">Filter</a>
+					</form>
+	 			</div>
+			</div>
+
 		</div>
 
 		<div class="BBookSection hide" id="books">
@@ -234,11 +248,11 @@
                         </div>
                     </div>
                 </form>
-                <a class="waves-effect waves-light btn red" id="amendDetailsButton">Amend Changes</a>
                 <div class="col s12" id = "userCoords">
+                     <a class="waves-effect waves-light btn red" id="amendDetailsButton">Amend Changes</a>
+                	<a class="waves-effect waves-light btn red" id="getLocationButton">Get Location</a>
                     <p>Coords</p>
                 </div>
-                <a class="waves-effect waves-light btn red" id="getLocationButton">Get Location</a>
             </div>
 		</div>
 
@@ -295,7 +309,7 @@
 		<li class="collection-item searchResult" id="{{id}}">
 			<h5 class="searchTitle">{{title}}</h5>
 			<p class="searchAuthor">{{author}}</p>
-			<p class="searchPrice">£ {{guarantee}}</p>
+			<p class="searchPrice">{{guarantee}} Cr</p>
 		</li>
 	</script>
 
