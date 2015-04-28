@@ -788,11 +788,11 @@ function Model() {
 
     
     this.getBookInfo = function (isbn){
-        setTimeout(this.loadJSON(isbn), 100);
-        setTimeout(this.loadPrices(isbn), 1000);
+        setTimeout(this.loadJSON(isbn,this.getUser), 100);
+        setTimeout(this.loadPrices(isbn,this.getCurrentBook,this.getUser), 1000);
     };
             
-    this.loadPrices = function (isbn) {
+    this.loadPrices = function (isbn,currentBook,user) {
         //PHP proxy file needed as devweb doesn't allow cross-site Javascript
         var result = "php/bookPrices.php?isbn=" + isbn;
         var http_request = new XMLHttpRequest();
@@ -827,7 +827,7 @@ function Model() {
         http_request.send();
     };
 
-    this.loadJSON = function(isbn) {
+    this.loadJSON = function(isbn,user) {
         //PHP proxy file needed as devweb doesn't allow cross-site Javascript
         var result = "php/bookInfo.php?isbn=" + isbn;
         var http_request = new XMLHttpRequest();
