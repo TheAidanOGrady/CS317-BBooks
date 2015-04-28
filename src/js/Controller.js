@@ -98,7 +98,7 @@ function Controller() {
             switch (model.getLastScreen()) {
             case "addBook":
                 view.toggleNav();
-                addBookFunc();
+                setTimeout(addBookFunc, 500);
                 break;
             case "search":
                 view.toggleNav();
@@ -206,7 +206,7 @@ function Controller() {
             var id = $(this).attr("id"),
             book = {};
             // TODO change to book ID (need to add book ID)
-            book.owner = model.getBookOwner(book.isbn).ID;
+            book.owner = model.getBookOwner(book.BID);
             book.title = $("#" + id + " .searchTitle").html();
             book.author = $("#" + id + " .searchAuthor").html();
             book.price = $("#" +id + " .searchPrice").html();
