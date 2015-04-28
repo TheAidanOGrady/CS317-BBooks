@@ -968,4 +968,17 @@ function Model() {
     this.borrowBook = function (){
 
     }
+	
+	this.changeBookStatus = function(bid, newstatus)
+	{
+		var refToModel = this;
+		$.ajax({
+			url: "php/updateBookStatus.php",
+			data: { bid: bid, status: newstatus }
+		}).done(function(response) {
+			console.log(response);
+			if (response == "err-notloggedin")
+				;// refToModel.doSomething()
+		});
+	}
 };
