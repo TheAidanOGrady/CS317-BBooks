@@ -1,0 +1,32 @@
+{
+   "index_searched" : "isbn",
+   "data" : [
+      {
+         "dewey_normal" : "0",
+         "title_latin" : "Do Androids Dream of Electric Sheep?",
+         "notes" : "",
+         "title_long" : "",
+         "isbn10" : "0575094184",
+         "lcc_number" : "",
+         "publisher_text" : "Orion Books",
+         "publisher_name" : "Orion Books",
+         "summary" : "",
+         "book_id" : "do_androids_dream_of_electric_sheep_a16",
+         "author_data" : [],
+         "physical_description_text" : "5.0\"x7.7\"x0.7\"; 0.5 lb",
+         "isbn13" : "9780575094185",
+         "language" : "",
+         "publisher_id" : "orion_books",
+         "marc_enc_level" : "~",
+         "title" : "Do Androids Dream of Electric Sheep?",
+         "urls_text" : "",
+         "edition_info" : "Paperback; 2010-01-01",
+         "dewey_decimal" : "",
+         "subject_ids" : [
+            "literature_fiction",
+            "science_fiction_fantasy_science_fiction"
+         ],
+         "awards_text" : ""
+      }
+   ]
+}

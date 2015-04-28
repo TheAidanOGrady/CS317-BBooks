@@ -123,7 +123,7 @@ var setLocalUser = function (data) {
 		}).done(updateUserBooksResponse);
 },
     updateUserBooksResponse = function(response) {
-		//console.log("SERVER: " + response);
+		console.log("SERVER: " + response);
         var parser;
         var xmlDoc;
         if (window.DOMParser) {
@@ -213,7 +213,7 @@ function Model() {
      */
     this.init = function () {
         console.log("Model: Created");
-        this.getBookInfo("0575094184");
+        // this.getBookInfo("0575094184");
         // ignore JSLints suggestion to change != to !==
         if (this.getLoginCookie() != null) {
             loggedIn = true;
@@ -641,14 +641,14 @@ function Model() {
 	
 	*/
 	
-	this.getUserBooksFromDatabase = function(details) {
-		console.log("Model: Getting books");
-		var refToModel = this;
-        $.ajax({
-			url: "php/getUserBooks.php",
-            data: details
-		}).done(this.updateUserBooksResponse);
-	};
+	// this.getUserBooksFromDatabase = function(details) {
+		// console.log("Model: Getting books");
+		// var refToModel = this;
+        // $.ajax({
+			// url: "php/getUserBooks.php",
+			// data: details
+		// }).done(this.updateUserBooksResponse);
+	// };
 	
 	this.updateUserBooksResponse = function(response) {
 		//console.log("SERVER: " + response);
@@ -772,6 +772,10 @@ function Model() {
             alert("Please enter price.");
             return;
         }
+		
+		console.log("Model: Adding book");
+		
+		this.getBookInfo(book);
         console.log(book);
     };
 
@@ -781,9 +785,10 @@ function Model() {
     };
 
     
-    this.getBookInfo = function (isbn){
-        setTimeout(this.loadJSON(isbn,this.getUser), 100);
-        setTimeout(this.loadPrices(isbn,this.getCurrentBook,this.getUser), 1000);
+    this.getBookInfo = function (book){
+        //setTimeout(this.loadPrices(isbn,this.getCurrentBook,this.getUser), 1000);
+		setTimeout(this.loadJSON(book,this.getUser), 100);
+
     };
             
     this.loadPrices = function (isbn,currentBook,user) {
@@ -811,10 +816,17 @@ function Model() {
                 price = price / i+1;
                 price *= 0.67;
                 price = price.toFixed(2);
-                var retail = "£" + price;
+                var retail = price;
                 //console.log(currentBook);
-                currentBook = createBookJSON(currentBook.ISBN, currentBook.title, currentBook.author, retail, 0, "", currentBook.blurb, user.ID, [""], 0);
+                currentBook = createBookJSON(isbn, currentBook.title, currentBook.author, retail, currentBook.price, "", currentBook.blurb, user.ID, [""], 0);
                 console.log(currentBook);
+				
+				$.ajax({
+					url: "php/addBook.php",
+					data: currentBook
+				}).done(function(response) {
+					console.log(response);
+				});
             }
         }
         http_request.open("GET", result, true);
@@ -841,9 +853,11 @@ function Model() {
         }
     };
     
-    this.loadJSON = function(isbn,user) {
+
+    this.loadJSON = function(book2,user) {
         //PHP proxy file needed as devweb doesn't allow cross-site Javascript
-        var result = "php/bookInfo.php?isbn=" + isbn;
+		var refToModel = this;
+        var result = "php/bookInfo.php?isbn=" + book2.isbn;
         var http_request = new XMLHttpRequest();
         try{
             http_request = new XMLHttpRequest();
@@ -869,7 +883,8 @@ function Model() {
                         //Display Summary of Book (if available)
                         blurb = book.data[0].summary;
                     }
-                    currentBook = createBookJSON(isbn, title, author, 0, 0, "", blurb, user.ID, [""], 0);
+                    currentBook = createBookJSON(book2.isbn, title, author, 0, book2.price, "", blurb, user.ID, [""], 0);
+					refToModel.loadPrices(book2.isbn, currentBook, user);
                 } 
             }
         }
