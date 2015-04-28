@@ -65,6 +65,9 @@ function View() {
         return $("#changeCreditsForm :input[name=creditSettings]").val();
     };
 
+    this.getFilter = function () {
+        return $("#filterForm :input[name=filter]").val();
+    };
 
     this.getAddBook = function () {
         var details = {};
@@ -216,6 +219,10 @@ function View() {
 
     this.showAddFilterCallback = function (callback) {
         $('#addFilterButton').click(callback);
+    };
+    
+    this.setFilterCallback = function (callback) {
+        $('#setFilterButton').click(callback);
     };
 
     /***************************************************************************

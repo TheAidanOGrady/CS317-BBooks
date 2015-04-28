@@ -125,7 +125,7 @@ var setLocalUser = function (data) {
 		}).done(updateUserBooksResponse);
 },
     updateUserBooksResponse = function(response) {
-		console.log("SERVER: " + response);
+		//console.log("SERVER: " + response);
         var parser;
         var xmlDoc;
         if (window.DOMParser) {
@@ -210,7 +210,8 @@ function Model() {
         filterBook,
         loggedIn = false,
 		currentBook,
-        coords;
+        coords,
+        circle;
     
     /*
      * Initialization of the model
@@ -222,6 +223,11 @@ function Model() {
         if (this.getLoginCookie() != null) {
             loggedIn = true;
             user = JSON.parse(this.getLoginCookie());
+            if (localStorage) {
+                if (localStorage.filter != null) {
+                    filterBook = localStorage.filter;   
+                }
+            }
             getUserBooksFromDatabase(user.ID);
             setTimeout(this.getUserInfo, 1000);
             this.getNearUsersFromDatabase();
@@ -381,6 +387,11 @@ function Model() {
             var maxZoomLevel = 10;
             if (map.getZoom() < maxZoomLevel) map.setZoom(maxZoomLevel);
         });
+        circle = new google.maps.Circle({
+          map: map,
+          radius: user.maxDistance,
+          fillColor: '#e3f2fd'
+        });
     };
     
     this.addBooksToMap = function(users, filterBook) {
@@ -393,11 +404,6 @@ function Model() {
             fillColor: "#2196f3",
             fillOpacity: 1
         };
-        var circle = new google.maps.Circle({
-          map: map,
-          radius: user.maxDistance,
-          fillColor: '#e3f2fd'
-        });
         var myLatLng = new google.maps.LatLng(user.location.lat, user.location.lng);
         var marker = new google.maps.Marker({
             position: myLatLng,
@@ -448,7 +454,11 @@ function Model() {
                                                                          Math.round(distance / 1000) + 'km');
                         for (var e = 0; e < cuser.books.length; e++) {
                             if (useFilter) {
-                                if (cuser.books[e].title == filterBook.title) {
+                                console.log("Using filter");
+                                var title = cuser.books[e].title.toLowerCase();
+                                console.log(title + filterBook);
+                                if (title.indexOf(filterBook) > -1) {
+                                    console.log("Found match");
                                     var book = cuser.books[e],
                                     bookSource   = $("#cBookTemplate").html(),
                                     bookTemplate = Handlebars.compile(bookSource),
@@ -519,8 +529,12 @@ function Model() {
         return filterBook;
     };
     
-    this.setFilterBook = function(fBook) {
-        filterBook = fBook;  
+    this.setFilterBook = function(title) {
+        console.log("Model: set filter: " + title);
+        filterBook = title.toLowerCase();  
+        if (localStorage) {
+            localStorage.filter = filterBook;   
+        }
     };
     
     this.setUseFilter = function(boolean) {
@@ -580,7 +594,7 @@ function Model() {
             var booksFiltered = 0;
             for (var i = 0; i < books.length; i++) {
                 // TODO add additional filters
-                if (books[i].title == filter.title) {
+                if (books[i].title == filter) {
                     console.log("Model: Title Match");
                     fBooks[booksFiltered] = books[i];   
                     booksFiltered++;
@@ -698,7 +712,7 @@ function Model() {
 	};
 	
 	this.getNearUsersResponse = function(response) {
-		console.log("SERVER: " + response);
+		//console.log("SERVER: " + response);
         var parser;
         var xmlDoc;
         if (window.DOMParser) {

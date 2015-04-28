@@ -221,6 +221,10 @@ function Controller() {
         view.showAddFilterCallback(function (){
             $('#filterModal').openModal();
         });
+        
+        view.setFilterCallback(function () {
+            model.setFilterBook(view.getFilter());
+        });
 
     };
     window.addEventListener('load', function(e) {
