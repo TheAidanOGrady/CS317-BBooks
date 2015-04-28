@@ -900,14 +900,18 @@ function Model() {
                     if(typeof book.data[0].author_data[0] != 'undefined') {
                         //Display 1st Author's name (if available)
                         author = book.data[0].author_data[0].name;
-                    }
+                    }else{
+						author = " ";
+					}
                     if(typeof book.data[0].summary != 'undefined' && book.data[0].summary != "") {
                         //Display Summary of Book (if available)
                         blurb = book.data[0].summary;
-                    }
+                    }else{
+						blurb = " ";
+					}
                     currentBook = createBookJSON(book2.isbn, title, author, 0, book2.price, "", blurb, user.ID, [""], 0);
 					refToModel.loadPrices(book2.isbn, currentBook, user);
-                } 
+                }
             }
         }
         http_request.open("GET", result, true);
