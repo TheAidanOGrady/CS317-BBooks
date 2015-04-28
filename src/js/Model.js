@@ -761,7 +761,7 @@ function Model() {
     };
 
     this.addCredits = function (credits) {
-        credits = parseInt(credits);        
+        credits = parseInt(credits); 
         user.credits = parseInt(user.credits) + parseInt(credits);
         updateUserDatabase(user)
     };

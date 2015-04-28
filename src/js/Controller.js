@@ -154,18 +154,20 @@ function Controller() {
         view.getLocationCallback(getLocationFunc);
 
         view.addCreditsCallback(function () {
-            var credits = view.getCredits();
+            var credits = parseInt(view.getCredits());
             model.addCredits(credits);
-            Materialize.toast('Adding Credits', 2000);
+            console.log(model.getCredits());
+            Materialize.toast('Adding Credits', 1000);
         });
         
         view.removeCreditsCallback(function () {
-            var credits = view.getCredits();
+            var credits = parseInt(view.getCredits());
             var response = model.removeCredits(credits);
+            console.log(model.getCredits());
             if (response != false) {
-                Materialize.toast('Removing Credits', 2000);
+                Materialize.toast('Removing Credits', 1000);
             } else {
-                Materialize.toast('You don\'t have that many Credits!', 2000);
+                Materialize.toast('You don\'t have that many Credits!', 1000);
             }
         });
                                    
