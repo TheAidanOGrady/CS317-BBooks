@@ -9,4 +9,5 @@ $filename = "./" . $isbn . "json";
 header('Content-Type: application/json; charset=utf-8');
 
 echo (file_get_contents($filename));
+unlink($filename);
 ?>

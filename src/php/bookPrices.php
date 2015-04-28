@@ -9,4 +9,5 @@ file_put_contents($filename, file_get_contents("http://isbndb.com/api/v2/json/XB
 header('Content-Type: application/json; charset=utf-8');
 
 echo (file_get_contents($filename));
+unlink($filename);
 ?>
