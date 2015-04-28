@@ -768,8 +768,7 @@ function Model() {
 	};
 	
 	this.getNearUsersResponse = function(response) {
-		//console.log("SERVER: " + response);]
-        nearUsers = [];
+		//console.log("SERVER: " + response);
         var parser;
         var xmlDoc;
         if (window.DOMParser) {
@@ -940,10 +939,12 @@ function Model() {
     };
 
     this.getUserByID = function (ID) {
+        console.log(nearUsers.length);
         if (ID < 0) {
             return "no one";   
         }
         for (var i = 0; i < nearUsers.length; i++) {
+            console.log(nearUsers);
             if (nearUsers[i].ID == ID) {
                 return nearUsers[i];
             }
