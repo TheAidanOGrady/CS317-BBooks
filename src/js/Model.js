@@ -467,7 +467,8 @@ function Model() {
                                         BID: book.BID,
                                         title: book.title,
                                         author: book.author,
-                                        guarantee: book.price 
+                                        guarantee: (parseFloat(book.price)).toFixed(2),
+                                        credits: (book.price * 100)
                                     },
                                     html = bookTemplate(context);
                                     $('#searchModal .modal-content .collection').append(html);  
@@ -482,7 +483,8 @@ function Model() {
                                     user: book.owner,
                                     title: book.title,
                                     author: book.author,
-                                    guarantee: book.price
+                                    guarantee: (parseFloat(book.price)).toFixed(2),
+                                    credits: Math.round(book.price * 100)
                                 },
                                 html = bookTemplate(context);
                                 $('#searchModal .modal-content .collection').append(html);  
@@ -551,10 +553,24 @@ function Model() {
     
     this.rentBook = function (BID) {
         console.log("Attempting to rent book with ID: " + BID);
-        // change status to awaiting collection/postage
-        // change lender ID to user.ID
-        // remove price from this.users credits
-        // add price to owner.ID
+        var book = this.getBookFromID(BID);
+        var response = this.removeCredits(book.price * 100);
+        if (response != false) { // user has enough credits
+            // change status to awaiting collection/postage
+            // change lender ID to user.ID
+            // add price to owner.ID
+        }
+        
+    };
+    
+    this.getBookFromID = function (BID) {
+        for (var i = 0; i < nearUsers.length; i++) {
+            for (var j = 0; j < nearUsers[i].books.length; j++) {
+                if (nearUsers[i].books[j].BID == BID) {
+                    return nearUsers[i].books[j];
+                }
+            }
+        }  
     };
     
     this.returnBook = function (BID) {
