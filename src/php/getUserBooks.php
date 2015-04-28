@@ -13,6 +13,14 @@ else
 		$isbn = $row[2];
 		echo "<book>";
 		echo "<owner>{$row[0]}</owner>";
+        if ($row[1] != -1) {
+            $result2 = mysql_query("SELECT * FROM users WHERE u_id = {$row[1]}") or die(mysql_error());
+            while($row2 = mysql_fetch_array($result2)) {
+                echo "<borrower>{$row2[1]}</borrower>";
+            }
+        } else {
+            echo "<borrower>no one</borrower>";   
+        }
 		echo "<isbn>{$isbn}</isbn>";
 		$result2 = mysql_query("SELECT * FROM books WHERE isbn = '{$isbn}'") or die(mysql_error());
 		if ($book = mysql_fetch_array($result2)) {
@@ -34,6 +42,14 @@ else
 		$isbn = $row[2];
 		echo "<book>";
 		echo "<owner>{$row[0]}</owner>";
+        if ($row[1] != -1) {
+            $result2 = mysql_query("SELECT * FROM users WHERE u_id = {$row[1]}") or die(mysql_error());
+            while($row2 = mysql_fetch_array($result2)) {
+                echo "<borrower>{$row2[1]}</borrower>";
+            }
+        } else {
+            echo "<borrower>no one</borrower>";   
+        }
 		echo "<isbn>{$isbn}</isbn>";
 		$result2 = mysql_query("SELECT * FROM books WHERE isbn = '{$isbn}'") or die(mysql_error());
 		if ($book = mysql_fetch_array($result2)) {
