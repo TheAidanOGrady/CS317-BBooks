@@ -231,7 +231,6 @@ function Model() {
             getUserBooksFromDatabase(user.ID);
             setTimeout(this.getUserInfo, 1000);
             this.getNearUsersFromDatabase();
-            console.log(nearUsers);
         }
         console.log("Model: Logged in: " + loggedIn);
     };
@@ -454,8 +453,8 @@ function Model() {
                                                                          total + ") - " + 
                                                                          Math.round(distance / 1000) + 'km');
                         for (var e = 0; e < cuser.books.length; e++) {
+                                                        console.log(cuser.books[e].borrower);
                             if (cuser.books[e].borrower == "no one") { // it isn't being borrowed
-                            console.log(cuser.books[e].borrower);
                                 if (useFilter) {
                                     console.log("Using filter");
                                     var title = cuser.books[e].title.toLowerCase();
@@ -769,6 +768,7 @@ function Model() {
 	
 	this.getNearUsersResponse = function(response) {
 		//console.log("SERVER: " + response);
+        nearUsers = [];
         var parser;
         var xmlDoc;
         if (window.DOMParser) {
@@ -939,12 +939,10 @@ function Model() {
     };
 
     this.getUserByID = function (ID) {
-        console.log(nearUsers.length);
         if (ID < 0) {
             return "no one";   
         }
         for (var i = 0; i < nearUsers.length; i++) {
-            console.log(nearUsers);
             if (nearUsers[i].ID == ID) {
                 return nearUsers[i];
             }
