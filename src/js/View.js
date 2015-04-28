@@ -226,6 +226,10 @@ function View() {
         $('#setFilterButton').click(callback);
     };
 
+    this.changeStatusCallback = function (callback) {
+        $("#books").on("change", "select", callback);
+    };
+
     /***************************************************************************
      *
      * NAV CALLBACKS

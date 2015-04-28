@@ -226,9 +226,8 @@ function Controller() {
             model.setFilterBook(view.getFilter());
         });
 
-        // Handles status update.
-        $( ".status" ).change(function() {
-            alert("Target change");
+        view.changeStatusCallback(function () {
+            console.log("status change");
         });
 
     };
