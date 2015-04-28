@@ -670,48 +670,8 @@ function Model() {
 	};
 	
 	this.getCurrentBook = function() {
-		/*var currentBook =   createBookJSON("185326041X", "The Great Gatsby", "F. Scott Fitzgerald",
-						"£10", "£8", "testbookimg/185326041X.jpg",
-						"Old Money looks sourly upon New. Money and the towns are abuzz about where and how Mr. Jay. Gatsby came by all of his money!",
-						"A. N. Owner", ["Novel", "Fiction", "Drama"], "Awaiting Postage");*/
-		//console.log("Model: Returning current book: " + JSON.stringify(currentBook));
 		return currentBook;
 	};
-
-	
-	/*
-	
-	this.getUserBooksFromDatabase = function(details) {
-		console.log("Model: Getting books");
-		var refToModel = this;
-        $.ajax({
-			url: "php/getBooks.php",
-			success: function(response) { refToModel.updateBooksResponse(response) }
-		});
-	
-	this.updateBooksResponse = function(response) {
-		console.log("SERVER: " + response);
-		
-		// clear the books array
-		//user.books = [];
-		
-		// populate the new array from response (xml)
-		var xml = $.parseXML(response);
-		console.log(this);
-		var data = xml.getElementsByTagName("book");
-		for (var i = 0; i < data.length; i++)
-		{
-			var book = this.createBookJSON(data[i].children[0].textContent, data[i].children[1].textContent, data[i].children[2].textContent,
-						data[i].children[5].textContent, data[i].children[6].textContent, "testbookimg/185326041X.jpg",
-						data[i].children[3].textContent,
-						"A. N. Owner", [data[i].children[4].textContent], data[i].children[8].textContent);
-			this.addBookToUser(user, book);
-			console.log(data);
-		}
-		// refresh the screen
-	};
-	
-	*/
 	
 	 this.getUserBooksFromDatabase = function(details) {
 		 console.log("Model: Getting books");
@@ -918,12 +878,12 @@ function Model() {
                 price = price.toFixed(2);
                 var retail = price;
                 //console.log(currentBook);
-                currentBook = createBookJSON(isbn, "", currentBook.title, currentBook.author, retail, currentBook.price, "", currentBook.blurb, user.ID, -1,[""], 0);
+                currentBook = createBookJSON(isbn, "", currentBook.title, currentBook.author, retail, currentBook.price, " ", currentBook.blurb, user.ID, -1,[" "], 0);
                 if (currentBook.blurb == null) {
-                    currentBook.blurb = " ";   
+                    currentBook.blurb = "n";   
                 }
                 if (currentBook.genre == null) {
-                    currentBook.genre = " ";   
+                    currentBook.genre = "n";   
                 }
                 console.log(currentBook);
 				
