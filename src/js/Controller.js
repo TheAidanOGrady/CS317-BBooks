@@ -35,16 +35,17 @@ function Controller() {
                 model.setLastScreen("home");
             },
             bookFunc = function () {
+                model.getNearUsersFromDatabase();
                 var books = model.getUsersBooks();
                 console.log(books);
                 view.clearBooks();
                 view.switchTo("books");
                 model.setLastScreen("books");
                 for (var i = 0; i < books.length; i++) {
-                    var owner = model.getUserByID(books[i].owner);
+                    var owner = model.getUserByID(parseInt(books[i].owner));
                     if (books[i].owner == model.getUser().ID) {
                         //console.log("user owns book: true");
-                        view.addBook(false, books[i], owner.firstname);
+                        view.addBook(false, books[i], books[i].borrower);
                     } else {
                         //console.log("user owns book: false");
                         view.addBook(true, books[i], owner.firstname);
@@ -164,6 +165,7 @@ function Controller() {
             var credits = parseInt(view.getCredits());
             var response = model.removeCredits(credits);
             console.log(model.getCredits());
+            
             if (response != false) {
                 Materialize.toast('Removing Credits', 1000);
             } else {

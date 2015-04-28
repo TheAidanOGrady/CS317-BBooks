@@ -7,5 +7,5 @@ index.html
 ./js/*
 ./php/*
 
-NETWORK:
-*
+FALLBACK:
+* /offline.html
