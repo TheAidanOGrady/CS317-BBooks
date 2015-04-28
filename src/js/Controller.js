@@ -38,7 +38,6 @@ function Controller() {
             bookFunc = function () {
                 model.getNearUsersFromDatabase();
                 var books = model.getUsersBooks();
-                console.log(books);
                 view.clearBooks();
                 view.switchTo("books");
                 model.setLastScreen("books");
@@ -105,7 +104,6 @@ function Controller() {
             case "search":
                 view.toggleNav();
                 model.getNearUsersFromDatabase();
-                console.log(model.getNearUsers());
                 setTimeout(searchFunc, 500);
                 break;
             case "home":
