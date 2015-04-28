@@ -570,6 +570,8 @@ function Model() {
     
     this.getUserInfo = function () {
         document.getElementById("userInfo").innerHTML = JSON.stringify(user);
+        document.getElementById("firstName").innerHTML = user.firstname + " " + user.surname;
+        document.getElementById("credits").innerHTML = user.credits;
         if (localStorage) {
             localStorage.user = JSON.stringify(user);   
         }
@@ -780,8 +782,10 @@ function Model() {
 
     this.addCredits = function (credits) {
         credits = parseInt(credits); 
+        if (!isNaN(credits))
         user.credits = parseInt(user.credits) + parseInt(credits);
         updateUserDatabase(user)
+        this.getUserInfo();
     };
     
     this.removeCredits = function (credits) {
@@ -792,6 +796,7 @@ function Model() {
             return false;
         }
         updateUserDatabase(user)
+        this.getUserInfo();
     };
     
     this.getCredits = function () {
