@@ -83,9 +83,6 @@ function Controller() {
                 model.setLastScreen("addBook");
 				model.addBookToUser(model.getUser(), model.getCurrentBook());
                 model.addBooksToMap(model.getNearUsers(), model.getFilterBook());
-                Materialize.toast('Book Added.', 1000);
-                setTimeout(homeFunc, 500);
-
 			},
             getLocationFunc = function () {
                 Materialize.toast('Getting Location.', 2000)
@@ -201,6 +198,8 @@ function Controller() {
 
         view.addBookConfirmCallback(function () {
             model.addBook(view.getAddBook());
+            Materialize.toast('Book Added.', 1000);
+            setTimeout(homeFunc, 500);
         });
 
         view.addBookCancelCallback(function () {
