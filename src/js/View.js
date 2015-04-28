@@ -120,7 +120,7 @@ function View() {
         $('#lendingTab').empty();   
     };
     
-    this.addBook = function (borrow, book) {
+    this.addBook = function (borrow, book, owner) {
         var books,
             lend,
             context,
@@ -132,11 +132,10 @@ function View() {
             books = $('#lendingTab');
             lend = "Lending to";
         }
-
         context = {title: book.title,
             author: book.author,
             lend: lend,
-            owner: book.owner,
+            owner: owner,
             status: status[book.status]};
         html = bookTemplate(context);
         books.append(html);

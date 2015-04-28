@@ -41,12 +41,13 @@ function Controller() {
                 view.switchTo("books");
                 model.setLastScreen("books");
                 for (var i = 0; i < books.length; i++) {
+                    var owner = model.getUserByID(books[i].owner);
                     if (books[i].owner == model.getUser().ID) {
                         //console.log("user owns book: true");
-                        view.addBook(false, books[i]);
+                        view.addBook(false, books[i], owner.firstname);
                     } else {
                         //console.log("user owns book: false");
-                        view.addBook(true, books[i]);
+                        view.addBook(true, books[i], owner.firstname);
                     }
                 }
             },
@@ -93,6 +94,7 @@ function Controller() {
         // if user is logged in
         if (model.getLoggedIn()) {
             // go to their last screen
+            model.getUserInfo();
             switch (model.getLastScreen()) {
             case "addBook":
                 view.toggleNav();
@@ -196,6 +198,14 @@ function Controller() {
         });
 
     };
+    window.addEventListener('load', function(e) {
+        window.applicationCache.addEventListener('updateready', function(e) {
+                if (window.applicationCache.status 
+                        == window.applicationCache.UPDATEREADY) {
+                    window.location.reload();
+                    }
+            }, false);
+    }, false);
 }
 
 var Controller = new Controller();
