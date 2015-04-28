@@ -16,10 +16,10 @@ while($row = mysql_fetch_array($result)) {
         echo "<book>";
         echo "<owner>{$row2[0]}</owner>";
         echo "<BID>{$row2[7]}</BID>";
-        if ($row2[0] != -1) {
-            $result3 = mysql_query("SELECT * FROM users WHERE u_id = {$row2[0]}") or die(mysql_error());
+        if ($row2[1] != -1) {
+            $result3 = mysql_query("SELECT * FROM users WHERE u_id = {$row2[1]}") or die(mysql_error());
             while($row3 = mysql_fetch_array($result3)) {
-                echo "<borrower>{$row3[1]}</borrower>";
+                echo "<borrower>{$row3[3]}</borrower>";
             }
         } else {
             echo "<borrower>no one</borrower>";   

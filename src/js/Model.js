@@ -454,7 +454,7 @@ function Model() {
                                                                          total + ") - " + 
                                                                          Math.round(distance / 1000) + 'km');
                         for (var e = 0; e < cuser.books.length; e++) {
-                            //if (cuser.books[e].borrower) { // it isn't being borrowed
+                            if (cuser.books[e].borrower == "no one") { // it isn't being borrowed
                             console.log(cuser.books[e].borrower);
                                 if (useFilter) {
                                     console.log("Using filter");
@@ -492,7 +492,7 @@ function Model() {
                                     html = bookTemplate(context);
                                     $('#searchModal .modal-content .collection').append(html);  
                                 }
-                            //}
+                            }
                         }
                         $('#searchModal').openModal();
 

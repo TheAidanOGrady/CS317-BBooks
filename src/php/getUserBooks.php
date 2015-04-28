@@ -16,7 +16,7 @@ else
         if ($row[1] != -1) {
             $result2 = mysql_query("SELECT * FROM users WHERE u_id = {$row[1]}") or die(mysql_error());
             while($row2 = mysql_fetch_array($result2)) {
-                echo "<borrower>{$row2[1]}</borrower>";
+                echo "<borrower>{$row2[3]}</borrower>";
             }
         } else {
             echo "<borrower>no one</borrower>";   
