@@ -199,7 +199,7 @@ function Controller() {
         view.addBookConfirmCallback(function () {
             model.addBook(view.getAddBook());
             Materialize.toast('Book Added.', 1000);
-            setTimeout(homeFunc, 500);
+            setTimeout(window.location.reload.bind(window.location), 1000);
         });
 
         view.addBookCancelCallback(function () {
@@ -216,7 +216,7 @@ function Controller() {
             book.BID = $("#" +id + " .searchBID").html();
             model.rentBook(book.BID);
             Materialize.toast('Book Borrowed. Remaining Credits: ' + model.getCredits(), 2000);
-            setTimeout(homeFunc, 500);
+            setTimeout(window.location.reload.bind(window.location), 1000);
         });
 
         view.showAddFilterCallback(function (){
@@ -232,7 +232,7 @@ function Controller() {
                 id = $(this).attr("id");
             model.changeBookStatus(id, status);
             Materialize.toast('Book Status Changed', 2000);
-            setTimeout(homeFunc, 500);
+            setTimeout(window.location.reload.bind(window.location), 1000);
         });
 
     };
